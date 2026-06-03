@@ -1,0 +1,357 @@
+{
+  "metadata": {
+    "title": "MazadJo Staff",
+    "description": "MazadJo operations console"
+  },
+  "common": {
+    "language": "Language",
+    "english": "English",
+    "arabic": "العربية",
+    "actions": {
+      "view": "View",
+      "edit": "Edit",
+      "close": "Close",
+      "create": "Create",
+      "save": "Save",
+      "search": "Search",
+      "filter": "Filter",
+      "delete": "Delete",
+      "activate": "Activate",
+      "deactivate": "Deactivate"
+    },
+    "status": {
+      "active": "Active",
+      "inactive": "Inactive",
+      "yes": "Yes",
+      "no": "No",
+      "loading": "Loading…",
+      "saving": "Saving…",
+      "none": "—"
+    },
+    "toast": {
+      "loadFailed": "Failed to load.",
+      "createFailed": "Create failed.",
+      "saveFailed": "Save failed.",
+      "updateFailed": "Update failed.",
+      "deleteFailed": "Delete failed."
+    },
+    "labels": {
+      "nameEn": "Name (EN)",
+      "nameAr": "Name (AR)",
+      "email": "Email",
+      "phone": "Phone",
+      "code": "Code",
+      "active": "Active",
+      "saveChanges": "Save changes",
+      "id": "ID {id}"
+    }
+  },
+  "staff": {
+    "console": "MazadJo Staff",
+    "signOut": "Sign out",
+    "profileMenu": "Account menu"
+  },
+  "nav": {
+    "overview": "Overview",
+    "reviewAuctions": "Review auctions",
+    "publishAuctions": "Publish auctions",
+    "cms": "CMS",
+    "configuration": "Configuration",
+    "catalog": "Catalog",
+    "users": "Users",
+    "auditLog": "Audit log"
+  },
+  "overview": {
+    "title": "Operations overview",
+    "description": "Review listings, publish approved auctions, and manage site content.",
+    "openWorkspace": "Open workspace"
+  },
+  "login": {
+    "title": "Staff sign in",
+    "description": "MazadJo operations console — staff accounts only.",
+    "infoPanelTitle": "Staff workspace",
+    "tagline": "MazadJo Staff — internal operations",
+    "loading": "Loading…",
+    "username": "Username",
+    "password": "Password",
+    "signIn": "Sign in",
+    "signingIn": "Signing in…",
+    "credentialsRequired": "Username and password are required.",
+    "staffOnly": "Staff access only. Use the public site to sign in as a seller.",
+    "signedIn": "Signed in to staff console.",
+    "accountDisabled": "This account is disabled.",
+    "invalidCredentials": "Invalid credentials.",
+    "serverUnreachable": "Could not reach the server.",
+    "staffRequired": "Staff access required. Sign in with a staff account.",
+    "splitWhoUsTitle": "Operations console",
+    "splitWhoUsFallback": "Review listings, publish approved auctions, and manage platform configuration from one workspace.",
+    "splitWhyUsTitle": "Trusted marketplace",
+    "splitWhyUsFallback": "MazadJo connects sellers and bidders across Jordan with transparent live auctions and staff oversight."
+  },
+  "pages": {
+    "users": {
+      "title": "User management",
+      "description": "Browse and manage public seller/bidder accounts and staff accounts."
+    },
+    "catalog": {
+      "title": "Catalog",
+      "description": "Manage geography, product categories, and listing settings."
+    },
+    "cms": {
+      "title": "CMS",
+      "description": "Manage FAQs and other public site content."
+    },
+    "configuration": {
+      "title": "Configuration",
+      "description": "Manage fees, terms, review checklists, and category assignments."
+    },
+    "audit": {
+      "title": "Audit log",
+      "description": "Staff actions recorded by the platform audit trail. Filter by auction ID to inspect lifecycle events."
+    },
+    "auctionsReview": {
+      "title": "Review auctions",
+      "description": "Approve, reject, or return listings that are under staff review."
+    },
+    "auctionsPublish": {
+      "title": "Publish auctions",
+      "description": "Schedule approved auctions for the live catalog."
+    }
+  },
+  "users": {
+    "tabs": {
+      "public": "Public users",
+      "staff": "Staff"
+    },
+    "searchPlaceholder": "Username, email, phone, name…",
+    "loadingUsers": "Loading users…",
+    "noUsersFound": "No users found.",
+    "badges": {
+      "blocked": "Blocked",
+      "staff": "Staff",
+      "shadow": "Shadow"
+    },
+    "toast": {
+      "loadFailed": "Failed to load users.",
+      "updated": "User updated.",
+      "loadUserFailed": "Failed to load user."
+    },
+    "dialog": {
+      "viewTitle": "View user",
+      "editTitle": "Edit user",
+      "userMeta": "@{username} · ID {id}",
+      "username": "Username",
+      "userType": "User type",
+      "staff": "Staff",
+      "blocked": "Blocked",
+      "shadowBanned": "Shadow banned",
+      "phoneVerified": "Phone verified",
+      "emailVerified": "Email verified",
+      "joined": "Joined",
+      "staffAccess": "Staff access (is_staff)",
+      "types": {
+        "publicUser": "Public user",
+        "staff": "Staff",
+        "admin": "Admin"
+      }
+    }
+  },
+  "catalog": {
+    "tabs": {
+      "countries": "Countries",
+      "cities": "Cities",
+      "areas": "Areas",
+      "categories": "Categories"
+    },
+    "entities": {
+      "country": "country",
+      "city": "city",
+      "area": "area",
+      "category": "category"
+    },
+    "filterByCountry": "Filter by country",
+    "filterByCity": "Filter by city",
+    "allCountries": "All countries",
+    "allCities": "All cities",
+    "addCountry": "Add country",
+    "addCity": "Add city",
+    "addArea": "Add area",
+    "addCategory": "Add category",
+    "createCategory": "Create category",
+    "categoryType": "Category type",
+    "feeGroup": "Fee group",
+    "minImages": "Min images",
+    "maxImages": "Max images",
+    "minStartPrice": "Min start price",
+    "minBidIncrement": "Min bid increment",
+    "country": "Country",
+    "city": "City",
+    "toast": {
+      "countryNameCodeRequired": "English name and code are required.",
+      "countryCreated": "Country created.",
+      "countryCityRequired": "Country and English name are required.",
+      "cityCreated": "City created.",
+      "cityAreaRequired": "City and English name are required.",
+      "areaCreated": "Area created.",
+      "nameFeeRequired": "Name and fee group are required.",
+      "categoryCreated": "Category created.",
+      "loadRecordFailed": "Failed to load record.",
+      "countryRequired": "Country is required.",
+      "cityRequired": "City is required.",
+      "feeGroupRequired": "Fee group is required.",
+      "saved": "Saved."
+    },
+    "dialog": {
+      "viewTitle": "View {entity}",
+      "editTitle": "Edit {entity}",
+      "countryId": "Country ID",
+      "cityId": "City ID",
+      "type": "Type",
+      "requiresReview": "Requires review",
+      "requiresTransfer": "Requires transfer",
+      "requiresInspection": "Requires inspection",
+      "listingSettings": "Listing settings",
+      "maxVideoSec": "Max video (sec)",
+      "reserveRequired": "Reserve required",
+      "locationLink": "Location link",
+      "blurOption": "Blur option",
+      "deliveryDays": "Delivery days",
+      "fees": "Fees",
+      "subscription": "Subscription",
+      "bidderInsurance": "Bidder insurance",
+      "sellerInsurance": "Seller insurance",
+      "videoAllowed": "Video allowed"
+    }
+  },
+  "cms": {
+    "tabs": {
+      "faqs": "FAQs",
+      "whoUs": "Who us",
+      "whyUs": "Why us",
+      "contact": "Contact"
+    },
+    "addFaq": "Add FAQ",
+    "createFaq": "Create FAQ",
+    "questionEn": "Question (EN)",
+    "questionAr": "Question (AR)",
+    "answerEn": "Answer (EN)",
+    "answerAr": "Answer (AR)",
+    "addBlock": "Add block",
+    "titleEn": "Title (EN)",
+    "titleAr": "Title (AR)",
+    "bodyEn": "Body (EN)",
+    "bodyAr": "Body (AR)",
+    "contactDetails": "Contact details",
+    "addressEn": "Address (EN)",
+    "addressAr": "Address (AR)",
+    "saveContact": "Save contact",
+    "toast": {
+      "faqEnRequired": "English question and answer are required.",
+      "faqCreated": "FAQ created.",
+      "faqDeleted": "FAQ deleted.",
+      "contentEnRequired": "English title and body are required.",
+      "created": "Created.",
+      "deleted": "Deleted.",
+      "phoneEmailRequired": "Phone and email are required.",
+      "contactUpdated": "Contact updated.",
+      "contactCreated": "Contact created."
+    }
+  },
+  "configuration": {
+    "tabs": {
+      "fees": "Fees",
+      "terms": "Terms",
+      "checklist": "Checklist items",
+      "assign": "Category checklists"
+    },
+    "newFeeGroup": "New fee group",
+    "name": "Name",
+    "bidderInsurance": "Bidder insurance",
+    "sellerInsurance": "Seller insurance",
+    "subscription": "Subscription",
+    "feeSummary": "Subscription {amount} · {count} categories",
+    "newTermsVersion": "New terms version",
+    "version": "Version",
+    "titleEn": "Title (EN)",
+    "bodyEn": "Body (EN)",
+    "setActive": "Set active",
+    "newChecklistItem": "New checklist item",
+    "key": "Key",
+    "labelEn": "Label (EN)",
+    "assignChecklist": "Assign checklist to category",
+    "category": "Category",
+    "selectCategory": "Select category",
+    "checklistItems": "Checklist items",
+    "checklistItemMeta": "{label} ({key})",
+    "saveAssignment": "Save assignment",
+    "toast": {
+      "nameRequired": "Name is required.",
+      "feeGroupCreated": "Fee group created.",
+      "termsFieldsRequired": "Version, title, and body are required.",
+      "termsCreated": "Terms version created.",
+      "termsActivated": "Terms activated.",
+      "keyLabelRequired": "Key and label are required.",
+      "checklistItemCreated": "Checklist item created.",
+      "selectCategory": "Select a category.",
+      "checklistAssigned": "Checklist assigned."
+    }
+  },
+  "auctions": {
+    "review": {
+      "noChecklistGated": "No checklist items for this category — approval is not gated.",
+      "loadingAuditTrail": "Loading audit trail…",
+      "noAuditEntries": "No audit entries for this auction.",
+      "reviewChecklist": "Review checklist",
+      "loadingChecklist": "Loading checklist…",
+      "reasonLabel": "Reason (reject / return)",
+      "reasonPlaceholder": "Optional note for the seller",
+      "approve": "Approve",
+      "approving": "Approving…",
+      "returnForEdit": "Return for edit",
+      "returning": "Returning…",
+      "reject": "Reject",
+      "rejecting": "Rejecting…",
+      "auditTrail": "Audit trail",
+      "approveAllRequired": "Check all checklist items before approving",
+      "auctionMeta": "#{number} · seller {seller}",
+      "loadingAuctions": "Loading auctions under review…",
+      "noAuctions": "No auctions awaiting review.",
+      "toast": {
+        "loadChecklistFailed": "Failed to load checklist.",
+        "updateChecklistFailed": "Could not update checklist.",
+        "reviewSuccess": "Auction #{id} marked as {decision}.",
+        "reviewFailed": "Review failed.",
+        "loadAuditFailed": "Failed to load audit trail.",
+        "loadAuctionsFailed": "Failed to load auctions."
+      },
+      "decisions": {
+        "approve": "approve",
+        "return_for_edit": "return for edit",
+        "reject": "reject"
+      }
+    },
+    "publish": {
+      "loading": "Loading approved auctions…",
+      "empty": "No approved auctions ready to publish.",
+      "publishSchedule": "Publish / schedule",
+      "auditTrail": "Audit trail",
+      "toast": {
+        "loadFailed": "Failed to load auctions.",
+        "scheduled": "Auction #{id} scheduled for publishing.",
+        "publishFailed": "Publish failed."
+      }
+    }
+  },
+  "audit": {
+    "entityType": "Entity type",
+    "entityId": "Entity ID",
+    "entityTypePlaceholder": "auction",
+    "entityIdPlaceholder": "Auction ID",
+    "loading": "Loading audit log…",
+    "empty": "No audit entries match this filter.",
+    "entryMeta": "{entityType} #{entityId} · {date}",
+    "toast": {
+      "loadFailed": "Failed to load audit log."
+    }
+  }
+}

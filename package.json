@@ -1,0 +1,21 @@
+{
+  "name": "mazadjo-frontend",
+  "version": "0.1.0",
+  "private": true,
+  "packageManager": "npm@11.12.1",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "turbo dev",
+    "dev:web": "npm run dev -w @mazad/web",
+    "dev:admin": "npm run dev -w @mazad/admin",
+    "build": "turbo build",
+    "lint": "turbo lint",
+    "test": "turbo test"
+  },
+  "devDependencies": {
+    "turbo": "^2.5.4"
+  }
+}

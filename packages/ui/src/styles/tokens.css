@@ -1,0 +1,89 @@
+/**
+ * MazadJo Design Tokens — canonical CSS custom properties.
+ * TypeScript mirror: `@mazad/ui/tokens`
+ */
+:root {
+  /* Brand */
+  --mazad-navy: #0b1e3c;
+  --mazad-primary: #1f3c88;
+  --mazad-light-blue: #3a6edc;
+  --mazad-accent: #ff6a00;
+  --mazad-accent-dark: #e65c00;
+  --mazad-white: #ffffff;
+  --mazad-gray: #cfcfd2;
+  --mazad-wood-light: #c47a2c;
+  --mazad-wood-medium: #8b4e1d;
+  --mazad-wood-dark: #5a2e12;
+
+  /* Surfaces & borders */
+  --mazad-surface: #f7f9fc;
+  --mazad-separator: #e7eaf0;
+  --mazad-border-subtle: color-mix(in srgb, var(--mazad-navy) 8%, var(--mazad-separator));
+  --mazad-success: #16a34a;
+  --mazad-error: #e5484d;
+
+  /* Spacing (8px base) */
+  --space-1: 0.5rem;
+  --space-2: 1rem;
+  --space-3: 1.5rem;
+  --space-4: 2rem;
+  --space-6: 3rem;
+  --space-8: 4rem;
+
+  /* Layout */
+  --layout-max-width: 90rem;
+  --layout-narrow-width: 48rem;
+
+  /* Radius */
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.25rem;
+  --radius-2xl: 1.5rem;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px rgba(11, 30, 60, 0.04), 0 1px 3px rgba(11, 30, 60, 0.06);
+  --shadow-md: 0 4px 12px rgba(11, 30, 60, 0.06), 0 2px 4px rgba(11, 30, 60, 0.04);
+  --shadow-lg: 0 12px 32px rgba(11, 30, 60, 0.08), 0 4px 8px rgba(11, 30, 60, 0.04);
+  --shadow-card-hover: 0 16px 40px rgba(11, 30, 60, 0.1), 0 6px 12px rgba(11, 30, 60, 0.05);
+
+  /* Motion */
+  --motion-fast: 200ms;
+  --motion-base: 250ms;
+  --motion-slow: 300ms;
+  --motion-ease: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Semantic tokens (shadcn-compatible) */
+  --background: var(--mazad-surface);
+  --foreground: var(--mazad-navy);
+  --card: var(--mazad-white);
+  --card-foreground: var(--mazad-navy);
+  --popover: var(--mazad-white);
+  --popover-foreground: var(--mazad-navy);
+  --primary: var(--mazad-primary);
+  --primary-foreground: var(--mazad-white);
+  --secondary: color-mix(in srgb, var(--mazad-light-blue) 8%, white);
+  --secondary-foreground: var(--mazad-navy);
+  --muted: color-mix(in srgb, var(--mazad-gray) 25%, var(--mazad-surface));
+  --muted-foreground: color-mix(in srgb, var(--mazad-navy) 50%, var(--mazad-gray));
+  --accent: color-mix(in srgb, var(--mazad-light-blue) 10%, white);
+  --accent-foreground: var(--mazad-navy);
+  --destructive: var(--mazad-error);
+  --border: var(--mazad-separator);
+  --input: var(--mazad-separator);
+  --ring: var(--mazad-light-blue);
+  --radius: var(--radius-md);
+  --chart-1: var(--mazad-primary);
+  --chart-2: var(--mazad-light-blue);
+  --chart-3: var(--mazad-accent);
+  --chart-4: var(--mazad-wood-medium);
+  --chart-5: var(--mazad-navy);
+  --sidebar: var(--mazad-white);
+  --sidebar-foreground: var(--mazad-navy);
+  --sidebar-primary: var(--mazad-primary);
+  --sidebar-primary-foreground: var(--mazad-white);
+  --sidebar-accent: var(--mazad-surface);
+  --sidebar-accent-foreground: var(--mazad-navy);
+  --sidebar-border: var(--mazad-separator);
+  --sidebar-ring: var(--mazad-light-blue);
+}

@@ -1,0 +1,357 @@
+{
+  "metadata": {
+    "title": "مزادجو — الموظفين",
+    "description": "لوحة عمليات مزادجو"
+  },
+  "common": {
+    "language": "اللغة",
+    "english": "English",
+    "arabic": "العربية",
+    "actions": {
+      "view": "عرض",
+      "edit": "تعديل",
+      "close": "إغلاق",
+      "create": "إنشاء",
+      "save": "حفظ",
+      "search": "بحث",
+      "filter": "تصفية",
+      "delete": "حذف",
+      "activate": "تفعيل",
+      "deactivate": "إلغاء التفعيل"
+    },
+    "status": {
+      "active": "نشط",
+      "inactive": "غير نشط",
+      "yes": "نعم",
+      "no": "لا",
+      "loading": "جاري التحميل…",
+      "saving": "جاري الحفظ…",
+      "none": "—"
+    },
+    "toast": {
+      "loadFailed": "تعذّر التحميل.",
+      "createFailed": "تعذّر الإنشاء.",
+      "saveFailed": "تعذّر الحفظ.",
+      "updateFailed": "تعذّر التحديث.",
+      "deleteFailed": "تعذّر الحذف."
+    },
+    "labels": {
+      "nameEn": "الاسم (إنجليزي)",
+      "nameAr": "الاسم (عربي)",
+      "email": "البريد الإلكتروني",
+      "phone": "الهاتف",
+      "code": "الرمز",
+      "active": "نشط",
+      "saveChanges": "حفظ التغييرات",
+      "id": "المعرّف {id}"
+    }
+  },
+  "staff": {
+    "console": "مزادجو — الموظفين",
+    "signOut": "تسجيل الخروج",
+    "profileMenu": "قائمة الحساب"
+  },
+  "nav": {
+    "overview": "نظرة عامة",
+    "reviewAuctions": "مراجعة المزادات",
+    "publishAuctions": "نشر المزادات",
+    "cms": "إدارة المحتوى",
+    "configuration": "الإعدادات",
+    "catalog": "الكتالوج",
+    "users": "المستخدمون",
+    "auditLog": "سجل التدقيق"
+  },
+  "overview": {
+    "title": "نظرة عامة على العمليات",
+    "description": "راجع العروض، انشر المزادات المعتمدة، وأدر محتوى الموقع.",
+    "openWorkspace": "فتح مساحة العمل"
+  },
+  "login": {
+    "title": "تسجيل دخول الموظفين",
+    "description": "لوحة عمليات مزادجو — حسابات الموظفين فقط.",
+    "infoPanelTitle": "مساحة عمل الموظفين",
+    "tagline": "مزادجو — العمليات الداخلية",
+    "loading": "جاري التحميل…",
+    "username": "اسم المستخدم",
+    "password": "كلمة المرور",
+    "signIn": "تسجيل الدخول",
+    "signingIn": "جاري تسجيل الدخول…",
+    "credentialsRequired": "اسم المستخدم وكلمة المرور مطلوبان.",
+    "staffOnly": "للموظفين فقط. استخدم الموقع العام لتسجيل الدخول كبائع.",
+    "signedIn": "تم تسجيل الدخول إلى لوحة الموظفين.",
+    "accountDisabled": "هذا الحساب معطّل.",
+    "invalidCredentials": "بيانات الدخول غير صحيحة.",
+    "serverUnreachable": "تعذّر الاتصال بالخادم.",
+    "staffRequired": "يلزم حساب موظف. سجّل الدخول بحساب موظف.",
+    "splitWhoUsTitle": "لوحة العمليات",
+    "splitWhoUsFallback": "راجع العروض، انشر المزادات المعتمدة، وأدر إعدادات المنصة من مكان واحد.",
+    "splitWhyUsTitle": "سوق موثوق",
+    "splitWhyUsFallback": "يربط مزادجو البائعين والمزايدين في الأردن بمزادات مباشرة شفافة وإشراف من الموظفين."
+  },
+  "pages": {
+    "users": {
+      "title": "إدارة المستخدمين",
+      "description": "تصفّح وأدر حسابات البائعين/المزايدين العامة وحسابات الموظفين."
+    },
+    "catalog": {
+      "title": "الكتالوج",
+      "description": "أدر الجغرافيا وفئات المنتجات وإعدادات الإدراج."
+    },
+    "cms": {
+      "title": "إدارة المحتوى",
+      "description": "أدر الأسئلة الشائعة ومحتوى الموقع العام."
+    },
+    "configuration": {
+      "title": "الإعدادات",
+      "description": "أدر الرسوم والشروط وقوائم المراجعة وتعيينات الفئات."
+    },
+    "audit": {
+      "title": "سجل التدقيق",
+      "description": "إجراءات الموظفين المسجّلة في المنصة. صفّ حسب معرّف المزاد لفحص دورة الحياة."
+    },
+    "auctionsReview": {
+      "title": "مراجعة المزادات",
+      "description": "وافق أو ارفض أو أعد العروض قيد مراجعة الموظفين."
+    },
+    "auctionsPublish": {
+      "title": "نشر المزادات",
+      "description": "جدولة المزادات المعتمدة للكتالوج المباشر."
+    }
+  },
+  "users": {
+    "tabs": {
+      "public": "المستخدمون العامون",
+      "staff": "الموظفون"
+    },
+    "searchPlaceholder": "اسم المستخدم، البريد، الهاتف، الاسم…",
+    "loadingUsers": "جاري تحميل المستخدمين…",
+    "noUsersFound": "لم يُعثر على مستخدمين.",
+    "badges": {
+      "blocked": "محظور",
+      "staff": "موظف",
+      "shadow": "حظر خفي"
+    },
+    "toast": {
+      "loadFailed": "تعذّر تحميل المستخدمين.",
+      "updated": "تم تحديث المستخدم.",
+      "loadUserFailed": "تعذّر تحميل المستخدم."
+    },
+    "dialog": {
+      "viewTitle": "عرض المستخدم",
+      "editTitle": "تعديل المستخدم",
+      "userMeta": "@{username} · المعرّف {id}",
+      "username": "اسم المستخدم",
+      "userType": "نوع المستخدم",
+      "staff": "موظف",
+      "blocked": "محظور",
+      "shadowBanned": "حظر خفي",
+      "phoneVerified": "الهاتف موثّق",
+      "emailVerified": "البريد موثّق",
+      "joined": "تاريخ الانضمام",
+      "staffAccess": "صلاحية الموظف (is_staff)",
+      "types": {
+        "publicUser": "مستخدم عام",
+        "staff": "موظف",
+        "admin": "مدير"
+      }
+    }
+  },
+  "catalog": {
+    "tabs": {
+      "countries": "الدول",
+      "cities": "المدن",
+      "areas": "المناطق",
+      "categories": "الفئات"
+    },
+    "entities": {
+      "country": "دولة",
+      "city": "مدينة",
+      "area": "منطقة",
+      "category": "فئة"
+    },
+    "filterByCountry": "تصفية حسب الدولة",
+    "filterByCity": "تصفية حسب المدينة",
+    "allCountries": "جميع الدول",
+    "allCities": "جميع المدن",
+    "addCountry": "إضافة دولة",
+    "addCity": "إضافة مدينة",
+    "addArea": "إضافة منطقة",
+    "addCategory": "إضافة فئة",
+    "createCategory": "إنشاء فئة",
+    "categoryType": "نوع الفئة",
+    "feeGroup": "مجموعة الرسوم",
+    "minImages": "الحد الأدنى للصور",
+    "maxImages": "الحد الأقصى للصور",
+    "minStartPrice": "الحد الأدنى لسعر البداية",
+    "minBidIncrement": "الحد الأدنى لزيادة المزايدة",
+    "country": "الدولة",
+    "city": "المدينة",
+    "toast": {
+      "countryNameCodeRequired": "الاسم بالإنجليزية والرمز مطلوبان.",
+      "countryCreated": "تم إنشاء الدولة.",
+      "countryCityRequired": "الدولة والاسم بالإنجليزية مطلوبان.",
+      "cityCreated": "تم إنشاء المدينة.",
+      "cityAreaRequired": "المدينة والاسم بالإنجليزية مطلوبان.",
+      "areaCreated": "تم إنشاء المنطقة.",
+      "nameFeeRequired": "الاسم ومجموعة الرسوم مطلوبان.",
+      "categoryCreated": "تم إنشاء الفئة.",
+      "loadRecordFailed": "تعذّر تحميل السجل.",
+      "countryRequired": "الدولة مطلوبة.",
+      "cityRequired": "المدينة مطلوبة.",
+      "feeGroupRequired": "مجموعة الرسوم مطلوبة.",
+      "saved": "تم الحفظ."
+    },
+    "dialog": {
+      "viewTitle": "عرض {entity}",
+      "editTitle": "تعديل {entity}",
+      "countryId": "معرّف الدولة",
+      "cityId": "معرّف المدينة",
+      "type": "النوع",
+      "requiresReview": "يتطلب مراجعة",
+      "requiresTransfer": "يتطلب نقل ملكية",
+      "requiresInspection": "يتطلب فحصاً",
+      "listingSettings": "إعدادات الإعلان",
+      "maxVideoSec": "الحد الأقصى للفيديو (ثانية)",
+      "reserveRequired": "سعر احتياطي مطلوب",
+      "locationLink": "رابط الموقع",
+      "blurOption": "خيار التمويه",
+      "deliveryDays": "أيام التسليم",
+      "fees": "الرسوم",
+      "subscription": "الاشتراك",
+      "bidderInsurance": "تأمين المزايد",
+      "sellerInsurance": "تأمين البائع",
+      "videoAllowed": "الفيديو مسموح"
+    }
+  },
+  "cms": {
+    "tabs": {
+      "faqs": "الأسئلة الشائعة",
+      "whoUs": "من نحن",
+      "whyUs": "لماذا نحن",
+      "contact": "اتصل بنا"
+    },
+    "addFaq": "إضافة سؤال",
+    "createFaq": "إنشاء سؤال",
+    "questionEn": "السؤال (إنجليزي)",
+    "questionAr": "السؤال (عربي)",
+    "answerEn": "الإجابة (إنجليزي)",
+    "answerAr": "الإجابة (عربي)",
+    "addBlock": "إضافة قسم",
+    "titleEn": "العنوان (إنجليزي)",
+    "titleAr": "العنوان (عربي)",
+    "bodyEn": "المحتوى (إنجليزي)",
+    "bodyAr": "المحتوى (عربي)",
+    "contactDetails": "بيانات التواصل",
+    "addressEn": "العنوان (إنجليزي)",
+    "addressAr": "العنوان (عربي)",
+    "saveContact": "حفظ بيانات التواصل",
+    "toast": {
+      "faqEnRequired": "السؤال والإجابة بالإنجليزية مطلوبان.",
+      "faqCreated": "تم إنشاء السؤال.",
+      "faqDeleted": "تم حذف السؤال.",
+      "contentEnRequired": "العنوان والمحتوى بالإنجليزية مطلوبان.",
+      "created": "تم الإنشاء.",
+      "deleted": "تم الحذف.",
+      "phoneEmailRequired": "الهاتف والبريد الإلكتروني مطلوبان.",
+      "contactUpdated": "تم تحديث بيانات التواصل.",
+      "contactCreated": "تم إنشاء بيانات التواصل."
+    }
+  },
+  "configuration": {
+    "tabs": {
+      "fees": "الرسوم",
+      "terms": "الشروط",
+      "checklist": "بنود المراجعة",
+      "assign": "قوائم الفئات"
+    },
+    "newFeeGroup": "مجموعة رسوم جديدة",
+    "name": "الاسم",
+    "bidderInsurance": "تأمين المزايد",
+    "sellerInsurance": "تأمين البائع",
+    "subscription": "الاشتراك",
+    "feeSummary": "اشتراك {amount} · {count} فئات",
+    "newTermsVersion": "نسخة شروط جديدة",
+    "version": "الإصدار",
+    "titleEn": "العنوان (إنجليزي)",
+    "bodyEn": "المحتوى (إنجليزي)",
+    "setActive": "تعيين كنشط",
+    "newChecklistItem": "بند مراجعة جديد",
+    "key": "المفتاح",
+    "labelEn": "التسمية (إنجليزي)",
+    "assignChecklist": "ربط قائمة المراجعة بالفئة",
+    "category": "الفئة",
+    "selectCategory": "اختر فئة",
+    "checklistItems": "بنود المراجعة",
+    "checklistItemMeta": "{label} ({key})",
+    "saveAssignment": "حفظ الربط",
+    "toast": {
+      "nameRequired": "الاسم مطلوب.",
+      "feeGroupCreated": "تم إنشاء مجموعة الرسوم.",
+      "termsFieldsRequired": "الإصدار والعنوان والمحتوى مطلوبون.",
+      "termsCreated": "تم إنشاء نسخة الشروط.",
+      "termsActivated": "تم تفعيل الشروط.",
+      "keyLabelRequired": "المفتاح والتسمية مطلوبان.",
+      "checklistItemCreated": "تم إنشاء بند المراجعة.",
+      "selectCategory": "يرجى اختيار فئة.",
+      "checklistAssigned": "تم ربط قائمة المراجعة."
+    }
+  },
+  "auctions": {
+    "review": {
+      "noChecklistGated": "لا توجد بنود مراجعة لهذه الفئة — الموافقة غير مشروطة.",
+      "loadingAuditTrail": "جاري تحميل سجل التدقيق…",
+      "noAuditEntries": "لا توجد سجلات تدقيق لهذا المزاد.",
+      "reviewChecklist": "قائمة المراجعة",
+      "loadingChecklist": "جاري تحميل القائمة…",
+      "reasonLabel": "السبب (رفض / إرجاع)",
+      "reasonPlaceholder": "ملاحظة اختيارية للبائع",
+      "approve": "موافقة",
+      "approving": "جاري الموافقة…",
+      "returnForEdit": "إرجاع للتعديل",
+      "returning": "جاري الإرجاع…",
+      "reject": "رفض",
+      "rejecting": "جاري الرفض…",
+      "auditTrail": "سجل التدقيق",
+      "approveAllRequired": "أكمل جميع بنود المراجعة قبل الموافقة",
+      "auctionMeta": "#{number} · البائع {seller}",
+      "loadingAuctions": "جاري تحميل المزادات قيد المراجعة…",
+      "noAuctions": "لا توجد مزادات بانتظار المراجعة.",
+      "toast": {
+        "loadChecklistFailed": "تعذّر تحميل قائمة المراجعة.",
+        "updateChecklistFailed": "تعذّر تحديث القائمة.",
+        "reviewSuccess": "تم تعليم المزاد #{id} كـ {decision}.",
+        "reviewFailed": "تعذّرت المراجعة.",
+        "loadAuditFailed": "تعذّر تحميل سجل التدقيق.",
+        "loadAuctionsFailed": "تعذّر تحميل المزادات."
+      },
+      "decisions": {
+        "approve": "موافق عليه",
+        "return_for_edit": "مُعاد للتعديل",
+        "reject": "مرفوض"
+      }
+    },
+    "publish": {
+      "loading": "جاري تحميل المزادات المعتمدة…",
+      "empty": "لا توجد مزادات معتمدة جاهزة للنشر.",
+      "publishSchedule": "نشر / جدولة",
+      "auditTrail": "سجل التدقيق",
+      "toast": {
+        "loadFailed": "تعذّر تحميل المزادات.",
+        "scheduled": "تم جدولة المزاد #{id} للنشر.",
+        "publishFailed": "تعذّر النشر."
+      }
+    }
+  },
+  "audit": {
+    "entityType": "نوع الكيان",
+    "entityId": "معرّف الكيان",
+    "entityTypePlaceholder": "auction",
+    "entityIdPlaceholder": "معرّف المزاد",
+    "loading": "جاري تحميل سجل التدقيق…",
+    "empty": "لا توجد سجلات تطابق هذا التصفية.",
+    "entryMeta": "{entityType} #{entityId} · {date}",
+    "toast": {
+      "loadFailed": "تعذّر تحميل سجل التدقيق."
+    }
+  }
+}

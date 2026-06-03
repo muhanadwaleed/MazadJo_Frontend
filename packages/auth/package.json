@@ -1,0 +1,24 @@
+{
+  "name": "@mazad/auth",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "exports": {
+    ".": "./src/index.ts",
+    "./session": "./src/session.ts",
+    "./safe-redirect": "./src/safe-redirect.ts"
+  },
+  "dependencies": {
+    "@mazad/api": "*",
+    "@mazad/ui": "*",
+    "next": "16.2.6",
+    "react": "19.2.4"
+  },
+  "devDependencies": {
+    "@types/react": "^19",
+    "vitest": "^3.2.4"
+  }
+}

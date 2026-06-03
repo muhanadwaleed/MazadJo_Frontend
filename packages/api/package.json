@@ -1,0 +1,13 @@
+{
+  "name": "@mazad/api",
+  "version": "0.0.0",
+  "private": true,
+  "exports": {
+    ".": "./src/index.ts",
+    "./auth-branding": "./src/utils/auth-branding.ts"
+  },
+  "dependencies": {
+    "@mazad/auth": "*",
+    "@mazad/config": "*"
+  }
+}

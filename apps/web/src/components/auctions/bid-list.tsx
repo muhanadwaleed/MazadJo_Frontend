@@ -1,0 +1,39 @@
+import { getLocale, getTranslations } from "next-intl/server";
+
+import type { PublicBid } from "@mazad/api";
+import { formatDateTime, formatMoney } from "@/lib/format";
+import { EmptyState } from "@/components/common/empty-state";
+
+export async function BidList({ bids }: { bids: PublicBid[] }) {
+  const locale = await getLocale();
+  const t = await getTranslations("bids");
+
+  if (bids.length === 0) {
+    return (
+      <EmptyState title={t("emptyTitle")} description={t("emptyDescription")} />
+    );
+  }
+
+  return (
+    <ul className="divide-y divide-border rounded-xl border border-border">
+      {bids.map((bid) => (
+        <li
+          key={bid.id}
+          className="flex flex-col gap-1 px-4 py-3 sm:flex-row sm:items-center sm:justify-between"
+        >
+          <div>
+            <p className="font-medium text-foreground">
+              {formatMoney(bid.amount, locale)}
+            </p>
+            <p className="text-sm text-muted-foreground">
+              {t("bidder")} {bid.bidder}
+            </p>
+          </div>
+          <time className="text-sm text-muted-foreground" dateTime={bid.timestamp}>
+            {formatDateTime(bid.timestamp, locale)}
+          </time>
+        </li>
+      ))}
+    </ul>
+  );
+}
