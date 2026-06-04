@@ -9,7 +9,7 @@ import {
   getAccessToken,
   getRefreshToken,
   setTokens,
-} from "@mazad/auth/session";
+} from "./session";
 
 export type ApiClientConfig = {
   baseUrl: string;

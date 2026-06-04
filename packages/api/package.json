@@ -7,7 +7,6 @@
     "./auth-branding": "./src/utils/auth-branding.ts"
   },
   "dependencies": {
-    "@mazad/auth": "*",
     "@mazad/config": "*"
   }
 }

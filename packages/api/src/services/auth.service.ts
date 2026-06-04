@@ -6,7 +6,7 @@ import type {
   TokenPair,
   UserProfile,
 } from "../types";
-import { clearTokens, setTokens } from "@mazad/auth/session";
+import { clearTokens, setTokens } from "../session";
 
 const JORDAN_COUNTRY_CODE = "+962";
 
