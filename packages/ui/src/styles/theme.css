@@ -16,6 +16,8 @@
   --color-separator: var(--mazad-separator);
   --color-mazad-border-subtle: var(--mazad-border-subtle);
 
+  --background-image-brand-gradient: var(--mazad-brand-gradient);
+
   --color-navy: var(--mazad-navy);
   --color-mazad-primary: var(--mazad-primary);
   --color-light-blue: var(--mazad-light-blue);

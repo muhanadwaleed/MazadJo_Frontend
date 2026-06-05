@@ -4,9 +4,10 @@
  */
 :root {
   /* Brand */
-  --mazad-navy: #0b1e3c;
-  --mazad-primary: #1f3c88;
-  --mazad-light-blue: #3a6edc;
+  --mazad-navy: #071328;
+  --mazad-primary: #1E5ECB;
+  --mazad-light-blue: #3A6EDC;
+  --mazad-brand-gradient: linear-gradient(135deg, #1E5ECB 0%, #0F4CBA 50%, #071328 100%);
   --mazad-accent: #ff6a00;
   --mazad-accent-dark: #e65c00;
   --mazad-white: #ffffff;

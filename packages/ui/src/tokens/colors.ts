@@ -2,8 +2,8 @@
  * MazadJo color palette — keep in sync with `styles/tokens.css`.
  */
 export const colors = {
-  navy: "#0B1E3C",
-  primary: "#1F3C88",
+  navy: "#071328",
+  primary: "#1E5ECB",
   lightBlue: "#3A6EDC",
   accent: "#FF6A00",
   accentDark: "#E65C00",

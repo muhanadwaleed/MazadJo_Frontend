@@ -22,6 +22,7 @@
     "arabic": "العربية"
   },
   "nav": {
+    "home": "الرئيسية",
     "auctions": "المزادات",
     "catalog": "الكتالوج",
     "dashboard": "لوحة التحكم",
@@ -52,7 +53,9 @@
     "activeAuctionsDescription": "أحدث المزادات المباشرة من واجهة البرمجة.",
     "noActiveTitle": "لا توجد مزادات نشطة",
     "noActiveDescription": "شغّل MazadJo_Backend ونفّذ seed_demo_auctions، أو عُد لاحقاً.",
-    "browseAllAuctions": "تصفح كل المزادات"
+    "browseAllAuctions": "تصفح كل المزادات",
+    "searchPlaceholder": "ابحث عن سيارات، إلكترونيات، عقارات...",
+    "searchButton": "بحث"
   },
   "auctions": {
     "title": "المزادات",

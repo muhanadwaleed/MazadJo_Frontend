@@ -22,6 +22,7 @@
     "arabic": "العربية"
   },
   "nav": {
+    "home": "Home",
     "auctions": "Auctions",
     "catalog": "Catalog",
     "dashboard": "Dashboard",
@@ -52,7 +53,9 @@
     "activeAuctionsDescription": "Recently listed live auctions from the API.",
     "noActiveTitle": "No active auctions",
     "noActiveDescription": "Start MazadJo_Backend and run seed_demo_auctions, or check back later.",
-    "browseAllAuctions": "Browse all auctions"
+    "browseAllAuctions": "Browse all auctions",
+    "searchPlaceholder": "Search for cars, electronics, real estate...",
+    "searchButton": "Search"
   },
   "auctions": {
     "title": "Auctions",
