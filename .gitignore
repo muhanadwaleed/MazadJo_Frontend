@@ -18,6 +18,11 @@
 /out/
 apps/*/.next/
 
+# turborepo
+.turbo
+apps/*/.turbo
+packages/*/.turbo
+
 # production
 /build
 

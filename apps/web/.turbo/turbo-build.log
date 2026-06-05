@@ -1,0 +1,48 @@
+
+> @mazad/web@0.1.0 build
+> next build
+
+▲ Next.js 16.2.6 (Turbopack)
+
+⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+  Creating an optimized production build ...
+✓ Compiled successfully in 3.0s
+  Running TypeScript ...
+  Finished TypeScript in 2.3s ...
+  Collecting page data using 9 workers ...
+  Generating static pages using 9 workers (0/33) ...
+  Generating static pages using 9 workers (8/33) 
+  Generating static pages using 9 workers (16/33) 
+  Generating static pages using 9 workers (24/33) 
+✓ Generating static pages using 9 workers (33/33) in 144ms
+  Finalizing page optimization ...
+
+Route (app)
+┌ ○ /_not-found
+├ ƒ /[locale]
+├ ƒ /[locale]/about
+├ ƒ /[locale]/auctions
+├ ƒ /[locale]/auctions/[id]
+├ ƒ /[locale]/auctions/[id]/bids
+├ ƒ /[locale]/catalog
+├ ƒ /[locale]/catalog/categories/[id]
+├ ƒ /[locale]/contact
+├ ƒ /[locale]/dashboard
+├ ƒ /[locale]/dashboard/listings/[id]/edit
+├ ƒ /[locale]/dashboard/listings/new
+├ ƒ /[locale]/dashboard/watchlist
+├ ƒ /[locale]/faq
+├ ƒ /[locale]/forgot-password
+├ ƒ /[locale]/login
+├ ƒ /[locale]/notifications
+├ ƒ /[locale]/profile
+├ ƒ /[locale]/register
+├ ƒ /[locale]/terms
+└ ƒ /api/[...path]
+
+
+ƒ Proxy (Middleware)
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+

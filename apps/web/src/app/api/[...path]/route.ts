@@ -1,25 +1,22 @@
 /**
  * Runtime API proxy — reads API_URL at request time, not at build time.
  *
- * Why a route handler instead of next.config.ts rewrites:
- *   next.config.ts rewrites() bakes the destination URL into
- *   .next/routes-manifest.json at `next build`. Changing the env var in
- *   Railway after the first build has no effect until a full rebuild.
- *   A route handler runs server-side on every request, so changing API_URL
- *   in Railway and redeploying is always enough.
+ * Browser → /api/v1/...  → this handler (server-side, runtime)
+ *        → fetch(`${API_URL}/api/v1/...`) → streams response back.
+ * No CORS. Browser never contacts the backend directly.
  *
- * How requests flow:
- *   Browser → GET /api/v1/auctions/
- *          → this handler (server-side, reads API_URL at runtime)
- *          → fetch("https://your-backend.railway.app/api/v1/auctions/")
- *          → streams response back to browser
- *   No CORS needed. Browser never contacts the backend directly.
- *
- * Railway env var to set (only one needed):
+ * Railway: set ONE variable on each frontend service:
  *   API_URL = https://your-backend.up.railway.app
  */
 
 import { type NextRequest, NextResponse } from "next/server";
+
+// Force this handler to run on every request in the Node runtime.
+// Without these, Next.js may statically optimize the route and never
+// re-read process.env.API_URL at runtime on Railway.
+export const dynamic = "force-dynamic";
+export const runtime = "nodejs";
+export const fetchCache = "force-no-store";
 
 const REQ_HEADERS = [
   "authorization",
@@ -28,31 +25,42 @@ const REQ_HEADERS = [
   "accept-language",
   "idempotency-key",
   "x-request-id",
+  "cookie",
 ] as const;
 
 const RES_HEADERS = [
   "content-type",
   "content-language",
   "cache-control",
+  "set-cookie",
   "x-request-id",
 ] as const;
 
 /**
- * Read API_URL at request time (never falls back to NEXT_PUBLIC_API_URL —
- * that would cause an infinite loop if it resolves to the frontend domain).
+ * Resolve the backend origin from API_URL at REQUEST time.
+ * Never falls back to NEXT_PUBLIC_API_URL (that could point at the frontend
+ * domain and create an infinite proxy loop).
  */
-function getBackendOrigin(): string {
+function getBackendOrigin(): string | null {
   const raw = (process.env.API_URL ?? "").trim();
-  if (!raw) {
-    // Dev fallback — in production Railway will always have API_URL set.
-    return "http://127.0.0.1:8000";
-  }
-  // Strip any trailing /api or /api/v1 — we forward the full pathname ourselves.
+  if (!raw) return null;
+  // Strip a trailing /api or /api/v1 — we forward the full pathname ourselves.
   return raw.replace(/\/api(\/v1)?\/?$/, "").replace(/\/$/, "");
 }
 
 async function proxyToBackend(req: NextRequest): Promise<NextResponse> {
   const origin = getBackendOrigin();
+
+  if (!origin) {
+    console.error(
+      "[api-proxy] API_URL is not set. Set API_URL=https://your-backend.up.railway.app in Railway."
+    );
+    return NextResponse.json(
+      { detail: "API_URL is not configured on the server." },
+      { status: 500 }
+    );
+  }
+
   const target = `${origin}${req.nextUrl.pathname}${req.nextUrl.search}`;
 
   const reqHeaders = new Headers();
@@ -61,20 +69,22 @@ async function proxyToBackend(req: NextRequest): Promise<NextResponse> {
     if (val !== null) reqHeaders.set(key, val);
   }
 
-  const withBody = req.method !== "GET" && req.method !== "HEAD";
-  const fetchInit: RequestInit = {
-    method: req.method,
-    headers: reqHeaders,
-    body: withBody ? req.body : undefined,
-  };
-  // Node 18+ fetch requires duplex:"half" when forwarding a streaming body.
-  if (withBody && req.body) {
-    (fetchInit as Record<string, unknown>).duplex = "half";
+  // Buffer the body (more reliable on Railway/undici than streaming + duplex).
+  let body: ArrayBuffer | undefined;
+  if (req.method !== "GET" && req.method !== "HEAD") {
+    const buf = await req.arrayBuffer();
+    if (buf.byteLength > 0) body = buf;
   }
 
   let upstream: Response;
   try {
-    upstream = await fetch(target, fetchInit);
+    upstream = await fetch(target, {
+      method: req.method,
+      headers: reqHeaders,
+      body,
+      redirect: "manual",
+      cache: "no-store",
+    });
   } catch (err) {
     console.error(`[api-proxy] Cannot reach backend at ${target}:`, err);
     return NextResponse.json(
@@ -89,7 +99,8 @@ async function proxyToBackend(req: NextRequest): Promise<NextResponse> {
     if (val !== null) resHeaders.set(key, val);
   }
 
-  return new NextResponse(upstream.body, {
+  const respBody = await upstream.arrayBuffer();
+  return new NextResponse(respBody, {
     status: upstream.status,
     headers: resHeaders,
   });
