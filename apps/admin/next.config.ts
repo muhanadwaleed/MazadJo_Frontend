@@ -6,8 +6,8 @@ const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts");
 const nextConfig: NextConfig = {
   transpilePackages: ["@mazad/api", "@mazad/auth", "@mazad/config", "@mazad/ui"],
   skipTrailingSlashRedirect: true,
-  // API proxying is handled by the runtime route handler at /api/[...path]
-  // so env vars are read at request time, not baked in at build time.
+  // The browser calls Django directly via NEXT_PUBLIC_API_URL (CORS-enabled
+  // backend). No API proxy/rewrites here.
 };
 
 export default withNextIntl(nextConfig);

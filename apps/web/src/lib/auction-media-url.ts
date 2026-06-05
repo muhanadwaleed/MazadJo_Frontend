@@ -1,8 +1,11 @@
+import { env } from "@mazad/config";
+
 import { normalizeMediaUrl } from "@/lib/media-url";
 
-/** Same-origin serve path (proxied to Django). */
+/** Absolute serve URL on the Django backend (browser calls it directly). */
 export function auctionMediaServePath(auctionId: number, mediaId: number): string {
-  return `/api/v1/auctions/${auctionId}/media/${mediaId}/`;
+  const base = env.publicApiUrl.replace(/\/$/, "");
+  return `${base}/auctions/${auctionId}/media/${mediaId}/`;
 }
 
 export function resolveAuctionMediaPath(

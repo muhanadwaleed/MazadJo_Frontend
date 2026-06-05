@@ -14,8 +14,8 @@ import {
 export type ApiClientConfig = {
   /**
    * Base URL, or a function resolving it per-call. A function lets the same
-   * client be isomorphic: relative proxy path in the browser, absolute backend
-   * URL during SSR. Resolved on every request, never frozen at build time.
+   * client be isomorphic: browser base (NEXT_PUBLIC_API_URL) vs SSR base
+   * (API_URL). Resolved on every request.
    */
   baseUrl: string | (() => string);
   getAccessToken?: () => string | null;
@@ -195,11 +195,9 @@ export function createApiClient(config: ApiClientConfig) {
 
 /**
  * Resolve the API base per request, so the SAME client works in both contexts:
- *   - Browser: env.publicApiUrl ("/api/v1") → goes through the Next.js
- *     /api/[...path] proxy (same origin, no CORS).
- *   - Server (SSR / Server Components): env.serverApiUrl → absolute API_URL.
- * Resolved on every call (never frozen), so changing API_URL in Railway and
- * restarting is always enough.
+ *   - Browser: env.publicApiUrl (NEXT_PUBLIC_API_URL) → calls Django directly.
+ *   - Server (SSR / Server Components): env.serverApiUrl (API_URL) → direct.
+ * Both are absolute backend URLs; Django CORS must allow the frontend origin.
  */
 function resolveApiBaseUrl(): string {
   return typeof window === "undefined" ? env.serverApiUrl : env.publicApiUrl;
@@ -221,7 +219,7 @@ export const api = createApiClient({
 /**
  * Alias kept for existing imports. Identical to `api` — resolves base URL per
  * call, so calling a `serverApi.*` service from a client component correctly
- * uses the same-origin proxy and attaches the JWT.
+ * uses the browser base (NEXT_PUBLIC_API_URL) and attaches the JWT.
  */
 export const serverApi = api;
 
