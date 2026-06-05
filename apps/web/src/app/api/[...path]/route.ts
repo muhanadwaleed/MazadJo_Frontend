@@ -8,7 +8,14 @@
  *   A route handler runs server-side on every request, so changing API_URL
  *   in Railway and redeploying is always enough.
  *
- * Railway env vars to set:
+ * How requests flow:
+ *   Browser → GET /api/v1/auctions/
+ *          → this handler (server-side, reads API_URL at runtime)
+ *          → fetch("https://your-backend.railway.app/api/v1/auctions/")
+ *          → streams response back to browser
+ *   No CORS needed. Browser never contacts the backend directly.
+ *
+ * Railway env var to set (only one needed):
  *   API_URL = https://your-backend.up.railway.app
  */
 
@@ -30,18 +37,23 @@ const RES_HEADERS = [
   "x-request-id",
 ] as const;
 
+/**
+ * Read API_URL at request time (never falls back to NEXT_PUBLIC_API_URL —
+ * that would cause an infinite loop if it resolves to the frontend domain).
+ */
 function getBackendOrigin(): string {
-  const raw =
-    process.env.API_URL ?? process.env.NEXT_PUBLIC_API_URL ?? "";
-  // Strip any trailing /api or /api/v1 — we forward the full pathname ourselves
-  return (
-    raw.replace(/\/api(\/v1)?\/?$/, "").replace(/\/$/, "") ||
-    "http://127.0.0.1:8000"
-  );
+  const raw = (process.env.API_URL ?? "").trim();
+  if (!raw) {
+    // Dev fallback — in production Railway will always have API_URL set.
+    return "http://127.0.0.1:8000";
+  }
+  // Strip any trailing /api or /api/v1 — we forward the full pathname ourselves.
+  return raw.replace(/\/api(\/v1)?\/?$/, "").replace(/\/$/, "");
 }
 
 async function proxyToBackend(req: NextRequest): Promise<NextResponse> {
-  const target = `${getBackendOrigin()}${req.nextUrl.pathname}${req.nextUrl.search}`;
+  const origin = getBackendOrigin();
+  const target = `${origin}${req.nextUrl.pathname}${req.nextUrl.search}`;
 
   const reqHeaders = new Headers();
   for (const key of REQ_HEADERS) {
@@ -55,7 +67,7 @@ async function proxyToBackend(req: NextRequest): Promise<NextResponse> {
     headers: reqHeaders,
     body: withBody ? req.body : undefined,
   };
-  // Node 18+ fetch requires duplex:"half" when forwarding a streaming body
+  // Node 18+ fetch requires duplex:"half" when forwarding a streaming body.
   if (withBody && req.body) {
     (fetchInit as Record<string, unknown>).duplex = "half";
   }
@@ -64,7 +76,7 @@ async function proxyToBackend(req: NextRequest): Promise<NextResponse> {
   try {
     upstream = await fetch(target, fetchInit);
   } catch (err) {
-    console.error("[proxy] Backend unreachable:", target, err);
+    console.error(`[api-proxy] Cannot reach backend at ${target}:`, err);
     return NextResponse.json(
       { detail: "Backend service unavailable." },
       { status: 502 }

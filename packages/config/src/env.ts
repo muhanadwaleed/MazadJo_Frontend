@@ -23,14 +23,21 @@ export function normalizeApiBaseUrl(raw: string | undefined, fallback: string): 
 
 /** Public env vars (client-safe). */
 export const env = {
-  /** Browser: prefer `/api/v1` so Next.js proxies to Django */
-  publicApiUrl: normalizeApiBaseUrl(
-    process.env.NEXT_PUBLIC_API_URL,
-    "/api/v1"
-  ),
-  /** Server Components: absolute URL to Django */
+  /**
+   * Browser API base — always the relative proxy path.
+   * The browser NEVER calls the backend directly; all requests go through
+   * the Next.js /api/[...path] route handler which reads API_URL at
+   * request time and proxies server-side.  This avoids CORS entirely and
+   * means NEXT_PUBLIC_API_URL has no effect on browser calls.
+   */
+  publicApiUrl: "/api/v1" as string,
+
+  /**
+   * Server Components API base — absolute URL to Django.
+   * Set API_URL=https://your-backend.up.railway.app in Railway.
+   */
   serverApiUrl: normalizeApiBaseUrl(
-    process.env.API_URL ?? process.env.NEXT_PUBLIC_API_URL,
+    process.env.API_URL,
     "http://127.0.0.1:8000/api/v1"
   ),
 } as const;
