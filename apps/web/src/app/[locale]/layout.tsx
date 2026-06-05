@@ -8,6 +8,8 @@ import {
 import { notFound } from "next/navigation";
 import { hasLocale } from "next-intl";
 
+import { getRuntimeApiUrl, RUNTIME_API_URL_GLOBAL } from "@mazad/config";
+
 import { AppProviders } from "@/components/providers/app-providers";
 import { routing, type Locale } from "@/i18n/routing";
 import { isRtl } from "@/lib/locale";
@@ -18,6 +20,10 @@ import {
 } from "@mazad/ui/fonts";
 
 import "../globals.css";
+
+// Render per request so the injected API_URL reflects the live env var
+// (read at runtime), not a value frozen at build time.
+export const dynamic = "force-dynamic";
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -57,12 +63,23 @@ export default async function LocaleLayout({
   const messages = await getMessages();
   const rtl = isRtl(locale);
 
+  // Read API_URL live on the server and hand it to the browser at runtime,
+  // so changing it on Railway only needs a restart (no rebuild).
+  const apiUrl = getRuntimeApiUrl();
+
   return (
     <html
       lang={locale}
       dir={rtl ? "rtl" : "ltr"}
       className={`${mazadFontVariables} h-full antialiased`}
     >
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `window.${RUNTIME_API_URL_GLOBAL}=${JSON.stringify(apiUrl)};`,
+          }}
+        />
+      </head>
       <body className={rtl ? mazadArabicBodyClassName : mazadBodyClassName}>
         <NextIntlClientProvider locale={locale as Locale} messages={messages}>
           <AppProviders>{children}</AppProviders>

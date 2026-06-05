@@ -45,3 +45,26 @@ export const env = {
     "http://127.0.0.1:8000/api/v1"
   ),
 } as const;
+
+/**
+ * Resolve the API base URL on the SERVER at request time (reads process.env
+ * live, so it works on Railway with just a restart — no rebuild needed).
+ *
+ * Used in two places:
+ *   - SSR / Server Components: as the fetch base.
+ *   - Injected into the HTML so the browser learns the URL at runtime
+ *     (see <ApiUrlScript /> in the root layout), avoiding the build-time
+ *     baking that NEXT_PUBLIC_* requires.
+ *
+ * Set API_URL on each frontend service in Railway. NEXT_PUBLIC_API_URL still
+ * works as a fallback for fully-static hosting.
+ */
+export function getRuntimeApiUrl(): string {
+  return normalizeApiBaseUrl(
+    process.env.API_URL ?? process.env.NEXT_PUBLIC_API_URL,
+    "http://127.0.0.1:8000/api/v1"
+  );
+}
+
+/** Global the server injects and the browser reads at runtime. */
+export const RUNTIME_API_URL_GLOBAL = "__MAZAD_API_URL__";

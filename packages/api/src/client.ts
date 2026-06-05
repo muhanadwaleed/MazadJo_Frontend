@@ -1,4 +1,9 @@
-import { env } from "@mazad/config";
+import {
+  env,
+  getRuntimeApiUrl,
+  normalizeApiBaseUrl,
+  RUNTIME_API_URL_GLOBAL,
+} from "@mazad/config";
 import { endpoints } from "./endpoints";
 import { ApiError, parseApiError } from "./errors";
 
@@ -195,12 +200,24 @@ export function createApiClient(config: ApiClientConfig) {
 
 /**
  * Resolve the API base per request, so the SAME client works in both contexts:
- *   - Browser: env.publicApiUrl (NEXT_PUBLIC_API_URL) → calls Django directly.
- *   - Server (SSR / Server Components): env.serverApiUrl (API_URL) → direct.
- * Both are absolute backend URLs; Django CORS must allow the frontend origin.
+ *   - Server (SSR): getRuntimeApiUrl() reads API_URL live at request time.
+ *   - Browser: the URL the server injected at runtime (window.__MAZAD_API_URL__),
+ *     falling back to the build-time env.publicApiUrl if the script is absent.
+ * All are absolute backend URLs; Django CORS must allow the frontend origin.
  */
 function resolveApiBaseUrl(): string {
-  return typeof window === "undefined" ? env.serverApiUrl : env.publicApiUrl;
+  if (typeof window === "undefined") {
+    // Server: read live env every call.
+    return getRuntimeApiUrl();
+  }
+  // Browser: prefer the runtime value injected by the server into the HTML.
+  const injected = (window as unknown as Record<string, unknown>)[
+    RUNTIME_API_URL_GLOBAL
+  ];
+  if (typeof injected === "string" && injected) {
+    return normalizeApiBaseUrl(injected, env.publicApiUrl);
+  }
+  return env.publicApiUrl;
 }
 
 /**
