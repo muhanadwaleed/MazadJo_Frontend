@@ -12,7 +12,12 @@ import {
 } from "./session";
 
 export type ApiClientConfig = {
-  baseUrl: string;
+  /**
+   * Base URL, or a function resolving it per-call. A function lets the same
+   * client be isomorphic: relative proxy path in the browser, absolute backend
+   * URL during SSR. Resolved on every request, never frozen at build time.
+   */
+  baseUrl: string | (() => string);
   getAccessToken?: () => string | null;
   getRefreshToken?: () => string | null;
   onTokensUpdated?: (tokens: TokenPair) => void;
@@ -65,11 +70,14 @@ export function createApiClient(config: ApiClientConfig) {
 
   let refreshPromise: Promise<boolean> | null = null;
 
+  const resolveBaseUrl = (): string =>
+    typeof baseUrl === "function" ? baseUrl() : baseUrl;
+
   async function refreshAccessToken(): Promise<boolean> {
     const refresh = readRefresh();
     if (!refresh) return false;
 
-    const response = await fetch(buildUrl(baseUrl, endpoints.auth.refresh), {
+    const response = await fetch(buildUrl(resolveBaseUrl(), endpoints.auth.refresh), {
       method: "POST",
       headers: { "Content-Type": "application/json", Accept: "application/json" },
       body: JSON.stringify({ refresh }),
@@ -118,7 +126,7 @@ export function createApiClient(config: ApiClientConfig) {
     }
 
     const execute = () =>
-      fetch(buildUrl(baseUrl, path, params), {
+      fetch(buildUrl(resolveBaseUrl(), path, params), {
         ...init,
         headers,
         body:
@@ -185,19 +193,37 @@ export function createApiClient(config: ApiClientConfig) {
   };
 }
 
-/** Browser client — sessionStorage tokens + refresh on 401 */
+/**
+ * Resolve the API base per request, so the SAME client works in both contexts:
+ *   - Browser: env.publicApiUrl ("/api/v1") → goes through the Next.js
+ *     /api/[...path] proxy (same origin, no CORS).
+ *   - Server (SSR / Server Components): env.serverApiUrl → absolute API_URL.
+ * Resolved on every call (never frozen), so changing API_URL in Railway and
+ * restarting is always enough.
+ */
+function resolveApiBaseUrl(): string {
+  return typeof window === "undefined" ? env.serverApiUrl : env.publicApiUrl;
+}
+
+/**
+ * Isomorphic API client — sessionStorage tokens + refresh on 401 in the
+ * browser; in SSR the token getters return null (no sessionStorage), so it
+ * simply fetches public data. Used for both browser and server calls.
+ */
 export const api = createApiClient({
-  baseUrl: env.publicApiUrl,
+  baseUrl: resolveApiBaseUrl,
   getAccessToken,
   getRefreshToken,
   onTokensUpdated: setTokens,
   onUnauthorized: clearTokens,
 });
 
-/** Server Components — no auth unless you pass headers later */
-export const serverApi = createApiClient({
-  baseUrl: env.serverApiUrl,
-});
+/**
+ * Alias kept for existing imports. Identical to `api` — resolves base URL per
+ * call, so calling a `serverApi.*` service from a client component correctly
+ * uses the same-origin proxy and attaches the JWT.
+ */
+export const serverApi = api;
 
 export function isAccountDisabledError(error: unknown): boolean {
   return error instanceof ApiError && error.code === "account_disabled";
