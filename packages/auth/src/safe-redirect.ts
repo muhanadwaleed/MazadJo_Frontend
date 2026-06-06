@@ -1,5 +1,8 @@
+import { stripLocalePrefix } from "./locale-path";
+
 /**
  * Validates post-login redirect targets — same-app relative paths only.
+ * Returns locale-agnostic paths for next-intl navigation.
  */
 export function sanitizeInternalPath(
   next: string | null | undefined,
@@ -11,5 +14,5 @@ export function sanitizeInternalPath(
   if (!value.startsWith("/") || value.startsWith("//")) return fallback;
   if (value.includes(":") || value.includes("\\")) return fallback;
 
-  return value;
+  return stripLocalePrefix(value);
 }

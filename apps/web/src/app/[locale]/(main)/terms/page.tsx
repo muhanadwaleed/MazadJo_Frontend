@@ -1,9 +1,10 @@
 import { getLocale, getTranslations } from "next-intl/server";
+import { Scale } from "lucide-react";
 
 import { pickLocalized, publicCmsService } from "@mazad/api";
-import { Container, PageHeader } from "@mazad/ui";
+import { Card, CardContent, CardHeader, CardTitle, ContentSection } from "@mazad/ui";
 import { EmptyState } from "@/components/common/empty-state";
-import { Card, CardContent, CardHeader, CardTitle } from "@mazad/ui";
+import { MarketingPageShell } from "@/components/layout/marketing-page-shell";
 
 export async function generateMetadata() {
   const t = await getTranslations("terms");
@@ -20,34 +21,39 @@ export default async function TermsPage() {
     const body = pickLocalized(locale, terms.body_ar, terms.body_en);
 
     return (
-      <Container className="space-y-8">
-        <PageHeader
-          title={t("title")}
-          description={t("version", { version: terms.version })}
-        />
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-base">{title}</CardTitle>
-            <p className="text-sm text-muted-foreground">
-              {t("effective", {
-                date: new Date(terms.effective_at).toLocaleDateString(locale),
-              })}
-            </p>
-          </CardHeader>
-          <CardContent>
-            <div className="prose prose-sm max-w-none whitespace-pre-wrap text-muted-foreground">
-              {body}
-            </div>
-          </CardContent>
-        </Card>
-      </Container>
+      <MarketingPageShell
+        eyebrow={<Scale className="size-3.5" />}
+        title={t("title")}
+        description={t("version", { version: terms.version })}
+      >
+        <ContentSection title={title} icon={<Scale className="size-6 stroke-[1.75]" />}>
+          <Card className="border-separator/60 shadow-sm">
+            <CardHeader>
+              <CardTitle className="text-base text-navy">{title}</CardTitle>
+              <p className="text-sm text-muted-foreground">
+                {t("effective", {
+                  date: new Date(terms.effective_at).toLocaleDateString(locale),
+                })}
+              </p>
+            </CardHeader>
+            <CardContent>
+              <div className="prose prose-sm max-w-none whitespace-pre-wrap leading-relaxed text-muted-foreground">
+                {body}
+              </div>
+            </CardContent>
+          </Card>
+        </ContentSection>
+      </MarketingPageShell>
     );
   } catch {
     return (
-      <Container className="space-y-8">
-        <PageHeader title={t("title")} description={t("description")} />
+      <MarketingPageShell
+        eyebrow={<Scale className="size-3.5" />}
+        title={t("title")}
+        description={t("description")}
+      >
         <EmptyState title={t("emptyTitle")} description={t("emptyDescription")} />
-      </Container>
+      </MarketingPageShell>
     );
   }
 }

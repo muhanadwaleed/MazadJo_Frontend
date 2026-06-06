@@ -14,7 +14,8 @@ describe("sanitizeInternalPath", () => {
     expect(sanitizeInternalPath("/auctions/review", fallback)).toBe(
       "/auctions/review"
     );
-    expect(sanitizeInternalPath("/en/dashboard", fallback)).toBe("/en/dashboard");
+    expect(sanitizeInternalPath("/en/dashboard", fallback)).toBe("/dashboard");
+    expect(sanitizeInternalPath("/ar/dashboard", fallback)).toBe("/dashboard");
   });
 
   it("rejects external and protocol-relative URLs", () => {

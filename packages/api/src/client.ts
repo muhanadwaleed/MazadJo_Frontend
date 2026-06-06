@@ -2,6 +2,7 @@ import {
   env,
   getRuntimeApiUrl,
   normalizeApiBaseUrl,
+  RUNTIME_API_URL_DATA_ATTR,
   RUNTIME_API_URL_GLOBAL,
 } from "@mazad/config";
 import { endpoints } from "./endpoints";
@@ -201,8 +202,9 @@ export function createApiClient(config: ApiClientConfig) {
 /**
  * Resolve the API base per request, so the SAME client works in both contexts:
  *   - Server (SSR): getRuntimeApiUrl() reads API_URL live at request time.
- *   - Browser: the URL the server injected at runtime (window.__MAZAD_API_URL__),
- *     falling back to the build-time env.publicApiUrl if the script is absent.
+ *   - Browser: the URL the server injected at runtime (`data-mazad-api-url` on
+ *     `<html>`, or legacy `window.__MAZAD_API_URL__`), falling back to the
+ *     build-time env.publicApiUrl if neither is present.
  * All are absolute backend URLs; Django CORS must allow the frontend origin.
  */
 function resolveApiBaseUrl(): string {
@@ -210,7 +212,13 @@ function resolveApiBaseUrl(): string {
     // Server: read live env every call.
     return getRuntimeApiUrl();
   }
-  // Browser: prefer the runtime value injected by the server into the HTML.
+  // Browser: prefer runtime value from `<html data-mazad-api-url>` (SSR-injected).
+  const fromDom =
+    document.documentElement.dataset[RUNTIME_API_URL_DATA_ATTR];
+  if (typeof fromDom === "string" && fromDom) {
+    return normalizeApiBaseUrl(fromDom, env.publicApiUrl);
+  }
+  // Legacy fallback: window global from older script injection.
   const injected = (window as unknown as Record<string, unknown>)[
     RUNTIME_API_URL_GLOBAL
   ];

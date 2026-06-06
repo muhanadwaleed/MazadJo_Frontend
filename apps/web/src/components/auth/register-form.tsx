@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { Link, useRouter } from "@/i18n/navigation";
+import { useRouter } from "@/i18n/navigation";
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
 
@@ -22,11 +22,6 @@ import { PasswordInput } from "@/components/auth/password-input";
 import { Button } from "@mazad/ui";
 import { Input } from "@mazad/ui";
 import { Label } from "@mazad/ui";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-} from "@mazad/ui";
 import {
   isValidEmail,
   isValidJordanPhone,
@@ -242,10 +237,9 @@ export function RegisterForm() {
 
   return (
     <>
-      <Card className="border-mazad-primary/15 shadow-sm">
-        <form onSubmit={onSubmit} noValidate>
-          <CardContent className="space-y-4 pt-6">
-            <p className="text-sm text-muted-foreground">{t("registerFormHint")}</p>
+      <form onSubmit={onSubmit} noValidate className="space-y-6">
+        <p className="text-sm leading-relaxed text-muted-foreground">{t("registerFormHint")}</p>
+        <div className="space-y-4">
 
             <div className="space-y-2">
               <Label htmlFor="username">{t("username")}</Label>
@@ -351,24 +345,15 @@ export function RegisterForm() {
                 <FieldError message={confirmError} />
               )}
             </div>
-          </CardContent>
-          <CardFooter className="flex flex-col gap-4">
-            <Button
-              type="submit"
-              className="w-full bg-mazad-accent hover:bg-accent-dark"
-              disabled={isSubmitting}
-            >
-              {isSubmitting ? t("registering") : t("registerButton")}
-            </Button>
-            <p className="text-center text-sm text-muted-foreground">
-              {t("alreadyHaveAccount")}{" "}
-              <Link href={routes.login} className="underline hover:text-foreground">
-                {t("signInTitle")}
-              </Link>
-            </p>
-          </CardFooter>
-        </form>
-      </Card>
+        </div>
+        <Button
+          type="submit"
+          className="w-full cursor-pointer bg-mazad-accent hover:bg-accent-dark"
+          disabled={isSubmitting}
+        >
+          {isSubmitting ? t("registering") : t("registerButton")}
+        </Button>
+      </form>
 
       <OtpVerifyDialog
         open={otpDialogOpen}

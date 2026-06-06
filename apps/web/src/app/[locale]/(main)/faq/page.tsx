@@ -1,15 +1,11 @@
 import { getLocale, getTranslations } from "next-intl/server";
+import { HelpCircle } from "lucide-react";
 
 import { asList, pickLocalized, publicCmsService } from "@mazad/api";
-import { Container, PageHeader } from "@mazad/ui";
+import { Card, CardContent, CardHeader, CardTitle, ContentSection } from "@mazad/ui";
 import { EmptyState } from "@/components/common/empty-state";
 import { ErrorState } from "@/components/common/error-state";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@mazad/ui";
+import { MarketingPageShell } from "@/components/layout/marketing-page-shell";
 
 export async function generateMetadata() {
   const t = await getTranslations("faq");
@@ -26,37 +22,46 @@ export default async function FaqPage() {
     const items = asList(data).sort((a, b) => a.sort_order - b.sort_order);
 
     return (
-      <Container className="space-y-8">
-        <PageHeader title={t("title")} description={t("description")} />
-        {items.length === 0 ? (
-          <EmptyState title={t("emptyTitle")} description={t("emptyDescription")} />
-        ) : (
-          <ul className="space-y-4">
-            {items.map((faq) => (
-              <li key={faq.id}>
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="text-base">
-                      {pickLocalized(locale, faq.question_ar, faq.question_en)}
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-sm text-muted-foreground whitespace-pre-wrap">
-                      {pickLocalized(locale, faq.answer_ar, faq.answer_en)}
-                    </p>
-                  </CardContent>
-                </Card>
-              </li>
-            ))}
-          </ul>
-        )}
-      </Container>
+      <MarketingPageShell
+        eyebrow={<HelpCircle className="size-3.5" />}
+        title={t("title")}
+        description={t("description")}
+      >
+        <ContentSection title={t("listTitle")} icon={<HelpCircle className="size-6 stroke-[1.75]" />}>
+          {items.length === 0 ? (
+            <EmptyState title={t("emptyTitle")} description={t("emptyDescription")} />
+          ) : (
+            <ul className="space-y-3">
+              {items.map((faq) => (
+                <li key={faq.id}>
+                  <Card className="border-separator/60 shadow-sm">
+                    <CardHeader className="pb-2">
+                      <CardTitle className="text-base text-navy">
+                        {pickLocalized(locale, faq.question_ar, faq.question_en)}
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <p className="whitespace-pre-wrap text-sm leading-relaxed text-muted-foreground">
+                        {pickLocalized(locale, faq.answer_ar, faq.answer_en)}
+                      </p>
+                    </CardContent>
+                  </Card>
+                </li>
+              ))}
+            </ul>
+          )}
+        </ContentSection>
+      </MarketingPageShell>
     );
   } catch {
     return (
-      <Container>
+      <MarketingPageShell
+        eyebrow={<HelpCircle className="size-3.5" />}
+        title={t("title")}
+        description={t("description")}
+      >
         <ErrorState title={tErrors("genericTitle")} message={t("loadError")} />
-      </Container>
+      </MarketingPageShell>
     );
   }
 }

@@ -3,10 +3,14 @@ import { defineRouting } from "next-intl/routing";
 export const locales = ["en", "ar"] as const;
 export type Locale = (typeof locales)[number];
 
-/** Staff app keeps clean URLs (`/users`); locale lives in a cookie. */
 export const routing = defineRouting({
   locales: [...locales],
   defaultLocale: "en",
-  localePrefix: "never",
-  localeDetection: true,
+  /** `/en/…` and `/ar/…` — same URL pattern as the consumer web app */
+  localePrefix: "always",
+  /**
+   * Rely on the URL after the user picks a language. With detection on,
+   * middleware can redirect back to the cookie locale and the switcher looks broken.
+   */
+  localeDetection: false,
 });

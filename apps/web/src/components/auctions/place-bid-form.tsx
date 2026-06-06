@@ -69,12 +69,10 @@ export function PlaceBidForm({
 
   if (status !== "active") {
     return (
-      <Card>
-        <CardHeader>
-          <CardTitle>{t("closedTitle")}</CardTitle>
-          <CardDescription>
-            {t("closedDescription", { status })}
-          </CardDescription>
+      <Card className="overflow-hidden border-separator/60 shadow-md">
+        <CardHeader className="border-b border-separator/60 bg-gradient-to-br from-surface to-card">
+          <CardTitle className="text-navy">{t("closedTitle")}</CardTitle>
+          <CardDescription>{t("closedDescription", { status })}</CardDescription>
         </CardHeader>
       </Card>
     );
@@ -82,14 +80,14 @@ export function PlaceBidForm({
 
   if (!isAuthenticated) {
     return (
-      <Card>
-        <CardHeader>
-          <CardTitle>{t("signInRequiredTitle")}</CardTitle>
+      <Card className="overflow-hidden border-separator/60 shadow-md">
+        <CardHeader className="border-b border-separator/60 bg-gradient-to-br from-mazad-primary/8 via-surface to-light-blue/10">
+          <CardTitle className="text-navy">{t("signInRequiredTitle")}</CardTitle>
           <CardDescription>
             {t("minNextBid", { amount: formatMoney(minNext, locale) })}
           </CardDescription>
         </CardHeader>
-        <CardFooter>
+        <CardFooter className="p-5">
           <ButtonLink
             className="w-full"
             href={`${routes.login}?next=${encodeURIComponent(routes.auctionBids(auctionId))}`}
@@ -102,15 +100,15 @@ export function PlaceBidForm({
   }
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>{t("yourBidTitle")}</CardTitle>
+    <Card className="overflow-hidden border-separator/60 shadow-md">
+      <CardHeader className="border-b border-separator/60 bg-gradient-to-br from-mazad-primary/8 via-surface to-light-blue/10">
+        <CardTitle className="text-navy">{t("yourBidTitle")}</CardTitle>
         <CardDescription>
           {t("minDescription", { amount: formatMoney(minNext, locale) })}
         </CardDescription>
       </CardHeader>
       <form onSubmit={onSubmit}>
-        <CardContent>
+        <CardContent className="p-5">
           <div className="space-y-2">
             <Label htmlFor="amount">{t("amountLabel")}</Label>
             <Input
@@ -124,12 +122,8 @@ export function PlaceBidForm({
             />
           </div>
         </CardContent>
-        <CardFooter>
-          <Button
-            type="submit"
-            className="w-full bg-mazad-accent hover:bg-accent-dark"
-            disabled={isSubmitting}
-          >
+        <CardFooter className="p-5 pt-0">
+          <Button type="submit" className="w-full" disabled={isSubmitting}>
             {isSubmitting ? t("placing") : t("placeBid")}
           </Button>
         </CardFooter>

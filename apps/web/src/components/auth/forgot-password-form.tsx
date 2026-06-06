@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { Link, useRouter } from "@/i18n/navigation";
+import { useRouter } from "@/i18n/navigation";
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
 
@@ -16,14 +16,6 @@ import { PasswordStrengthBar } from "@/components/auth/password-strength-bar";
 import { Button } from "@mazad/ui";
 import { Input } from "@mazad/ui";
 import { Label } from "@mazad/ui";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@mazad/ui";
 import {
   isValidEmail,
   isValidJordanPhone,
@@ -172,16 +164,13 @@ export function ForgotPasswordForm() {
 
   if (step === "confirm") {
     return (
-      <Card>
-        <CardHeader>
-          <CardTitle>{t("confirmResetTitle")}</CardTitle>
-          <CardDescription>{t("confirmResetDescription")}</CardDescription>
-        </CardHeader>
-        <form onSubmit={onConfirm} noValidate>
-          <CardContent className="space-y-4">
-            <p className="text-sm text-muted-foreground">
-              {t("devOtpHint", { code: "1111" })}
-            </p>
+      <form onSubmit={onConfirm} noValidate className="space-y-6">
+        <div className="space-y-1">
+          <h2 className="text-lg font-semibold text-navy">{t("confirmResetTitle")}</h2>
+          <p className="text-sm text-muted-foreground">{t("confirmResetDescription")}</p>
+        </div>
+        <div className="space-y-4">
+          <p className="text-sm text-muted-foreground">{t("devOtpHint", { code: "1111" })}</p>
             <div className="space-y-2">
               <Label htmlFor="code">{t("resetCode")}</Label>
               <Input
@@ -240,38 +229,36 @@ export function ForgotPasswordForm() {
                 <FieldError message={confirmError} />
               )}
             </div>
-          </CardContent>
-          <CardFooter className="flex flex-col gap-3">
-            <Button
-              type="submit"
-              className={primaryButtonClass}
-              disabled={isSubmitting}
-            >
-              {isSubmitting ? t("updatingPassword") : t("updatePassword")}
-            </Button>
-            <Button
-              type="button"
-              variant="outline"
-              className="w-full"
-              disabled={isSubmitting}
-              onClick={() => setStep("request")}
-            >
-              {t("back")}
-            </Button>
-          </CardFooter>
-        </form>
-      </Card>
+        </div>
+        <div className="flex flex-col gap-3">
+          <Button
+            type="submit"
+            className={`cursor-pointer ${primaryButtonClass}`}
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? t("updatingPassword") : t("updatePassword")}
+          </Button>
+          <Button
+            type="button"
+            variant="outline"
+            className="w-full cursor-pointer"
+            disabled={isSubmitting}
+            onClick={() => setStep("request")}
+          >
+            {t("back")}
+          </Button>
+        </div>
+      </form>
     );
   }
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>{t("forgotPasswordCardTitle")}</CardTitle>
-        <CardDescription>{t("forgotPasswordCardDescription")}</CardDescription>
-      </CardHeader>
-      <form onSubmit={onRequest} noValidate>
-        <CardContent className="space-y-4">
+    <form onSubmit={onRequest} noValidate className="space-y-6">
+      <div className="space-y-1">
+        <h2 className="text-lg font-semibold text-navy">{t("forgotPasswordCardTitle")}</h2>
+        <p className="text-sm text-muted-foreground">{t("forgotPasswordCardDescription")}</p>
+      </div>
+      <div className="space-y-4">
           <div className="space-y-2">
             <Label>{t("resetVia")}</Label>
             <div
@@ -330,23 +317,14 @@ export function ForgotPasswordForm() {
               disabled={isSubmitting}
             />
           )}
-        </CardContent>
-        <CardFooter className="flex flex-col gap-4">
-          <Button
-            type="submit"
-            className={primaryButtonClass}
-            disabled={isSubmitting}
-          >
-            {isSubmitting ? t("sendingResetCode") : t("sendResetCode")}
-          </Button>
-          <Link
-            href={routes.login}
-            className="text-center text-sm text-muted-foreground underline hover:text-foreground"
-          >
-            {t("backToSignIn")}
-          </Link>
-        </CardFooter>
-      </form>
-    </Card>
+      </div>
+      <Button
+        type="submit"
+        className={`cursor-pointer ${primaryButtonClass}`}
+        disabled={isSubmitting}
+      >
+        {isSubmitting ? t("sendingResetCode") : t("sendResetCode")}
+      </Button>
+    </form>
   );
 }

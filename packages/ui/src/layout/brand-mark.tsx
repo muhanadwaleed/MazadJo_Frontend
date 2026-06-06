@@ -1,23 +1,41 @@
 import { cn } from "../utils";
 
+type BrandMarkProps = {
+  label?: string;
+  variant?: "default" | "light";
+  compact?: boolean;
+  className?: string;
+};
+
 export function BrandMark({
   label = "MazadJo",
+  variant = "default",
+  compact = false,
   className,
-}: {
-  label?: string;
-  className?: string;
-}) {
+}: BrandMarkProps) {
+  const isLight = variant === "light";
+
   return (
-    <span className={cn("flex items-center gap-2", className)}>
+    <span className={cn("flex items-center gap-2.5", className)}>
       <img
         src="/logo.png"
         alt="MazadJo Logo"
-        className="size-9 object-contain rounded-lg shadow-sm"
+        className={cn(
+          "shrink-0 rounded-lg object-contain shadow-sm",
+          compact ? "size-8" : "size-9",
+          isLight && "ring-1 ring-white/10"
+        )}
       />
-      <span className="hidden size-9 items-center justify-center rounded-lg bg-gradient-to-br from-mazad-primary to-navy text-sm font-bold text-primary-foreground shadow-sm">
-        M
-      </span>
-      <span className="text-lg font-semibold tracking-tight text-navy">{label}</span>
+      {!compact ? (
+        <span
+          className={cn(
+            "text-lg font-bold tracking-tight",
+            isLight ? "text-white" : "text-navy"
+          )}
+        >
+          {label}
+        </span>
+      ) : null}
     </span>
   );
 }

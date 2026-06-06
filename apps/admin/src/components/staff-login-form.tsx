@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -23,6 +23,7 @@ import {
 } from "@mazad/ui";
 
 import { routes } from "@/config/routes";
+import { useRouter } from "@/i18n/navigation";
 
 export function StaffLoginForm() {
   const t = useTranslations("login");

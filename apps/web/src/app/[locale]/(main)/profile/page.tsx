@@ -1,6 +1,8 @@
 import { getTranslations } from "next-intl/server";
+import { UserRound } from "lucide-react";
 
-import { PageHeader } from "@mazad/ui";
+import { ContentSection } from "@mazad/ui";
+import { MarketingPageShell } from "@/components/layout/marketing-page-shell";
 import { UserProfileCard } from "@/components/profile/user-profile-card";
 
 export async function generateMetadata() {
@@ -12,11 +14,17 @@ export default async function ProfilePage() {
   const t = await getTranslations("profile");
 
   return (
-    <div className="space-y-8">
-      <PageHeader title={t("title")} description={t("description")} />
-      <div className="max-w-lg">
-        <UserProfileCard />
-      </div>
-    </div>
+    <MarketingPageShell
+      contained={false}
+      eyebrow={<UserRound className="size-3.5" />}
+      title={t("title")}
+      description={t("description")}
+    >
+      <ContentSection title={t("cardTitle")} icon={<UserRound className="size-6 stroke-[1.75]" />}>
+        <div className="max-w-lg">
+          <UserProfileCard />
+        </div>
+      </ContentSection>
+    </MarketingPageShell>
   );
 }

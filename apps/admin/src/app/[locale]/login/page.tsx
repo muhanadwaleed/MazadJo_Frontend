@@ -35,7 +35,7 @@ export default async function LoginPage() {
       infoPanelTitle={t("infoPanelTitle")}
       tagline={t("tagline")}
       reversePanels={locale === "ar"}
-      brand={<BrandMark label={tStaff("console")} className="text-primary-foreground" />}
+      brand={<BrandMark variant="light" label={tStaff("console")} />}
       infoBlocks={infoBlocks}
     >
       <Suspense fallback={<p className="text-sm text-muted-foreground">{t("loading")}</p>}>

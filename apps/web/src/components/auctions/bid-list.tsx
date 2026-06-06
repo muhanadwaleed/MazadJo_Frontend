@@ -15,19 +15,24 @@ export async function BidList({ bids }: { bids: PublicBid[] }) {
   }
 
   return (
-    <ul className="divide-y divide-border rounded-xl border border-border">
-      {bids.map((bid) => (
+    <ul className="divide-y divide-separator overflow-hidden rounded-2xl border border-separator/60 bg-card">
+      {bids.map((bid, index) => (
         <li
           key={bid.id}
-          className="flex flex-col gap-1 px-4 py-3 sm:flex-row sm:items-center sm:justify-between"
+          className="flex flex-col gap-2 px-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-5"
         >
-          <div>
-            <p className="font-medium text-foreground">
-              {formatMoney(bid.amount, locale)}
-            </p>
-            <p className="text-sm text-muted-foreground">
-              {t("bidder")} {bid.bidder}
-            </p>
+          <div className="flex items-start gap-3">
+            <span className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-mazad-primary/10 text-sm font-bold text-mazad-primary">
+              {bids.length - index}
+            </span>
+            <div>
+              <p className="text-lg font-bold text-navy">
+                {formatMoney(bid.amount, locale)}
+              </p>
+              <p className="text-sm text-muted-foreground">
+                {t("bidder")} {bid.bidder}
+              </p>
+            </div>
           </div>
           <time className="text-sm text-muted-foreground" dateTime={bid.timestamp}>
             {formatDateTime(bid.timestamp, locale)}

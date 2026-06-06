@@ -4,17 +4,12 @@ import { getLocale, getTranslations } from "next-intl/server";
 import { routes } from "@/config/routes";
 import { auctionsService } from "@mazad/api";
 import { formatDateTime, formatMoney } from "@/lib/format";
-import { Container } from "@mazad/ui";
-import { PageHeader } from "@mazad/ui";
+import { Container, ContentSection, LiveAuctionIndicator } from "@mazad/ui";
+import { AuctionDetailSummary } from "@/components/auctions/auction-detail-summary";
+import { AuctionMediaGallery } from "@/components/auctions/auction-media-gallery";
 import { AuctionStatusBadge } from "@/components/auctions/auction-status-badge";
+import { PageBackLink } from "@/components/layout/page-back-link";
 import { ButtonLink } from "@/components/ui/button-link";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@mazad/ui";
-import { Separator } from "@mazad/ui";
 
 type PageProps = { params: Promise<{ id: string }> };
 
@@ -33,6 +28,7 @@ export default async function AuctionDetailPage({ params }: PageProps) {
   const { id } = await params;
   const locale = await getLocale();
   const t = await getTranslations("auctionDetail");
+  const tAuctions = await getTranslations("auctions");
 
   let auction;
   try {
@@ -41,69 +37,79 @@ export default async function AuctionDetailPage({ params }: PageProps) {
     notFound();
   }
 
-  return (
-    <Container className="space-y-8">
-      <PageHeader
-        title={auction.title}
-        description={`#${auction.auction_number}`}
-        actions={
-          <div className="flex flex-wrap gap-2">
-            <AuctionStatusBadge status={auction.status} />
-            <ButtonLink variant="outline" href={routes.auctionBids(id)}>
-              {t("bidHistory")}
-            </ButtonLink>
-          </div>
-        }
-      />
+  const isLive = auction.status === "active";
 
-      <div className="grid gap-6 lg:grid-cols-3">
-        <Card className="lg:col-span-2">
-          <CardHeader>
-            <CardTitle>{t("description")}</CardTitle>
-          </CardHeader>
-          <CardContent className="prose prose-sm max-w-none text-muted-foreground">
-            <p className="whitespace-pre-wrap">
+  return (
+    <Container className="space-y-8 py-2 md:py-4">
+      <PageBackLink href={routes.auctions}>{t("backToAuctions")}</PageBackLink>
+
+      <header className="space-y-4 border-b border-separator pb-6">
+        <div className="flex flex-wrap items-center gap-2">
+          <AuctionStatusBadge status={auction.status} />
+          {isLive ? (
+            <span className="inline-flex items-center gap-2 rounded-full border border-mazad-accent/25 bg-mazad-accent/8 px-3 py-1">
+              <LiveAuctionIndicator />
+            </span>
+          ) : null}
+        </div>
+        <h1 className="text-2xl font-bold tracking-tight text-navy sm:text-3xl md:text-4xl md:leading-tight">
+          {auction.title}
+        </h1>
+      </header>
+
+      <div className="grid gap-8 lg:grid-cols-12 lg:items-start lg:gap-10">
+        <div className="space-y-6 lg:col-span-7">
+          <AuctionMediaGallery
+            auctionId={auction.id}
+            mediaItems={auction.media_items}
+            title={auction.title}
+            noPhotosLabel={t("noPhotos")}
+          />
+
+          <ContentSection title={t("description")}>
+            <p className="whitespace-pre-wrap text-sm leading-relaxed text-muted-foreground sm:text-base">
               {auction.description || t("noDescription")}
             </p>
-          </CardContent>
-        </Card>
+          </ContentSection>
+        </div>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>{t("atAGlance")}</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4 text-sm">
-            <div className="flex justify-between">
-              <span className="text-muted-foreground">{t("currentPrice")}</span>
-              <span className="text-lg font-semibold">
-                {formatMoney(auction.current_price, locale)}
-              </span>
-            </div>
-            <Separator />
-            <div className="flex justify-between">
-              <span className="text-muted-foreground">{t("minIncrement")}</span>
-              <span>{formatMoney(auction.min_bid_increment, locale)}</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-muted-foreground">{t("starts")}</span>
-              <span>{formatDateTime(auction.starts_at, locale)}</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-muted-foreground">{t("ends")}</span>
-              <span>{formatDateTime(auction.ends_at, locale)}</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-muted-foreground">{t("participants")}</span>
-              <span>{auction.participants_count}</span>
-            </div>
-            <ButtonLink
-              href={routes.auctionBids(id)}
-              className="w-full bg-mazad-accent hover:bg-accent-dark"
-            >
-              {t("viewBidsAndPlace")}
-            </ButtonLink>
-          </CardContent>
-        </Card>
+        <aside className="lg:col-span-5 lg:sticky lg:top-28">
+          <AuctionDetailSummary
+            auction={auction}
+            formatted={{
+              currentPrice: formatMoney(auction.current_price, locale),
+              startingPrice: formatMoney(auction.start_price, locale),
+              minIncrement: formatMoney(auction.min_bid_increment, locale),
+              startsAt: formatDateTime(auction.starts_at, locale),
+              endsAt: formatDateTime(auction.ends_at, locale),
+            }}
+            labels={{
+              currentPrice: t("currentPrice"),
+              startingPrice: tAuctions("startingPrice"),
+              minIncrement: t("minIncrement"),
+              starts: t("starts"),
+              ends: t("ends"),
+              participants: t("participants"),
+              views: t("views"),
+              countdown: {
+                days: tAuctions("countdown.days"),
+                hours: tAuctions("countdown.hours"),
+                minutes: tAuctions("countdown.minutes"),
+                seconds: tAuctions("countdown.seconds"),
+              },
+            }}
+            actions={
+              <>
+                <ButtonLink href={routes.auctionBids(id)} className="w-full">
+                  {t("viewBidsAndPlace")}
+                </ButtonLink>
+                <ButtonLink variant="outline" href={routes.auctionBids(id)} className="w-full">
+                  {t("bidHistory")}
+                </ButtonLink>
+              </>
+            }
+          />
+        </aside>
       </div>
     </Container>
   );

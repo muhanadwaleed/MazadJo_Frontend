@@ -14,24 +14,28 @@ export function MobileBottomNav() {
 
   const navItems = [
     {
+      id: "home",
       label: t("home"),
       href: routes.home,
       icon: Home,
       isActive: (path: string) => path === routes.home,
     },
     {
+      id: "auctions",
       label: t("auctions"),
       href: routes.auctions,
       icon: Gavel,
       isActive: (path: string) => path.startsWith(routes.auctions),
     },
     {
+      id: "catalog",
       label: t("catalog"),
       href: routes.catalog,
       icon: Map,
       isActive: (path: string) => path.startsWith(routes.catalog),
     },
     {
+      id: "profile",
       label: t("profile"),
       href: isAuthenticated ? routes.profile : routes.login,
       icon: User,
@@ -51,7 +55,7 @@ export function MobileBottomNav() {
 
           return (
             <Link
-              key={item.href}
+              key={item.id}
               href={item.href}
               className={cn(
                 "flex flex-col items-center justify-center gap-1 w-16 h-12 rounded-xl transition-all duration-200",

@@ -17,6 +17,10 @@ const buttonVariants = cva(
           "border-mazad-primary/25 bg-card text-mazad-primary shadow-sm hover:bg-light-blue/10 active:scale-[0.98]",
         outline:
           "border-mazad-primary/30 bg-card text-mazad-primary shadow-sm hover:bg-light-blue/8 active:scale-[0.98]",
+        heroPrimary:
+          "bg-white text-navy shadow-md hover:bg-white/90 active:scale-[0.98]",
+        heroOutline:
+          "border-white/30 bg-transparent text-white shadow-sm hover:bg-white/10 hover:text-white backdrop-blur-sm active:scale-[0.98]",
         ghost:
           "text-navy hover:bg-muted active:scale-[0.98]",
         destructive:
@@ -56,7 +60,7 @@ function Button({
     <ButtonPrimitive
       data-slot="button"
       disabled={disabled || loading}
-      className={cn(buttonVariants({ variant, size, className }))}
+      className={cn(buttonVariants({ variant, size }), className)}
       {...props}
     >
       {loading ? (

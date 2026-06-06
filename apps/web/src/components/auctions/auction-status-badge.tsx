@@ -3,6 +3,7 @@
 import { useTranslations } from "next-intl";
 
 import type { AuctionStatus } from "@mazad/api";
+import { isAuctionEndedStatus } from "@mazad/api";
 import { Badge, type badgeVariants } from "@mazad/ui";
 import { cn } from "@mazad/ui/utils";
 import type { VariantProps } from "class-variance-authority";
@@ -14,6 +15,7 @@ const statusVariant: Record<
   active: "live",
   scheduled: "active",
   ended: "sold",
+  ended_without_bids: "sold",
   draft: "draft",
   approved: "active",
   under_review: "outline",
@@ -24,7 +26,11 @@ const statusVariant: Record<
 
 export function AuctionStatusBadge({ status }: { status: AuctionStatus }) {
   const t = useTranslations("auctions.status");
-  const label = t(status);
+  const label = t.has(status)
+    ? t(status)
+    : isAuctionEndedStatus(status)
+      ? t("ended")
+      : status.replace(/_/g, " ");
   const variant = statusVariant[status] ?? "outline";
 
   return (

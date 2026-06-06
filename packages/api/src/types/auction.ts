@@ -6,9 +6,23 @@ export type AuctionStatus =
   | "scheduled"
   | "active"
   | "ended"
+  | "ended_without_bids"
+  | "delivery_in_progress"
+  | "closed"
   | "cancelled"
   | "rejected"
   | string;
+
+/** Auctions that finished without a sale path still in progress. */
+export const AUCTION_ENDED_STATUSES = ["ended", "ended_without_bids"] as const;
+
+export type AuctionEndedStatus = (typeof AUCTION_ENDED_STATUSES)[number];
+
+export function isAuctionEndedStatus(
+  status: string
+): status is AuctionEndedStatus {
+  return (AUCTION_ENDED_STATUSES as readonly string[]).includes(status);
+}
 
 export type AuctionListItem = {
   id: number;
@@ -24,6 +38,7 @@ export type AuctionListItem = {
   views_count: number;
   product_category: number;
   seller: number;
+  primary_media_url?: string | null;
 };
 
 export type AuctionMedia = {

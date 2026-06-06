@@ -1,15 +1,11 @@
 import { getLocale, getTranslations } from "next-intl/server";
+import { BookOpen, Sparkles } from "lucide-react";
 
 import { asList, pickLocalized, publicCmsService } from "@mazad/api";
-import { Container, PageHeader } from "@mazad/ui";
+import { Card, CardContent, CardHeader, CardTitle, ContentSection } from "@mazad/ui";
 import { EmptyState } from "@/components/common/empty-state";
 import { ErrorState } from "@/components/common/error-state";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@mazad/ui";
+import { MarketingPageShell } from "@/components/layout/marketing-page-shell";
 
 export async function generateMetadata() {
   const t = await getTranslations("about");
@@ -30,25 +26,26 @@ export default async function AboutPage() {
     const whyItems = asList(whyUsData).sort((a, b) => a.sort_order - b.sort_order);
 
     return (
-      <Container className="space-y-10">
-        <PageHeader title={t("title")} description={t("description")} />
-
-        <section className="space-y-4">
-          <h2 className="text-lg font-semibold">{t("whoUsTitle")}</h2>
+      <MarketingPageShell
+        eyebrow={<BookOpen className="size-3.5" />}
+        title={t("title")}
+        description={t("description")}
+      >
+        <ContentSection title={t("whoUsTitle")} icon={<BookOpen className="size-6 stroke-[1.75]" />}>
           {whoItems.length === 0 ? (
             <EmptyState title={t("whoUsEmpty")} />
           ) : (
-            <ul className="space-y-4">
+            <ul className="grid gap-4 sm:grid-cols-2">
               {whoItems.map((item) => (
                 <li key={item.id}>
-                  <Card>
+                  <Card className="h-full border-separator/60 shadow-sm">
                     <CardHeader>
-                      <CardTitle className="text-base">
+                      <CardTitle className="text-base text-navy">
                         {pickLocalized(locale, item.title_ar, item.title_en)}
                       </CardTitle>
                     </CardHeader>
                     <CardContent>
-                      <p className="text-sm text-muted-foreground whitespace-pre-wrap">
+                      <p className="whitespace-pre-wrap text-sm leading-relaxed text-muted-foreground">
                         {pickLocalized(locale, item.body_ar, item.body_en)}
                       </p>
                     </CardContent>
@@ -57,24 +54,23 @@ export default async function AboutPage() {
               ))}
             </ul>
           )}
-        </section>
+        </ContentSection>
 
-        <section className="space-y-4">
-          <h2 className="text-lg font-semibold">{t("whyUsTitle")}</h2>
+        <ContentSection title={t("whyUsTitle")} icon={<Sparkles className="size-6 stroke-[1.75]" />}>
           {whyItems.length === 0 ? (
             <EmptyState title={t("whyUsEmpty")} />
           ) : (
-            <ul className="space-y-4">
+            <ul className="grid gap-4 sm:grid-cols-2">
               {whyItems.map((item) => (
                 <li key={item.id}>
-                  <Card>
+                  <Card className="h-full border-separator/60 shadow-sm">
                     <CardHeader>
-                      <CardTitle className="text-base">
+                      <CardTitle className="text-base text-navy">
                         {pickLocalized(locale, item.title_ar, item.title_en)}
                       </CardTitle>
                     </CardHeader>
                     <CardContent>
-                      <p className="text-sm text-muted-foreground whitespace-pre-wrap">
+                      <p className="whitespace-pre-wrap text-sm leading-relaxed text-muted-foreground">
                         {pickLocalized(locale, item.body_ar, item.body_en)}
                       </p>
                     </CardContent>
@@ -83,14 +79,18 @@ export default async function AboutPage() {
               ))}
             </ul>
           )}
-        </section>
-      </Container>
+        </ContentSection>
+      </MarketingPageShell>
     );
   } catch {
     return (
-      <Container>
+      <MarketingPageShell
+        eyebrow={<BookOpen className="size-3.5" />}
+        title={t("title")}
+        description={t("description")}
+      >
         <ErrorState title={tErrors("genericTitle")} message={t("loadError")} />
-      </Container>
+      </MarketingPageShell>
     );
   }
 }

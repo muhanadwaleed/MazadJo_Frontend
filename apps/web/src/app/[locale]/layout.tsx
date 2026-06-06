@@ -8,7 +8,7 @@ import {
 import { notFound } from "next/navigation";
 import { hasLocale } from "next-intl";
 
-import { getRuntimeApiUrl, RUNTIME_API_URL_GLOBAL } from "@mazad/config";
+import { getRuntimeApiUrl } from "@mazad/config";
 
 import { AppProviders } from "@/components/providers/app-providers";
 import { routing, type Locale } from "@/i18n/routing";
@@ -72,14 +72,8 @@ export default async function LocaleLayout({
       lang={locale}
       dir={rtl ? "rtl" : "ltr"}
       className={`${mazadFontVariables} h-full antialiased`}
+      data-mazad-api-url={apiUrl}
     >
-      <head>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `window.${RUNTIME_API_URL_GLOBAL}=${JSON.stringify(apiUrl)};`,
-          }}
-        />
-      </head>
       <body className={rtl ? mazadArabicBodyClassName : mazadBodyClassName}>
         <NextIntlClientProvider locale={locale as Locale} messages={messages}>
           <AppProviders>{children}</AppProviders>

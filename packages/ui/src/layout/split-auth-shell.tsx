@@ -33,33 +33,35 @@ export function SplitAuthShell({
   className,
 }: SplitAuthShellProps) {
   const infoPanel = (
-    <aside className="relative hidden overflow-hidden border-e border-separator bg-gradient-to-br from-surface via-card to-light-blue/10 lg:flex lg:w-1/2 lg:flex-col lg:justify-between">
-      <div className="flex h-full flex-col justify-between p-10 xl:p-14">
-        <div className="space-y-2">
-          {brand ?? <BrandMark />}
-          <p className="text-sm font-semibold tracking-widest text-mazad-primary uppercase">
+    <aside className="relative hidden overflow-hidden border-e border-separator bg-gradient-to-br from-navy via-mazad-primary to-light-blue lg:flex lg:w-[45%] lg:flex-col lg:justify-between">
+      <div className="pointer-events-none absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_top_right,var(--mazad-light-blue)_20%,transparent_55%)]" />
+      <div className="relative flex h-full flex-col justify-between p-10 text-white xl:p-14">
+        <div className="space-y-3">
+          {brand ?? <BrandMark variant="light" />}
+          <p className="text-xs font-semibold tracking-widest text-white/70 uppercase">
             {infoPanelTitle}
           </p>
         </div>
 
         <div className="space-y-8 py-8">
           {infoBlocks.map((block) => (
-            <div key={block.title} className="space-y-2">
-              <h2 className="text-lg font-semibold text-navy">{block.title}</h2>
-              <p className="text-sm leading-relaxed text-muted-foreground">
-                {block.body}
-              </p>
+            <div
+              key={block.title}
+              className="rounded-xl border border-white/10 bg-white/5 p-5 backdrop-blur-sm"
+            >
+              <h2 className="text-base font-semibold text-white">{block.title}</h2>
+              <p className="mt-2 text-sm leading-relaxed text-white/75">{block.body}</p>
             </div>
           ))}
         </div>
 
-        <p className="text-xs text-muted-foreground">{tagline}</p>
+        <p className="text-xs text-white/50">{tagline}</p>
       </div>
     </aside>
   );
 
   const formPanel = (
-    <div className="flex w-full flex-col bg-background lg:w-1/2">
+    <div className="flex w-full flex-col bg-surface lg:w-[55%]">
       <div className="flex items-center justify-between border-b border-separator bg-card px-4 py-4 lg:px-8">
         <div className="lg:hidden">{brand ?? <BrandMark />}</div>
         <div className="ms-auto">{headerActions}</div>
@@ -68,12 +70,18 @@ export function SplitAuthShell({
       <div className="flex flex-1 flex-col justify-center px-6 py-10 sm:px-10 lg:px-14 xl:px-20">
         <div className="mx-auto w-full max-w-md space-y-6">
           <div className="space-y-2">
-            <h1 className="text-2xl font-bold tracking-tight text-navy">{title}</h1>
+            <h1 className="text-2xl font-bold tracking-tight text-navy sm:text-3xl">
+              {title}
+            </h1>
             {description ? (
-              <p className="text-sm text-muted-foreground">{description}</p>
+              <p className="text-base leading-relaxed text-muted-foreground">
+                {description}
+              </p>
             ) : null}
           </div>
-          {children}
+          <div className="rounded-2xl border border-mazad-border-subtle bg-card p-6 shadow-sm">
+            {children}
+          </div>
         </div>
       </div>
     </div>

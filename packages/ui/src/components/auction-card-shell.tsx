@@ -15,6 +15,7 @@ export type AuctionCardShellProps = {
   auctionNumber: string
   imageUrl?: string | null
   imageAlt?: string
+  fallbackImageUrl?: string | null
   statusBadge: React.ReactNode
   isLive?: boolean
   currentBidLabel: string
@@ -32,6 +33,7 @@ export function AuctionCardShell({
   auctionNumber,
   imageUrl,
   imageAlt,
+  fallbackImageUrl,
   statusBadge,
   isLive = false,
   currentBidLabel,
@@ -61,7 +63,16 @@ export function AuctionCardShell({
             />
           ) : (
             <div className="flex h-full items-center justify-center bg-gradient-to-br from-mazad-primary/8 via-surface to-light-blue/10">
-              <span className="text-4xl font-bold text-mazad-primary/20">M</span>
+              {fallbackImageUrl ? (
+                <img
+                  src={fallbackImageUrl}
+                  alt=""
+                  aria-hidden
+                  className="size-24 object-contain opacity-90"
+                />
+              ) : (
+                <span className="text-4xl font-bold text-mazad-primary/20">M</span>
+              )}
             </div>
           )}
           <div className="absolute start-3 top-3 flex flex-wrap gap-2">
