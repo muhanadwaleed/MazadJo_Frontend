@@ -50,6 +50,10 @@ export {
 export { BrandMark } from "./layout/brand-mark";
 export { Container } from "./layout/container";
 export { PageHeader } from "./layout/page-header";
+export { PageHero, type PageHeroProps } from "./layout/page-hero";
+export { SectionHeader, type SectionHeaderProps } from "./layout/section-header";
+export { FilterBar, type FilterBarProps } from "./layout/filter-bar";
+export { ContentSection, type ContentSectionProps } from "./layout/content-section";
 export { AuthShell } from "./layout/auth-shell";
 export { SplitAuthShell, type AuthInfoBlock } from "./layout/split-auth-shell";
 export { StaffOverview, StaffShell } from "./layout/staff-shell";

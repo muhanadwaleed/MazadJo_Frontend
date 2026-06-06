@@ -13,9 +13,6 @@ import { getApiErrorMessage } from "@mazad/api";
 import { useAuth, sanitizeInternalPath } from "@mazad/auth";
 import {
   Button,
-  Card,
-  CardContent,
-  CardFooter,
   Input,
   Label,
   primaryButtonClassName,
@@ -66,49 +63,46 @@ export function LoginForm() {
   }
 
   return (
-    <Card className="border-mazad-primary/15 shadow-sm">
-      <form onSubmit={onSubmit}>
-        <CardContent className="space-y-4 pt-6">
-          <div className="space-y-2">
-            <Label htmlFor="username">{t("username")}</Label>
-            <Input
-              id="username"
-              name="username"
-              required
-              autoComplete="username"
-              disabled={isSubmitting}
-            />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="password">{t("password")}</Label>
-            <PasswordInput
-              id="password"
-              name="password"
-              required
-              autoComplete="current-password"
-              disabled={isSubmitting}
-            />
-          </div>
-        </CardContent>
-        <CardFooter className="flex flex-col gap-4">
-          <Button
-            type="submit"
-            className={`w-full ${primaryButtonClassName}`}
+    <form onSubmit={onSubmit} className="space-y-6">
+      <div className="space-y-4">
+        <div className="space-y-2">
+          <Label htmlFor="username">{t("username")}</Label>
+          <Input
+            id="username"
+            name="username"
+            required
+            autoComplete="username"
             disabled={isSubmitting}
+          />
+        </div>
+        <div className="space-y-2">
+          <Label htmlFor="password">{t("password")}</Label>
+          <PasswordInput
+            id="password"
+            name="password"
+            required
+            autoComplete="current-password"
+            disabled={isSubmitting}
+          />
+        </div>
+      </div>
+      <div className="space-y-4">
+        <Button
+          type="submit"
+          className={`w-full cursor-pointer ${primaryButtonClassName}`}
+          disabled={isSubmitting}
+        >
+          {isSubmitting ? t("signingIn") : t("signInTitle")}
+        </Button>
+        <p className="text-center text-sm text-muted-foreground">
+          <Link
+            href={routes.forgotPassword}
+            className="cursor-pointer font-medium text-mazad-primary transition-opacity duration-200 hover:opacity-85"
           >
-            {isSubmitting ? t("signingIn") : t("signInTitle")}
-          </Button>
-          <p className="text-center text-sm text-muted-foreground">
-            <Link href={routes.forgotPassword} className="underline hover:text-foreground">
-              {t("forgotPassword")}
-            </Link>
-            {" · "}
-            <Link href={routes.register} className="underline hover:text-foreground">
-              {t("createAccount")}
-            </Link>
-          </p>
-        </CardFooter>
-      </form>
-    </Card>
+            {t("forgotPassword")}
+          </Link>
+        </p>
+      </div>
+    </form>
   );
 }

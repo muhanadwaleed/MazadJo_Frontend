@@ -3,7 +3,7 @@
 import { useState } from "react";
 
 import type { Country } from "@mazad/api";
-import { Card, CardContent, CardHeader, CardTitle } from "@mazad/ui";
+import { Card, CardContent } from "@mazad/ui";
 
 import { LocationPicker } from "./location-picker";
 
@@ -33,11 +33,8 @@ export function LocationExplorer({ locale, countries, labels }: LocationExplorer
     [countryId, cityId, areaId].filter(Boolean).join(" → ") || labels.none;
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle className="text-base">{labels.title}</CardTitle>
-      </CardHeader>
-      <CardContent className="space-y-4">
+    <Card className="border-separator/60 bg-card/80 shadow-sm backdrop-blur-sm">
+      <CardContent className="space-y-4 p-5 md:p-6">
         <LocationPicker
           locale={locale}
           countries={countries}
@@ -49,8 +46,9 @@ export function LocationExplorer({ locale, countries, labels }: LocationExplorer
           onAreaChange={setAreaId}
           labels={labels}
         />
-        <p className="text-sm text-muted-foreground">
-          {labels.selection}: {selectionSummary}
+        <p className="rounded-xl border border-dashed border-separator bg-surface/60 px-4 py-3 text-sm text-muted-foreground">
+          <span className="font-medium text-foreground">{labels.selection}:</span>{" "}
+          {selectionSummary}
         </p>
       </CardContent>
     </Card>

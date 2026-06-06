@@ -1,7 +1,8 @@
 import { getTranslations } from "next-intl/server";
 
-import { AuthPageShell } from "@/components/layout/auth-page-shell";
+import { routes } from "@/config/routes";
 import { RegisterForm } from "@/components/auth/register-form";
+import { WebSplitAuthShell } from "@/components/layout/web-split-auth-shell";
 
 export async function generateMetadata() {
   const t = await getTranslations("auth");
@@ -12,8 +13,13 @@ export default async function RegisterPage() {
   const t = await getTranslations("auth");
 
   return (
-    <AuthPageShell title={t("registerTitle")} description={t("registerPageDescription")}>
+    <WebSplitAuthShell
+      title={t("registerTitle")}
+      description={t("registerPageDescription")}
+      footerHref={routes.login}
+      footerLabel={t("signInTitle")}
+    >
       <RegisterForm />
-    </AuthPageShell>
+    </WebSplitAuthShell>
   );
 }

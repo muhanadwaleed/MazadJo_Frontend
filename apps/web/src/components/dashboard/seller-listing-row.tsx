@@ -107,7 +107,7 @@ export function SellerListingRow({ auction, onUpdated }: SellerListingRowProps) 
           </div>
         </CardContent>
         <CardFooter className="flex flex-wrap gap-2">
-          <ButtonLink href={routes.auction(auction.id)} variant="outline" size="sm">
+          <ButtonLink href={routes.auction(auction.id)} variant="default" size="sm">
             {tCommon("view")}
           </ButtonLink>
           {canEditListing(auction.status) ? (

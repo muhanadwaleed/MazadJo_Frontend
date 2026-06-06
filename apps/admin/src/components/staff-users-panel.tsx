@@ -17,6 +17,7 @@ import {
   CardContent,
   CardHeader,
   CardTitle,
+  FilterBar,
   Input,
   Label,
 } from "@mazad/ui";
@@ -111,7 +112,7 @@ function UsersTab({ isStaffTab }: { isStaffTab: boolean }) {
 
   return (
     <div className="space-y-4">
-      <div className="flex flex-wrap items-end gap-3">
+      <FilterBar>
         <div className="min-w-[220px] flex-1 space-y-2">
           <Label htmlFor={`user-search-${isStaffTab ? "staff" : "public"}`}>
             {tCommon("actions.search")}
@@ -123,10 +124,16 @@ function UsersTab({ isStaffTab }: { isStaffTab: boolean }) {
             placeholder={t("searchPlaceholder")}
           />
         </div>
-        <Button type="button" variant="outline" onClick={() => void load()} disabled={loading}>
+        <Button
+          type="button"
+          variant="outline"
+          className="cursor-pointer self-end"
+          onClick={() => void load()}
+          disabled={loading}
+        >
           {tCommon("actions.search")}
         </Button>
-      </div>
+      </FilterBar>
 
       {loading ? (
         <p className="text-sm text-muted-foreground">{t("loadingUsers")}</p>

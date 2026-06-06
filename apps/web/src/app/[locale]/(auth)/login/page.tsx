@@ -1,8 +1,9 @@
 import { Suspense } from "react";
 import { getTranslations } from "next-intl/server";
 
-import { AuthPageShell } from "@/components/layout/auth-page-shell";
+import { routes } from "@/config/routes";
 import { LoginForm } from "@/components/auth/login-form";
+import { WebSplitAuthShell } from "@/components/layout/web-split-auth-shell";
 import { Skeleton } from "@mazad/ui";
 
 export async function generateMetadata() {
@@ -14,10 +15,15 @@ export default async function LoginPage() {
   const t = await getTranslations("auth");
 
   return (
-    <AuthPageShell title={t("welcomeBack")} description={t("signInPageDescription")}>
-      <Suspense fallback={<Skeleton className="h-64 w-full" />}>
+    <WebSplitAuthShell
+      title={t("welcomeBack")}
+      description={t("signInPageDescription")}
+      footerHref={routes.register}
+      footerLabel={t("createAccount")}
+    >
+      <Suspense fallback={<Skeleton className="h-64 w-full rounded-xl" />}>
         <LoginForm />
       </Suspense>
-    </AuthPageShell>
+    </WebSplitAuthShell>
   );
 }

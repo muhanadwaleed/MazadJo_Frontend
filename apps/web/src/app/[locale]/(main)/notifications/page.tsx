@@ -1,9 +1,9 @@
 import { getTranslations } from "next-intl/server";
+import { Bell } from "lucide-react";
 
 import { routes } from "@/config/routes";
-import { Container } from "@mazad/ui";
-import { PageHeader } from "@mazad/ui";
 import { EmptyState } from "@/components/common/empty-state";
+import { MarketingPageShell } from "@/components/layout/marketing-page-shell";
 import { ButtonLink } from "@/components/ui/button-link";
 
 export async function generateMetadata() {
@@ -17,8 +17,11 @@ export default async function NotificationsPage() {
   const tDashboard = await getTranslations("dashboard");
 
   return (
-    <Container className="space-y-8">
-      <PageHeader title={t("title")} description={t("comingSoon")} />
+    <MarketingPageShell
+      eyebrow={<Bell className="size-3.5" />}
+      title={t("title")}
+      description={t("comingSoon")}
+    >
       <EmptyState
         title={t("title")}
         description={t("comingSoon")}
@@ -28,6 +31,6 @@ export default async function NotificationsPage() {
           </ButtonLink>
         }
       />
-    </Container>
+    </MarketingPageShell>
   );
 }

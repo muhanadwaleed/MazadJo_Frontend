@@ -1,18 +1,16 @@
 import { getLocale, getTranslations } from "next-intl/server";
+import { LayoutGrid, MapPin } from "lucide-react";
 
-import { asList, catalogService, pickLocalized } from "@mazad/api";
-import { Badge, Container, PageHeader } from "@mazad/ui";
-import { Link } from "@/i18n/navigation";
+import { routes } from "@/config/routes";
+import { asList, catalogService } from "@mazad/api";
+import { Container, ContentSection, SectionHeader } from "@mazad/ui";
+import { CatalogCategoryCard } from "@/components/catalog/catalog-category-card";
+import { CatalogCountryCard } from "@/components/catalog/catalog-country-card";
 import { EmptyState } from "@/components/common/empty-state";
 import { ErrorState } from "@/components/common/error-state";
 import { LocationExplorer } from "@/components/catalog/location-explorer";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@mazad/ui";
+import { PageHero } from "@/components/layout/page-hero";
+import { ButtonLink } from "@/components/ui/button-link";
 
 export async function generateMetadata() {
   const t = await getTranslations("catalog");
@@ -31,15 +29,46 @@ export default async function CatalogPage() {
       catalogService.countries(),
     ]);
 
-    const categoryList = asList(categories);
-    const countryList = asList(countries);
+    const categoryList = asList(categories).filter((cat) => cat.is_active);
+    const countryList = asList(countries).filter((country) => country.is_active);
 
     return (
-      <Container className="space-y-10">
-        <PageHeader title={t("title")} description={t("description")} />
+      <Container className="space-y-10 py-2 md:py-4">
+        <PageHero
+          eyebrow={<LayoutGrid className="size-3.5" />}
+          title={t("title")}
+          description={t("description")}
+          actions={
+            <>
+              <ButtonLink size="lg" variant="heroPrimary" href={routes.auctions}>
+                {t("browseAuctions")}
+              </ButtonLink>
+              <ButtonLink size="lg" variant="heroOutline" href="/catalog#categories">
+                {t("categories")}
+              </ButtonLink>
+            </>
+          }
+          aside={
+            <div className="grid grid-cols-2 gap-3">
+              <div className="rounded-2xl border border-white/10 bg-white/10 p-4 backdrop-blur-sm">
+                <p className="text-3xl font-bold">{categoryList.length}</p>
+                <p className="mt-1 text-xs font-medium text-white/70">{t("categories")}</p>
+              </div>
+              <div className="rounded-2xl border border-white/10 bg-white/10 p-4 backdrop-blur-sm">
+                <p className="text-3xl font-bold">{countryList.length}</p>
+                <p className="mt-1 text-xs font-medium text-white/70">{t("countries")}</p>
+              </div>
+            </div>
+          }
+        />
 
-        <section className="space-y-4">
-          <h2 className="text-lg font-semibold">{t("categories")}</h2>
+        <section id="categories" className="scroll-mt-28 space-y-6">
+          <SectionHeader
+            title={t("categories")}
+            description={t("categoriesDescription")}
+            badge={<LayoutGrid className="size-5 text-mazad-primary" aria-hidden />}
+          />
+
           {categoryList.length === 0 ? (
             <EmptyState
               title={t("noCategoriesTitle")}
@@ -47,31 +76,26 @@ export default async function CatalogPage() {
             />
           ) : (
             <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {categoryList.map((cat) => (
-                <li key={cat.id}>
-                  <Link href={`/catalog/categories/${cat.id}`}>
-                    <Card className="transition-colors hover:border-primary/40">
-                      <CardHeader>
-                        <CardTitle className="text-base">
-                          {pickLocalized(locale, cat.name_ar, cat.name_en)}
-                        </CardTitle>
-                        <CardDescription>{cat.category_type}</CardDescription>
-                      </CardHeader>
-                      <CardContent>
-                        <Badge variant={cat.is_active ? "default" : "secondary"}>
-                          {cat.is_active ? tCommon("active") : tCommon("inactive")}
-                        </Badge>
-                      </CardContent>
-                    </Card>
-                  </Link>
+              {categoryList.map((cat, index) => (
+                <li key={cat.id} className="h-full">
+                  <CatalogCategoryCard
+                    category={cat}
+                    locale={locale}
+                    activeLabel={tCommon("active")}
+                    inactiveLabel={tCommon("inactive")}
+                    accentIndex={index}
+                  />
                 </li>
               ))}
             </ul>
           )}
         </section>
 
-        <section className="space-y-4">
-          <h2 className="text-lg font-semibold">{t("locationExplorerTitle")}</h2>
+        <ContentSection
+          title={t("locationExplorerTitle")}
+          description={t("locationDescription")}
+          icon={<MapPin className="size-6 stroke-[1.75]" aria-hidden />}
+        >
           <LocationExplorer
             locale={locale}
             countries={countryList}
@@ -88,24 +112,21 @@ export default async function CatalogPage() {
               none: t("noneSelected"),
             }}
           />
-        </section>
+        </ContentSection>
 
-        <section className="space-y-4">
-          <h2 className="text-lg font-semibold">{t("countries")}</h2>
+        <section className="space-y-6">
+          <SectionHeader
+            title={t("countries")}
+            description={t("countriesDescription")}
+            badge={<MapPin className="size-5 text-mazad-primary" aria-hidden />}
+          />
+
           {countryList.length === 0 ? (
             <EmptyState title={t("noCountriesTitle")} />
           ) : (
-            <ul className="grid gap-3 sm:grid-cols-2 md:grid-cols-3">
+            <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
               {countryList.map((country) => (
-                <li
-                  key={country.id}
-                  className="rounded-lg border border-border px-4 py-3 text-sm"
-                >
-                  <p className="font-medium">
-                    {pickLocalized(locale, country.name_ar, country.name_en)}
-                  </p>
-                  <p className="text-muted-foreground">{country.code}</p>
-                </li>
+                <CatalogCountryCard key={country.id} country={country} locale={locale} />
               ))}
             </ul>
           )}

@@ -38,28 +38,65 @@
     "signOut": "Sign out",
     "register": "Register",
     "profile": "Profile",
+    "profileMenu": "Account menu",
     "profileWithUsername": "Profile ({username})"
   },
   "footer": {
-    "tagline": "Jordan's auction marketplace"
+    "tagline": "Jordan's auction marketplace",
+    "explore": "Explore",
+    "copyright": "© MazadJo. All rights reserved.",
+    "ctaTitle": "Ready to start bidding?",
+    "ctaLink": "Create your free account"
   },
   "home": {
     "eyebrow": "Live auctions in Jordan",
     "title": "Bid with confidence on MazadJo",
     "description": "Browse listings, follow live bid history, and manage your account from one place.",
+    "heroTagline": "Jordan's trusted P2P auction marketplace",
     "browseAuctions": "Browse auctions",
     "exploreCatalog": "Explore catalog",
+    "categoriesEyebrow": "Categories",
+    "categoriesTitle": "Browse by category",
     "activeAuctionsTitle": "Active auctions",
     "activeAuctionsDescription": "Recently listed live auctions from the API.",
     "noActiveTitle": "No active auctions",
     "noActiveDescription": "Start MazadJo_Backend and run seed_demo_auctions, or check back later.",
     "browseAllAuctions": "Browse all auctions",
     "searchPlaceholder": "Search for cars, electronics, real estate...",
-    "searchButton": "Search"
+    "searchButton": "Search",
+    "features": {
+      "title": "Why choose MazadJo?",
+      "description": "Jordan's most transparent and interactive live bidding experience.",
+      "staffReviewed": {
+        "title": "Staff reviewed",
+        "description": "Every auction listing is verified by staff before going live."
+      },
+      "realTimeBids": {
+        "title": "Real-time bids",
+        "description": "Instant updates on bidding activity and countdowns."
+      },
+      "localSupport": {
+        "title": "Local support",
+        "description": "Bids in Jordanian Dinar (JOD) with local delivery rules."
+      },
+      "mobileOptimized": {
+        "title": "Mobile optimized",
+        "description": "Bid, create drafts, and monitor on any screen size."
+      }
+    }
   },
   "auctions": {
     "title": "Auctions",
-    "description": "Filter by status or search from the query string (?status=active&search=...).",
+    "eyebrow": "Live bidding",
+    "description": "Search listings, filter by status, and jump into live auctions across Jordan.",
+    "liveAuctions": "Live auctions",
+    "exploreCatalog": "Explore catalog",
+    "resultsCount": "Listings found",
+    "browseTitle": "Browse auctions",
+    "browseDescription": "Filter by status or refine with search.",
+    "filterAll": "All",
+    "searchPlaceholder": "Search for cars, electronics, real estate...",
+    "searchButton": "Search",
     "noResultsTitle": "No auctions found",
     "noResultsDescription": "Try another filter or seed demo data on the backend.",
     "loadError": "Could not load auctions. Is MazadJo_Backend running on port 8000?",
@@ -78,6 +115,7 @@
       "active": "Active",
       "scheduled": "Scheduled",
       "ended": "Ended",
+      "ended_without_bids": "Ended without bids",
       "draft": "Draft",
       "under_review": "Under review",
       "returned_for_edit": "Returned for edit",
@@ -88,6 +126,9 @@
   },
   "auctionDetail": {
     "loadError": "Could not load this auction.",
+    "backToAuctions": "Back to auctions",
+    "liveNow": "Live now",
+    "noPhotos": "No photos for this listing yet.",
     "bidHistory": "Bid history",
     "viewBids": "View bids",
     "description": "Description",
@@ -97,14 +138,20 @@
     "minIncrement": "Min increment",
     "starts": "Starts",
     "ends": "Ends",
-    "participants": "Participants",
+    "participants": "Bidders",
+    "views": "Views",
     "viewBidsAndPlace": "View bids & place bid",
     "fallbackTitle": "Auction"
   },
   "bids": {
     "title": "Bid history",
-    "pageDescription": "{title} — current {price}",
+    "pageDescription": "Track bids and place your offer on {title}. Current price: {price}.",
+    "backToAuction": "Back to auction",
+    "allAuctions": "All auctions",
+    "currentPriceLabel": "Current price",
+    "bidCount": "{count} bids shown",
     "recentBids": "Recent bids",
+    "recentBidsDescription": "Latest activity on this listing, newest first.",
     "placeBidSection": "Place a bid",
     "auctionDetails": "Auction details",
     "fallbackTitle": "Bids",
@@ -132,9 +179,15 @@
   },
   "catalog": {
     "title": "Catalog",
-    "description": "Product categories and reference geography from MazadJo_Backend.",
+    "eyebrow": "Browse by category",
+    "description": "Explore product categories, listing rules, and locations across Jordan — everything you need before you bid or sell.",
+    "browseAuctions": "Browse auctions",
+    "exploreCatalog": "Explore catalog",
     "categories": "Categories",
+    "categoriesDescription": "Pick a category to see listing rules, fees, and requirements.",
     "countries": "Countries",
+    "countriesDescription": "Supported markets and country codes in the MazadJo catalog.",
+    "locationDescription": "Drill down from country to city and area for listing locations.",
     "noCategoriesTitle": "No categories",
     "noCategoriesDescription": "Run seed_catalog or seed_demo_auctions on the backend.",
     "noCountriesTitle": "No countries",
@@ -150,6 +203,9 @@
     "selection": "Selected",
     "noneSelected": "None",
     "categoryDetailTitle": "Category",
+    "categoryDetailDescription": "Listing rules for the {type} category.",
+    "rulesSectionTitle": "Listing rules & fees",
+    "rulesSectionDescription": "Requirements and pricing before you create a listing.",
     "backToCatalog": "Back to catalog",
     "categoryLoadError": "Could not load this category.",
     "requiresReview": "Staff review",
@@ -172,6 +228,7 @@
   "faq": {
     "title": "FAQ",
     "description": "Frequently asked questions about MazadJo.",
+    "listTitle": "Questions & answers",
     "emptyTitle": "No FAQs yet",
     "emptyDescription": "Check back later or contact support.",
     "loadError": "Could not load FAQs."
@@ -304,6 +361,7 @@
   "profile": {
     "title": "Profile",
     "description": "Your account details and verification status.",
+    "cardTitle": "Your account",
     "loadError": "Could not load profile",
     "unavailable": "Profile unavailable",
     "phoneVerified": "Phone verified",
@@ -391,6 +449,9 @@
     "splitWhyUsTitle": "Why MazadJo",
     "splitWhoUsFallback": "MazadJo is Jordan's live auction marketplace — connecting sellers and bidders with transparent listings and real-time bidding.",
     "splitWhyUsFallback": "Staff-reviewed listings, category-driven rules, and secure accounts give everyone confidence to buy and sell.",
+    "trustLive": "Live bidding",
+    "trustReviewed": "Staff reviewed",
+    "trustSecure": "Secure accounts",
     "registerFormHint": "Verify your phone with OTP. If you add an email, verify it too.",
     "fullNameOptional": "Full name (optional)",
     "emailOptional": "Email (optional)",

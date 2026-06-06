@@ -52,9 +52,9 @@ export const env = {
  *
  * Used in two places:
  *   - SSR / Server Components: as the fetch base.
- *   - Injected into the HTML so the browser learns the URL at runtime
- *     (see <ApiUrlScript /> in the root layout), avoiding the build-time
- *     baking that NEXT_PUBLIC_* requires.
+ *   - Injected into the HTML via `data-mazad-api-url` on `<html>` so the browser
+ *     learns the URL at runtime, avoiding the build-time baking that
+ *     NEXT_PUBLIC_* requires.
  *
  * Set API_URL on each frontend service in Railway. NEXT_PUBLIC_API_URL still
  * works as a fallback for fully-static hosting.
@@ -66,5 +66,8 @@ export function getRuntimeApiUrl(): string {
   );
 }
 
-/** Global the server injects and the browser reads at runtime. */
+/** Global the server injects and the browser reads at runtime (legacy). */
 export const RUNTIME_API_URL_GLOBAL = "__MAZAD_API_URL__";
+
+/** `data-mazad-api-url` on `<html>` — preferred runtime injection (Next.js 16 safe). */
+export const RUNTIME_API_URL_DATA_ATTR = "mazadApiUrl";

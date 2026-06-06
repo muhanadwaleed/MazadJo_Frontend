@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 import { Skeleton } from "@mazad/ui";
+import { withLocalePrefix } from "./locale-path";
 import { useAuth } from "./use-auth";
 
 type StaffGuardProps = {
@@ -19,13 +20,15 @@ export function StaffGuard({ children, loginPath = "/login" }: StaffGuardProps) 
     if (isLoading) return;
 
     if (!isAuthenticated) {
-      router.replace(`${loginPath}?next=${encodeURIComponent(window.location.pathname)}`);
+      router.replace(
+        `${withLocalePrefix(loginPath)}?next=${encodeURIComponent(window.location.pathname)}`
+      );
       return;
     }
 
     if (user && !user.is_staff) {
       clearSession();
-      router.replace(`${loginPath}?error=staff_required`);
+      router.replace(`${withLocalePrefix(loginPath)}?error=staff_required`);
     }
   }, [clearSession, isAuthenticated, isLoading, loginPath, router, user]);
 

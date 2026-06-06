@@ -3,19 +3,21 @@
 import { useLocale, useTranslations } from "next-intl";
 import { LogOut, UserRound } from "lucide-react";
 
+import { routes } from "@/config/routes";
+import { Link } from "@/i18n/navigation";
 import { useAuth } from "@mazad/auth";
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
-  Button,
+  buttonVariants,
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@mazad/ui";
+import { cn } from "@mazad/ui/utils";
 
 function getInitials(name: string): string {
   const parts = name.trim().split(/\s+/).filter(Boolean);
@@ -40,15 +42,12 @@ export function StaffProfileMenu() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger
-        nativeButton={false}
-        render={
-          <Button
-            variant="ghost"
-            size="sm"
-            className="h-9 gap-2 rounded-full px-2 hover:bg-light-blue/10"
-            aria-label={t("profileMenu")}
-          />
-        }
+        nativeButton
+        className={cn(
+          buttonVariants({ variant: "ghost", size: "sm" }),
+          "h-9 cursor-pointer gap-2 rounded-full px-2 hover:bg-light-blue/10"
+        )}
+        aria-label={t("profileMenu")}
       >
         <Avatar size="sm">
           {user.profile_image ? (
@@ -61,7 +60,7 @@ export function StaffProfileMenu() {
         </span>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-56">
-        <DropdownMenuLabel className="font-normal">
+        <div className="px-2 py-2">
           <div className="flex items-center gap-3">
             <Avatar>
               {user.profile_image ? (
@@ -77,11 +76,11 @@ export function StaffProfileMenu() {
               ) : null}
             </div>
           </div>
-        </DropdownMenuLabel>
+        </div>
         <DropdownMenuSeparator />
-        <DropdownMenuItem disabled>
+        <DropdownMenuItem render={<Link href={routes.profile} className="cursor-pointer" />}>
           <UserRound className="size-4" />
-          {user.user_type}
+          {t("viewProfile")}
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem variant="destructive" onClick={logout}>

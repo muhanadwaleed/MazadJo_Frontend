@@ -1,9 +1,7 @@
-import { AppShell } from "@/components/layout/app-shell";
-
 export default function AuthRouteLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  return <AppShell>{children}</AppShell>;
+  return <div className="min-h-screen">{children}</div>;
 }

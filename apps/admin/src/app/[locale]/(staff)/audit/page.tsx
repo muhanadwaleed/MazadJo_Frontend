@@ -1,25 +1,27 @@
 import { getTranslations } from "next-intl/server";
 
 import { StaffAuditPanel } from "@/components/staff-audit-panel";
+import { StaffPageFrame } from "@/components/staff-page-frame";
 
-type AuditPageProps = {
-  searchParams: Promise<{ entity_id?: string; entity_type?: string }>;
+type PageProps = {
+  searchParams: Promise<{ entity_type?: string; entity_id?: string }>;
 };
 
-export default async function AuditPage({ searchParams }: AuditPageProps) {
-  const params = await searchParams;
+export default async function AuditPage({ searchParams }: PageProps) {
   const t = await getTranslations("pages.audit");
+  const tOverview = await getTranslations("overview");
+  const params = await searchParams;
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-semibold">{t("title")}</h1>
-        <p className="text-sm text-muted-foreground">{t("description")}</p>
-      </div>
+    <StaffPageFrame
+      eyebrow={tOverview("eyebrow")}
+      title={t("title")}
+      description={t("description")}
+    >
       <StaffAuditPanel
-        initialEntityId={params.entity_id ?? ""}
-        initialEntityType={params.entity_type ?? "auction"}
+        initialEntityType={params.entity_type}
+        initialEntityId={params.entity_id}
       />
-    </div>
+    </StaffPageFrame>
   );
 }

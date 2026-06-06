@@ -38,28 +38,65 @@
     "signOut": "تسجيل الخروج",
     "register": "إنشاء حساب",
     "profile": "الملف الشخصي",
+    "profileMenu": "قائمة الحساب",
     "profileWithUsername": "الملف ({username})"
   },
   "footer": {
-    "tagline": "سوق المزادات في الأردن"
+    "tagline": "سوق المزادات في الأردن",
+    "explore": "استكشف",
+    "copyright": "© مزادجو. جميع الحقوق محفوظة.",
+    "ctaTitle": "هل أنت مستعد للمزايدة؟",
+    "ctaLink": "أنشئ حسابك مجاناً"
   },
   "home": {
     "eyebrow": "مزادات مباشرة في الأردن",
     "title": "زايد بثقة على مزادجو",
     "description": "تصفح العروض، تابع سجل المزايدات المباشر، وأدر حسابك من مكان واحد.",
+    "heroTagline": "سوق المزادات الموثوق في الأردن",
     "browseAuctions": "تصفح المزادات",
     "exploreCatalog": "استكشف الكتالوج",
+    "categoriesEyebrow": "الفئات",
+    "categoriesTitle": "تصفح حسب الفئة",
     "activeAuctionsTitle": "مزادات نشطة",
     "activeAuctionsDescription": "أحدث المزادات المباشرة من واجهة البرمجة.",
     "noActiveTitle": "لا توجد مزادات نشطة",
     "noActiveDescription": "شغّل MazadJo_Backend ونفّذ seed_demo_auctions، أو عُد لاحقاً.",
     "browseAllAuctions": "تصفح كل المزادات",
     "searchPlaceholder": "ابحث عن سيارات، إلكترونيات، عقارات...",
-    "searchButton": "بحث"
+    "searchButton": "بحث",
+    "features": {
+      "title": "لماذا تختار مزادجو؟",
+      "description": "تجربة المزايدة الحية الأكثر شفافية وتفاعلية في الأردن.",
+      "staffReviewed": {
+        "title": "مراجعة العروض",
+        "description": "تتم مراجعة كل عرض والتحقق منه من قبل موظفينا قبل تفعيله."
+      },
+      "realTimeBids": {
+        "title": "مزايدة فورية",
+        "description": "تحديثات فورية على نشاط المزايدة والعد التنازلي للمزادات."
+      },
+      "localSupport": {
+        "title": "دعم محلي",
+        "description": "المزايدة بالدينار الأردني ومعايير استلام محلية متكاملة."
+      },
+      "mobileOptimized": {
+        "title": "شاشات الهاتف",
+        "description": "تابع مزاداتك، شارك، وأنشئ عروضك بكل سهولة من هاتفك الذكي."
+      }
+    }
   },
   "auctions": {
     "title": "المزادات",
-    "description": "صفّ حسب الحالة أو ابحث عبر معاملات الرابط (?status=active&search=...).",
+    "eyebrow": "مزايدة مباشرة",
+    "description": "ابحث في العروض، صفّ حسب الحالة، وانضم إلى المزادات النشطة في الأردن.",
+    "liveAuctions": "مزادات نشطة",
+    "exploreCatalog": "استكشف الكتالوج",
+    "resultsCount": "عرض متاح",
+    "browseTitle": "تصفح المزادات",
+    "browseDescription": "صفّ حسب الحالة أو دقّق البحث.",
+    "filterAll": "الكل",
+    "searchPlaceholder": "ابحث عن سيارات، إلكترونيات، عقارات...",
+    "searchButton": "بحث",
     "noResultsTitle": "لم يُعثر على مزادات",
     "noResultsDescription": "جرّب فلتراً آخر أو أضف بيانات تجريبية على الخادم.",
     "loadError": "تعذر تحميل المزادات. هل MazadJo_Backend يعمل على المنفذ 8000؟",
@@ -78,6 +115,7 @@
       "active": "نشط",
       "scheduled": "مجدول",
       "ended": "منتهي",
+      "ended_without_bids": "منتهي بدون مزايدات",
       "draft": "مسودة",
       "under_review": "قيد المراجعة",
       "returned_for_edit": "مُعاد للتعديل",
@@ -88,6 +126,9 @@
   },
   "auctionDetail": {
     "loadError": "تعذر تحميل هذا المزاد.",
+    "backToAuctions": "العودة للمزادات",
+    "liveNow": "نشط الآن",
+    "noPhotos": "لا توجد صور لهذا العرض بعد.",
     "bidHistory": "سجل المزايدات",
     "viewBids": "عرض المزايدات",
     "description": "الوصف",
@@ -97,14 +138,20 @@
     "minIncrement": "الحد الأدنى للزيادة",
     "starts": "يبدأ",
     "ends": "ينتهي",
-    "participants": "المشاركون",
+    "participants": "المزايدون",
+    "views": "المشاهدات",
     "viewBidsAndPlace": "عرض المزايدات والمزايدة",
     "fallbackTitle": "مزاد"
   },
   "bids": {
     "title": "سجل المزايدات",
-    "pageDescription": "{title} — الحالي {price}",
+    "pageDescription": "تابع المزايدات وقدّم عرضك على {title}. السعر الحالي: {price}.",
+    "backToAuction": "العودة للمزاد",
+    "allAuctions": "كل المزادات",
+    "currentPriceLabel": "السعر الحالي",
+    "bidCount": "{count} مزايدة معروضة",
     "recentBids": "المزايدات الأخيرة",
+    "recentBidsDescription": "آخر النشاط على هذا العرض، الأحدث أولاً.",
     "placeBidSection": "قدّم مزايدة",
     "auctionDetails": "تفاصيل المزاد",
     "fallbackTitle": "المزايدات",
@@ -132,9 +179,15 @@
   },
   "catalog": {
     "title": "الكتالوج",
-    "description": "فئات المنتجات والجغرافيا المرجعية من MazadJo_Backend.",
+    "eyebrow": "تصفح حسب الفئة",
+    "description": "استكشف فئات المنتجات وقواعد الإدراج والمواقع في الأردن — كل ما تحتاجه قبل المزايدة أو البيع.",
+    "browseAuctions": "تصفح المزادات",
+    "exploreCatalog": "استكشف الكتالوج",
     "categories": "الفئات",
+    "categoriesDescription": "اختر فئة لعرض قواعد الإدراج والرسوم والمتطلبات.",
     "countries": "الدول",
+    "countriesDescription": "الأسواق المدعومة ورموز الدول في كتالوج مزادجو.",
+    "locationDescription": "انتقل من الدولة إلى المدينة والمنطقة لتحديد موقع الإدراج.",
     "noCategoriesTitle": "لا فئات",
     "noCategoriesDescription": "نفّذ seed_catalog أو seed_demo_auctions على الخادم.",
     "noCountriesTitle": "لا دول",
@@ -150,6 +203,9 @@
     "selection": "المحدد",
     "noneSelected": "لا شيء",
     "categoryDetailTitle": "الفئة",
+    "categoryDetailDescription": "قواعد الإدراج لفئة {type}.",
+    "rulesSectionTitle": "قواعد الإدراج والرسوم",
+    "rulesSectionDescription": "المتطلبات والأسعار قبل إنشاء عرضك.",
     "backToCatalog": "العودة للكتالوج",
     "categoryLoadError": "تعذر تحميل هذه الفئة.",
     "requiresReview": "مراجعة الموظفين",
@@ -172,6 +228,7 @@
   "faq": {
     "title": "الأسئلة الشائعة",
     "description": "أسئلة متكررة حول مزادجو.",
+    "listTitle": "الأسئلة والأجوبة",
     "emptyTitle": "لا أسئلة بعد",
     "emptyDescription": "عُد لاحقاً أو تواصل مع الدعم.",
     "loadError": "تعذر تحميل الأسئلة."
@@ -304,6 +361,7 @@
   "profile": {
     "title": "الملف الشخصي",
     "description": "تفاصيل حسابك وحالة التحقق.",
+    "cardTitle": "حسابك",
     "loadError": "تعذر تحميل الملف الشخصي",
     "unavailable": "الملف الشخصي غير متاح",
     "phoneVerified": "تم التحقق من الهاتف",
@@ -391,6 +449,9 @@
     "splitWhyUsTitle": "لماذا مزادجو",
     "splitWhoUsFallback": "مزادجو هو سوق المزادات المباشرة في الأردن — يربط البائعين والمزايدين بعروض شفافة ومزايدات فورية.",
     "splitWhyUsFallback": "قوائم تخضع لمراجعة الموظفين، وقواعد حسب الفئة، وحسابات آمنة تمنح الجميع الثقة للشراء والبيع.",
+    "trustLive": "مزايدة مباشرة",
+    "trustReviewed": "مراجعة العروض",
+    "trustSecure": "حسابات آمنة",
     "registerFormHint": "تحقق من رقم هاتفك برمز OTP. إذا أضفت بريداً إلكترونياً، تحقق منه أيضاً.",
     "fullNameOptional": "الاسم الكامل (اختياري)",
     "emailOptional": "البريد الإلكتروني (اختياري)",

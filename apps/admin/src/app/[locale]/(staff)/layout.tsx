@@ -1,5 +1,4 @@
-import { StaffGuard } from "@mazad/auth";
-
+import { AdminStaffGuard } from "@/components/admin-staff-guard";
 import { AdminStaffShell } from "@/components/staff-shell";
 
 export default function StaffLayout({
@@ -8,8 +7,8 @@ export default function StaffLayout({
   children: React.ReactNode;
 }) {
   return (
-    <StaffGuard>
+    <AdminStaffGuard>
       <AdminStaffShell>{children}</AdminStaffShell>
-    </StaffGuard>
+    </AdminStaffGuard>
   );
 }

@@ -1,11 +1,14 @@
 import { notFound } from "next/navigation";
 import { getLocale, getTranslations } from "next-intl/server";
+import { LayoutGrid } from "lucide-react";
 
+import { routes } from "@/config/routes";
 import { catalogService, pickLocalized } from "@mazad/api";
-import { Badge, Container, PageHeader } from "@mazad/ui";
-import { Link } from "@/i18n/navigation";
-import { ErrorState } from "@/components/common/error-state";
+import { Badge, Container, ContentSection, PageHero } from "@mazad/ui";
 import { CategoryRulesPreview } from "@/components/catalog/category-rules-preview";
+import { getCategoryIcon } from "@/lib/category-icons";
+import { PageBackLink } from "@/components/layout/page-back-link";
+import { ErrorState } from "@/components/common/error-state";
 
 type PageProps = {
   params: Promise<{ id: string }>;
@@ -39,18 +42,17 @@ export default async function CategoryDetailPage({ params }: PageProps) {
     }
 
     const name = pickLocalized(locale, category.name_ar, category.name_en);
+    const Icon = getCategoryIcon(category.name_en || category.name_ar);
 
     return (
-      <Container className="space-y-8">
-        <div className="space-y-2">
-          <Link
-            href="/catalog"
-            className="text-sm text-muted-foreground hover:text-foreground"
-          >
-            ← {t("backToCatalog")}
-          </Link>
-          <PageHeader title={name} description={category.category_type} />
-        </div>
+      <Container className="space-y-8 py-2 md:py-4">
+        <PageBackLink href={routes.catalog}>{t("backToCatalog")}</PageBackLink>
+
+        <PageHero
+          eyebrow={<Icon className="size-3.5" />}
+          title={name}
+          description={t("categoryDetailDescription", { type: category.category_type })}
+        />
 
         <div className="flex flex-wrap gap-2">
           <Badge variant={category.is_active ? "default" : "secondary"}>
@@ -67,26 +69,32 @@ export default async function CategoryDetailPage({ params }: PageProps) {
           ) : null}
         </div>
 
-        <CategoryRulesPreview
-          category={category}
-          labels={{
-            settingsTitle: t("settingsTitle"),
-            feesTitle: t("feesTitle"),
-            noSettings: t("noSettings"),
-            minImages: t("minImages"),
-            maxImages: t("maxImages"),
-            videoAllowed: t("videoAllowed"),
-            minStartPrice: t("minStartPrice"),
-            minBidIncrement: t("minBidIncrement"),
-            deliveryDays: t("deliveryDays"),
-            maxVideoDuration: t("maxVideoDuration"),
-            subscription: t("subscription"),
-            bidderInsurance: t("bidderInsurance"),
-            sellerInsurance: t("sellerInsurance"),
-            yes: tCommon("yes"),
-            no: tCommon("no"),
-          }}
-        />
+        <ContentSection
+          title={t("rulesSectionTitle")}
+          description={t("rulesSectionDescription")}
+          icon={<LayoutGrid className="size-6 stroke-[1.75]" />}
+        >
+          <CategoryRulesPreview
+            category={category}
+            labels={{
+              settingsTitle: t("settingsTitle"),
+              feesTitle: t("feesTitle"),
+              noSettings: t("noSettings"),
+              minImages: t("minImages"),
+              maxImages: t("maxImages"),
+              videoAllowed: t("videoAllowed"),
+              minStartPrice: t("minStartPrice"),
+              minBidIncrement: t("minBidIncrement"),
+              deliveryDays: t("deliveryDays"),
+              maxVideoDuration: t("maxVideoDuration"),
+              subscription: t("subscription"),
+              bidderInsurance: t("bidderInsurance"),
+              sellerInsurance: t("sellerInsurance"),
+              yes: tCommon("yes"),
+              no: tCommon("no"),
+            }}
+          />
+        </ContentSection>
       </Container>
     );
   } catch {

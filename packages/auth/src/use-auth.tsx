@@ -12,6 +12,7 @@ import { useRouter } from "next/navigation";
 
 import { ApiError, authService, usersService } from "@mazad/api";
 import type { LoginPayload, UserProfile } from "@mazad/api";
+import { withLocalePrefix } from "./locale-path";
 import { clearTokens, getAccessToken, isAuthenticated } from "./session";
 
 type AuthContextValue = {
@@ -38,6 +39,11 @@ export function AuthProvider({
   const router = useRouter();
   const [user, setUser] = useState<UserProfile | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [hasHydrated, setHasHydrated] = useState(false);
+
+  useEffect(() => {
+    setHasHydrated(true);
+  }, []);
 
   const refreshUser = useCallback(async () => {
     if (!getAccessToken()) {
@@ -79,21 +85,21 @@ export function AuthProvider({
 
   const logout = useCallback(() => {
     clearSession();
-    router.push(loginPath);
+    router.push(withLocalePrefix(loginPath));
     router.refresh();
   }, [clearSession, loginPath, router]);
 
   const value = useMemo<AuthContextValue>(
     () => ({
-      user,
-      isLoading,
-      isAuthenticated: isAuthenticated(),
+      user: hasHydrated ? user : null,
+      isLoading: !hasHydrated || isLoading,
+      isAuthenticated: hasHydrated && isAuthenticated(),
       login,
       logout,
       refreshUser,
       clearSession,
     }),
-    [user, isLoading, login, logout, refreshUser, clearSession]
+    [user, isLoading, hasHydrated, login, logout, refreshUser, clearSession]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

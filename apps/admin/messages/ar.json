@@ -48,8 +48,31 @@
   },
   "staff": {
     "console": "مزادجو — الموظفين",
+    "subtitle": "لوحة العمليات",
     "signOut": "تسجيل الخروج",
-    "profileMenu": "قائمة الحساب"
+    "profileMenu": "قائمة الحساب",
+    "searchPlaceholder": "ابحث في مساحات العمل والصفحات…",
+    "searchNoResults": "لا توجد صفحات مطابقة.",
+    "collapseSidebar": "طي الشريط الجانبي",
+    "expandSidebar": "توسيع الشريط الجانبي",
+    "openNavigation": "فتح القائمة",
+    "viewProfile": "عرض الملف الشخصي"
+  },
+  "profile": {
+    "title": "الملف الشخصي",
+    "description": "تفاصيل حساب الموظف وحالة التحقق.",
+    "loadError": "تعذّر تحميل الملف الشخصي",
+    "unavailable": "الملف الشخصي غير متاح",
+    "phoneVerified": "الهاتف موثّق",
+    "emailVerified": "البريد موثّق",
+    "email": "البريد الإلكتروني",
+    "phone": "الهاتف",
+    "joined": "تاريخ الانضمام",
+    "userType": {
+      "public_user": "عضو",
+      "staff": "موظف",
+      "admin": "مسؤول"
+    }
   },
   "nav": {
     "overview": "نظرة عامة",
@@ -64,6 +87,7 @@
   "overview": {
     "title": "نظرة عامة على العمليات",
     "description": "راجع العروض، انشر المزادات المعتمدة، وأدر محتوى الموقع.",
+    "eyebrow": "لوحة الموظفين",
     "openWorkspace": "فتح مساحة العمل"
   },
   "login": {

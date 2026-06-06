@@ -3,6 +3,7 @@ import { getLocale, getTranslations } from "next-intl/server";
 import { routes } from "@/config/routes";
 import type { AuctionListItem } from "@mazad/api";
 import { formatMoney } from "@/lib/format";
+import { normalizeMediaUrl } from "@/lib/media-url";
 import { AuctionStatusBadge } from "@/components/auctions/auction-status-badge";
 import { ButtonLink } from "@/components/ui/button-link";
 import { AuctionCardShell, CountdownTimer } from "@mazad/ui";
@@ -18,6 +19,8 @@ export async function AuctionCard({ auction }: { auction: AuctionListItem }) {
     <AuctionCardShell
       title={auction.title}
       auctionNumber={auction.auction_number}
+      imageUrl={normalizeMediaUrl(auction.primary_media_url)}
+      fallbackImageUrl="/logo.png"
       statusBadge={<AuctionStatusBadge status={auction.status} />}
       isLive={isLive}
       currentBidLabel={t("currentBid")}
