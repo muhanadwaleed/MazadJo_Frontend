@@ -3,7 +3,6 @@
 import { useTranslations } from "next-intl";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
-import { toast } from "sonner";
 
 import {
   ApiError,
@@ -13,6 +12,8 @@ import {
 } from "@mazad/api";
 import { useAuth, sanitizeInternalPath } from "@mazad/auth";
 import {
+  notify,
+  toast,
   Button,
   Card,
   CardContent,
@@ -41,7 +42,7 @@ export function StaffLoginForm() {
     const password = String(form.get("password"));
 
     if (!username || !password) {
-      toast.error(t("credentialsRequired"));
+      notify.validation(t("credentialsRequired"));
       return;
     }
 

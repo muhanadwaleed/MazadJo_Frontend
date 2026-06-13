@@ -5,18 +5,10 @@ import { useRouter } from "@/i18n/navigation";
 import { Link } from "@/i18n/navigation";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
-import { toast } from "sonner";
-
+import { notify, toast, Button, Input, Label, primaryButtonClassName } from "@mazad/ui";
 import { routes } from "@/config/routes";
-import { ApiError, isAccountDisabledError } from "@mazad/api";
-import { getApiErrorMessage } from "@mazad/api";
+import { ApiError, isAccountDisabledError, getApiErrorMessage } from "@mazad/api";
 import { useAuth, sanitizeInternalPath } from "@mazad/auth";
-import {
-  Button,
-  Input,
-  Label,
-  primaryButtonClassName,
-} from "@mazad/ui";
 import { PasswordInput } from "@/components/auth/password-input";
 
 export function LoginForm() {
@@ -34,7 +26,7 @@ export function LoginForm() {
     const password = String(form.get("password"));
 
     if (!username || !password) {
-      toast.error(t("credentialsRequired"));
+      notify.validation(t("credentialsRequired"));
       return;
     }
 

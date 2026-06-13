@@ -8,7 +8,7 @@ export function AppProviders({ children }: { children: React.ReactNode }) {
   return (
     <AuthProvider loginPath={routes.login}>
       {children}
-      <Toaster richColors position="top-center" />
+      <Toaster />
     </AuthProvider>
   );
 }
