@@ -191,7 +191,10 @@
     "verifiedSeller": "بائع موثّق",
     "instantAlerts": "تنبيهات فورية",
     "noBidsYet": "لا مزايدات بعد — كن أول المزايدين!",
-    "bidsWord": "مزايدة"
+    "bidsWord": "مزايدة",
+    "ownListingTitle": "عرضك",
+    "ownListingNoBid": "لا يمكن للبائع المزايدة على مزاداته الخاصة.",
+    "ownListingHint": "أدر هذا العرض من لوحة التحكم. يمكن للمزايدين الآخرين تقديم عروضهم بعد دفع رسوم الانضمام."
   },
   "bids": {
     "title": "سجل المزايدات",
@@ -228,7 +231,8 @@
     "minDescription": "الحد الأدنى: {amount} (الحالي + الزيادة)",
     "amountLabel": "المبلغ (دينار)",
     "placing": "جاري الإرسال…",
-    "placeBid": "قدّم مزايدة"
+    "placeBid": "قدّم مزايدة",
+    "sellerCannotBid": "لا يمكنك المزايدة على عرضك الخاص"
   },
   "catalog": {
     "title": "الكتالوج",
@@ -347,7 +351,30 @@
       "activateTitle": "تفعيل العرض",
       "activateDescription": "ادفع رسوم البائع للنشر. يبدأ مؤقت المزاد عند تأكيد الدفع.",
       "duration": "المدة",
-      "durationDaysValue": "{days} يوماً"
+      "durationDaysValue": "{days} يوماً",
+      "paymentRequired": "الدفع مطلوب"
+    },
+    "listingPreview": {
+      "pageTitle": "العرض #{id}",
+      "eyebrow": "معاينة العرض",
+      "backToDashboard": "العودة للوحة التحكم",
+      "loading": "جارٍ تحميل العرض…",
+      "loadError": "تعذر تحميل هذا العرض.",
+      "editListing": "تعديل العرض",
+      "viewLive": "عرض المزاد المباشر",
+      "payCardTitle": "جاهز للنشر",
+      "payCardDescription": "تمت الموافقة على عرضك. ادفع رسوم البائع أدناه لنشره في السوق.",
+      "descriptionTitle": "الوصف",
+      "noDescription": "لا يوجد وصف.",
+      "detailsTitle": "تفاصيل العرض",
+      "reservePrice": "سعر الحجز",
+      "minIncrement": "أقل زيادة مزايدة",
+      "statusDraft": "هذه معاينة لمسودة. عدّل العرض وأرسله للمراجعة عندما تكون جاهزاً.",
+      "statusUnderReview": "فريقنا يراجع هذا العرض. سنُعلمك عند الموافقة.",
+      "statusReturned": "طُلب تعديلات من الفريق. عدّل العرض وأعد الإرسال.",
+      "statusApproved": "تمت الموافقة وبانتظار الدفع. ادفع رسوم البائع لبدء مؤقت المزاد.",
+      "statusRejected": "تم رفض هذا العرض. أنشئ عرضاً جديداً أو تواصل مع الدعم.",
+      "statusCancelled": "تم إلغاء هذا العرض."
     }
   },
   "listingWizard": {
@@ -449,21 +476,22 @@
     "bidderJoinTitle": "الانضمام للمزاد",
     "bidderJoinDescription": "ادفع رسوم التأمين والاشتراك للمزايدة على «{title}».",
     "payToActivate": "ادفع وفعّل العرض",
-    "payToJoin": "ادفع للانضمام",
-    "startingCheckout": "جارٍ بدء الدفع…",
-    "checkoutStarted": "بدأ الدفع — بانتظار التأكيد",
-    "checkoutFailed": "تعذر بدء الدفع",
+    "payToJoin": "ادفع الآن",
+    "processingPayment": "جارٍ معالجة الدفع…",
+    "loading": "جارٍ التحميل…",
+    "paymentFailed": "تعذر إتمام الدفع",
+    "gatewayNotReady": "الدفع الإلكتروني غير متاح بعد. تواصل مع الدعم.",
+    "simulateNote": "دفع تجريبي للاختبار — نفس الزر سيفتح الدفع الحقيقي عند التفعيل لاحقاً.",
     "activateSuccess": "العرض نشط الآن!",
     "joinSuccess": "يمكنك المزايدة الآن",
-    "pendingPaymentTitle": "بانتظار الدفع",
-    "pendingPaymentHint": "في بيئة الاختبار، يؤكد الفريق الدفع عبر mark paid. تتحدث الصفحة تلقائياً.",
     "reference": "المرجع",
     "paymentConfirmed": "تم تأكيد الدفع",
     "sellerInsurance": "تأمين البائع",
     "bidderInsurance": "تأمين المزايد",
     "subscriptionFee": "رسوم الاشتراك",
     "totalDue": "المبلغ المستحق",
-    "subscriptionRequired": "اشترك في هذا المزاد قبل تقديم مزايدة"
+    "subscriptionRequired": "اشترك في هذا المزاد قبل تقديم مزايدة",
+    "payToBidHint": "ادفع رسوم الانضمام أدناه لفتح المزايدة على هذا المزاد."
   },
   "postAuction": {
     "rateTitle": "قيّم تجربتك",

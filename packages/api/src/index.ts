@@ -28,5 +28,11 @@ export type {
   AuctionReviewChecklistItem,
   AuditLogEntry,
 } from "./services/staff.service";
+export { filterAuditLogsForAuction } from "./services/staff.service";
+export {
+  findBidderSubscription,
+  findSellerSubscription,
+  findSubscriptionForUser,
+} from "./utils/subscription";
 export type { StaffUser, StaffUserUpdatePayload } from "./types/users";
 export { staffUsersService } from "./services/staff-users.service";

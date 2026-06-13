@@ -2,18 +2,27 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 
-import { subscriptionsService, type Subscription } from "@mazad/api";
+import {
+  findSubscriptionForUser,
+  subscriptionsService,
+  type ParticipantType,
+  type Subscription,
+} from "@mazad/api";
 
 const POLL_MS = 2500;
 
 type UseSubscriptionPollOptions = {
   auctionId: number;
+  userId: number;
+  participantType: ParticipantType;
   enabled?: boolean;
   onActive?: (subscription: Subscription) => void;
 };
 
 export function useSubscriptionPoll({
   auctionId,
+  userId,
+  participantType,
   enabled = true,
   onActive,
 }: UseSubscriptionPollOptions) {
@@ -24,13 +33,13 @@ export function useSubscriptionPoll({
 
   const refresh = useCallback(async () => {
     const data = await subscriptionsService.listClient({ auction: auctionId });
-    const latest = data.results?.[0] ?? null;
+    const latest = findSubscriptionForUser(data.results, userId, participantType);
     setSubscription(latest);
     if (latest?.status === "active") {
       onActiveRef.current?.(latest);
     }
     return latest;
-  }, [auctionId]);
+  }, [auctionId, participantType, userId]);
 
   useEffect(() => {
     if (!enabled) {

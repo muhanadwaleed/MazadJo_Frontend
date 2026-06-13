@@ -58,6 +58,7 @@ export interface AuctionBidPanelProps {
     instantAlerts?: string;
     minBidError?: string;
     bidFailed?: string;
+    days?: string;
     hours?: string;
     minutes?: string;
     seconds?: string;
@@ -109,6 +110,7 @@ export function AuctionBidPanel({
     minBidError:
       labels.minBidError ?? `Minimum bid is ${currency} ${fmt(minBid)}`,
     bidFailed: labels.bidFailed ?? "Failed to place bid",
+    days: labels.days ?? "Days",
     hours: labels.hours ?? "Hours",
     minutes: labels.minutes ?? "Mins",
     seconds: labels.seconds ?? "Secs",
@@ -209,7 +211,12 @@ export function AuctionBidPanel({
             </p>
             <AuctionCountdown
               endTime={endsAt}
-              labels={{ hours: L.hours, minutes: L.minutes, seconds: L.seconds }}
+              labels={{
+                days: L.days,
+                hours: L.hours,
+                minutes: L.minutes,
+                seconds: L.seconds,
+              }}
             />
           </div>
         )}

@@ -145,7 +145,10 @@ export default async function AuctionsPage({
           </FilterBar>
 
           {sortedResults.length > 0 ? (
-            <AnimatedAuctionGrid auctions={sortedResults} />
+            <AnimatedAuctionGrid
+              viewKey={[params.status ?? "all", params.search ?? "", sort].join("|")}
+              auctions={sortedResults}
+            />
           ) : (
             <EmptyState
               title={t("noResultsTitle")}

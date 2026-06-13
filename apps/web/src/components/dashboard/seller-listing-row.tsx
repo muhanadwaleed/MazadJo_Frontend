@@ -14,12 +14,13 @@ import { AuctionStatusBadge } from "@/components/auctions/auction-status-badge";
 import { routes } from "@/config/routes";
 import { useRouter } from "@/i18n/navigation";
 import { formatDateTime, formatMoney } from "@/lib/format";
-import { SubscriptionCheckoutPanel } from "@/components/subscriptions/subscription-checkout-panel";
 import {
   canActivateListing,
   canCancelListing,
   canEditListing,
   canSubmitListing,
+  needsSellerPayment,
+  sellerListingViewHref,
 } from "@/lib/seller-listing-actions";
 import { ButtonLink } from "@/components/ui/button-link";
 import {
@@ -53,7 +54,6 @@ export function SellerListingRow({ auction, onUpdated }: SellerListingRowProps) 
   const [busy, setBusy] = useState<"submit" | "cancel" | null>(null);
   const [submitOpen, setSubmitOpen] = useState(false);
   const [cancelOpen, setCancelOpen] = useState(false);
-  const [activateOpen, setActivateOpen] = useState(false);
   const [cancelReason, setCancelReason] = useState("");
 
   async function handleSubmit() {
@@ -91,11 +91,18 @@ export function SellerListingRow({ auction, onUpdated }: SellerListingRowProps) 
 
   return (
     <>
-      <Card>
+      <Card className={needsSellerPayment(auction.status) ? "border-mazad-accent/30" : undefined}>
         <CardHeader className="flex flex-row items-start justify-between gap-4 space-y-0">
           <div className="min-w-0 space-y-1">
             <CardTitle className="line-clamp-2 text-base">{auction.title}</CardTitle>
-            <CardDescription>#{auction.auction_number}</CardDescription>
+            <CardDescription>
+              #{auction.auction_number}
+              {needsSellerPayment(auction.status) ? (
+                <span className="ms-2 font-medium text-mazad-accent">
+                  · {t("paymentRequired")}
+                </span>
+              ) : null}
+            </CardDescription>
           </div>
           <AuctionStatusBadge status={auction.status} />
         </CardHeader>
@@ -118,7 +125,11 @@ export function SellerListingRow({ auction, onUpdated }: SellerListingRowProps) 
           </div>
         </CardContent>
         <CardFooter className="flex flex-wrap gap-2">
-          <ButtonLink href={routes.auction(auction.id)} variant="default" size="sm">
+          <ButtonLink
+            href={sellerListingViewHref(auction.status, auction.id)}
+            variant="default"
+            size="sm"
+          >
             {tCommon("view")}
           </ButtonLink>
           {canEditListing(auction.status) ? (
@@ -136,9 +147,13 @@ export function SellerListingRow({ auction, onUpdated }: SellerListingRowProps) 
             </Button>
           ) : null}
           {canActivateListing(auction.status) ? (
-            <Button size="sm" variant="secondary" onClick={() => setActivateOpen(true)}>
+            <ButtonLink
+              href={`${routes.listingView(auction.id)}#pay`}
+              size="sm"
+              variant="secondary"
+            >
               {t("activate")}
-            </Button>
+            </ButtonLink>
           ) : null}
           {canCancelListing(auction.status) ? (
             <Button size="sm" variant="destructive" onClick={() => setCancelOpen(true)}>
@@ -162,25 +177,6 @@ export function SellerListingRow({ auction, onUpdated }: SellerListingRowProps) 
               {busy === "submit" ? t("submitting") : t("submitConfirm")}
             </Button>
           </DialogFooter>
-        </DialogContent>
-      </Dialog>
-
-      <Dialog open={activateOpen} onOpenChange={setActivateOpen}>
-        <DialogContent className="max-w-md">
-          <DialogHeader>
-            <DialogTitle>{t("activateTitle")}</DialogTitle>
-            <DialogDescription>{t("activateDescription")}</DialogDescription>
-          </DialogHeader>
-          <SubscriptionCheckoutPanel
-            auctionId={auction.id}
-            auctionTitle={auction.title}
-            intent="seller_activate"
-            compact
-            onActivated={() => {
-              setActivateOpen(false);
-              onUpdated();
-            }}
-          />
         </DialogContent>
       </Dialog>
 

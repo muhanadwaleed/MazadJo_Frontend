@@ -44,6 +44,14 @@ export const env = {
     process.env.API_URL ?? process.env.NEXT_PUBLIC_API_URL,
     "http://127.0.0.1:8000/api/v1"
   ),
+
+  /**
+   * Payment UX mode for subscriptions.
+   * - simulate: user "Pay now" calls mark_paid (staging / dev)
+   * - gateway: future real checkout redirect (not wired yet)
+   */
+  paymentMode:
+    process.env.NEXT_PUBLIC_PAYMENT_MODE === "gateway" ? "gateway" : "simulate",
 } as const;
 
 /**

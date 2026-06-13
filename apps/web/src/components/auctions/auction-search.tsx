@@ -36,7 +36,9 @@ export function AuctionSearch({
     if (status) params.set("status", status);
     const qs = params.toString();
     setIsSubmitting(true);
-    router.push(qs ? `${routes.auctions}?${qs}` : routes.auctions);
+    router.push(qs ? `${routes.auctions}?${qs}` : routes.auctions, {
+      scroll: false,
+    });
   };
 
   const isHero = variant === "hero";

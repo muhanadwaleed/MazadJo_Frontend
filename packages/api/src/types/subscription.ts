@@ -17,6 +17,7 @@ export type PaymentTransaction = {
 export type Subscription = {
   id: number;
   auction: number;
+  user: number;
   status: SubscriptionStatus;
   insurance_fee: string;
   subscription_fee: string;

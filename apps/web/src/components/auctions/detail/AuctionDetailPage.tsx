@@ -64,8 +64,10 @@ interface AuctionDetailPageProps {
   isWatchlisted?: boolean;
   /** RTL locale? pass true when locale === "ar" */
   isRtl?: boolean;
-  /** Phase 5 — subscribe-to-bid panel rendered above the bid form */
+  /** Phase 5 — payment / subscribe panel (replaces bid form when required) */
   subscriptionGate?: ReactNode;
+  /** Hide bid form when user must pay to join first */
+  hideBidPanel?: boolean;
   /** Phase 7 — backend status for settlement messaging */
   backendStatus?: AuctionStatus;
   winnerBidId?: number | null;
@@ -111,6 +113,7 @@ export function AuctionDetailPage({
   isWatchlisted = false,
   isRtl = false,
   subscriptionGate,
+  hideBidPanel = false,
   backendStatus,
   winnerBidId,
 }: AuctionDetailPageProps) {
@@ -118,6 +121,8 @@ export function AuctionDetailPage({
   const t = useTranslations("auctionDetail");
   const tAuctions = useTranslations("auctions");
   const tBids = useTranslations("bids");
+  const totalBidCount =
+    auction.bids.length > 0 ? auction.bids.length : auction.totalBids;
   const tBidForm = useTranslations("bidForm");
 
   const numberLocale = intlLocale(locale);
@@ -166,6 +171,7 @@ export function AuctionDetailPage({
     securePay: t("securePay"),
     verifiedSeller: t("verifiedSeller"),
     instantAlerts: t("instantAlerts"),
+    days: tAuctions("countdown.days"),
     hours: tAuctions("countdown.hours"),
     minutes: tAuctions("countdown.minutes"),
     seconds: tAuctions("countdown.seconds"),
@@ -330,7 +336,7 @@ export function AuctionDetailPage({
                   />
                   <DetailMeta
                     label={t("totalBids")}
-                    value={t("bidsPlaced", { count: auction.totalBids })}
+                    value={t("bidsPlaced", { count: totalBidCount })}
                   />
                   <DetailMeta label={t("auctionEnds")} value={formatDate(auction.endsAt)} />
                 </div>
@@ -401,26 +407,28 @@ export function AuctionDetailPage({
             </motion.div>
           </motion.div>
 
-          {/* RIGHT COLUMN — Subscribe gate + bid panel */}
-          <div className="flex flex-col gap-4">
+          {/* RIGHT COLUMN — payment gate or bid panel */}
+          <div id="auction-bid-panel" className="flex flex-col gap-4">
             {subscriptionGate}
-          <AuctionBidPanel
-            auctionId={auction.id}
-            title={auction.title}
-            status={auction.status}
-            currentBid={auction.currentBid}
-            startingPrice={auction.startingPrice}
-            totalBids={auction.totalBids}
-            minIncrement={auction.minIncrement}
-            endsAt={auction.endsAt}
-            isWatchlisted={isWatchlisted}
-            bids={auction.bids}
-            currency={currency}
-            numberLocale={numberLocale}
-            onBid={onBid}
-            onWatchlist={onWatchlist}
-            labels={panelLabels}
-          />
+            {!hideBidPanel ? (
+              <AuctionBidPanel
+                auctionId={auction.id}
+                title={auction.title}
+                status={auction.status}
+                currentBid={auction.currentBid}
+                startingPrice={auction.startingPrice}
+                totalBids={totalBidCount}
+                minIncrement={auction.minIncrement}
+                endsAt={auction.endsAt}
+                isWatchlisted={isWatchlisted}
+                bids={auction.bids}
+                currency={currency}
+                numberLocale={numberLocale}
+                onBid={onBid}
+                onWatchlist={onWatchlist}
+                labels={panelLabels}
+              />
+            ) : null}
           </div>
         </div>
 

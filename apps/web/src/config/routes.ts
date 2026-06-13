@@ -13,6 +13,7 @@ export const routes = {
   dashboard: "/dashboard",
   dashboardWatchlist: "/dashboard/watchlist",
   listingNew: "/dashboard/listings/new",
+  listingView: (id: string | number) => `/dashboard/listings/${id}`,
   listingEdit: (id: string | number) => `/dashboard/listings/${id}/edit`,
   profile: "/profile",
   login: "/login",

@@ -20,8 +20,8 @@ export function StaffAuditPanel({
   const tCommon = useTranslations("common");
   const [entries, setEntries] = useState<AuditLogEntry[]>([]);
   const [loading, setLoading] = useState(true);
-  const [entityType, setEntityType] = useState(initialEntityType);
-  const [entityId, setEntityId] = useState(initialEntityId);
+  const [entityType, setEntityType] = useState(initialEntityType ?? "auction");
+  const [entityId, setEntityId] = useState(initialEntityId ?? "");
 
   const load = useCallback(async () => {
     setLoading(true);

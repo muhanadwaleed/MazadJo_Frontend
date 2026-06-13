@@ -191,7 +191,10 @@
     "verifiedSeller": "Verified Seller",
     "instantAlerts": "Instant Alerts",
     "noBidsYet": "No bids yet — be the first to bid!",
-    "bidsWord": "bids"
+    "bidsWord": "bids",
+    "ownListingTitle": "Your listing",
+    "ownListingNoBid": "Sellers cannot bid on their own auctions.",
+    "ownListingHint": "Manage this listing from your dashboard. Other bidders can place offers once they pay the join fee."
   },
   "bids": {
     "title": "Bid history",
@@ -228,7 +231,8 @@
     "minDescription": "Minimum: {amount} (current + increment)",
     "amountLabel": "Amount (JOD)",
     "placing": "Placing…",
-    "placeBid": "Place bid"
+    "placeBid": "Place bid",
+    "sellerCannotBid": "You cannot bid on your own listing"
   },
   "catalog": {
     "title": "Catalog",
@@ -347,7 +351,30 @@
       "activateTitle": "Activate listing",
       "activateDescription": "Pay seller fees to go live. The auction timer starts when payment is confirmed.",
       "duration": "Duration",
-      "durationDaysValue": "{days} days"
+      "durationDaysValue": "{days} days",
+      "paymentRequired": "Payment required"
+    },
+    "listingPreview": {
+      "pageTitle": "Listing #{id}",
+      "eyebrow": "Listing preview",
+      "backToDashboard": "Back to dashboard",
+      "loading": "Loading listing…",
+      "loadError": "Could not load this listing.",
+      "editListing": "Edit listing",
+      "viewLive": "View live auction",
+      "payCardTitle": "Ready to go live",
+      "payCardDescription": "Your listing is approved. Pay seller fees below to publish it on the marketplace.",
+      "descriptionTitle": "Description",
+      "noDescription": "No description provided.",
+      "detailsTitle": "Listing details",
+      "reservePrice": "Reserve price",
+      "minIncrement": "Min bid increment",
+      "statusDraft": "This is a draft preview. Edit and submit when you are ready for staff review.",
+      "statusUnderReview": "Staff are reviewing this listing. You will be notified when it is approved.",
+      "statusReturned": "Staff requested changes. Edit the listing and submit again.",
+      "statusApproved": "Approved and waiting for payment. Pay seller fees to start the auction timer.",
+      "statusRejected": "This listing was rejected. Create a new listing or contact support if you need help.",
+      "statusCancelled": "This listing was cancelled."
     }
   },
   "listingWizard": {
@@ -449,21 +476,22 @@
     "bidderJoinTitle": "Join this auction",
     "bidderJoinDescription": "Pay insurance and subscription fees to place bids on “{title}”.",
     "payToActivate": "Pay & activate listing",
-    "payToJoin": "Pay to join auction",
-    "startingCheckout": "Starting checkout…",
-    "checkoutStarted": "Payment started — waiting for confirmation",
-    "checkoutFailed": "Could not start payment",
+    "payToJoin": "Pay now",
+    "processingPayment": "Processing payment…",
+    "loading": "Loading…",
+    "paymentFailed": "Payment could not be completed",
+    "gatewayNotReady": "Online checkout is not available yet. Contact support.",
+    "simulateNote": "Simulated payment for testing — the same button will open real checkout when payments go live.",
     "activateSuccess": "Listing is live!",
     "joinSuccess": "You can now place bids",
-    "pendingPaymentTitle": "Waiting for payment",
-    "pendingPaymentHint": "In staging, staff confirms payment via mark paid. This page updates automatically.",
     "reference": "Reference",
     "paymentConfirmed": "Payment confirmed",
     "sellerInsurance": "Seller insurance",
     "bidderInsurance": "Bidder insurance",
     "subscriptionFee": "Subscription fee",
     "totalDue": "Total due",
-    "subscriptionRequired": "Subscribe to this auction before placing a bid"
+    "subscriptionRequired": "Subscribe to this auction before placing a bid",
+    "payToBidHint": "Pay the join fee below to unlock bidding on this auction."
   },
   "postAuction": {
     "rateTitle": "Rate your experience",

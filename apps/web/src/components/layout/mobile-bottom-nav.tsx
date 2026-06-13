@@ -68,7 +68,7 @@ export function MobileBottomNav() {
         key={item.id}
         href={item.href}
         className={cn(
-          "flex h-12 w-16 flex-col items-center justify-center gap-1 rounded-xl transition-all duration-200 active:scale-95",
+          "mx-auto flex h-12 w-full max-w-16 flex-col items-center justify-center gap-1 rounded-xl transition-all duration-200 active:scale-95",
           active
             ? "bg-light-blue/10 text-mazad-primary"
             : "text-navy/60 hover:bg-light-blue/5 hover:text-mazad-primary"
@@ -94,11 +94,17 @@ export function MobileBottomNav() {
 
   return (
     <div className="fixed inset-x-0 bottom-0 z-40 border-t border-separator/85 bg-card/85 pb-[env(safe-area-inset-bottom,0px)] shadow-[0_-4px_16px_rgba(7,19,40,0.06)] backdrop-blur-xl md:hidden">
-      <nav className="relative flex h-16 items-center justify-around px-2">
+      <nav className="relative grid h-16 grid-cols-5 items-end px-2 pb-1">
         {leftItems.map(renderNavItem)}
-        <div className="w-16" aria-hidden />
+        <div className="relative flex items-end justify-center">
+          {/* Raised dock shelf behind FAB */}
+          <div
+            className="pointer-events-none absolute -top-2 inset-x-0.5 h-7 rounded-t-2xl border border-b-0 border-separator/50 bg-gradient-to-b from-card via-card/95 to-transparent shadow-[inset_0_1px_0_rgba(255,255,255,0.65)]"
+            aria-hidden
+          />
+          <AddAuctionFab />
+        </div>
         {rightItems.map(renderNavItem)}
-        <AddAuctionFab />
       </nav>
     </div>
   );

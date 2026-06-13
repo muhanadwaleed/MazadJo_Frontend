@@ -11,6 +11,7 @@ import {
   DialogTitle,
 } from "@mazad/ui";
 import { cn } from "@mazad/ui/utils";
+import { AuthenticatedMediaPreview } from "@/components/listings/authenticated-media-preview";
 import { resolveAuctionMediaPath } from "@/lib/auction-media-url";
 
 type AuctionMediaGalleryProps = {
@@ -23,7 +24,47 @@ type AuctionMediaGalleryProps = {
   closeLabel?: string;
   previousLabel?: string;
   nextLabel?: string;
+  /** Seller drafts need JWT — fetch media via blob URLs instead of raw src. */
+  authenticated?: boolean;
 };
+
+function GalleryImage({
+  auctionId,
+  item,
+  title,
+  className,
+  alt,
+  authenticated,
+}: {
+  auctionId: number;
+  item: AuctionMedia;
+  title: string;
+  className?: string;
+  alt?: string;
+  authenticated?: boolean;
+}) {
+  if (authenticated) {
+    return (
+      <AuthenticatedMediaPreview
+        auctionId={auctionId}
+        mediaId={item.id}
+        url={item.url}
+        mediaType="image"
+        alt={alt ?? title}
+        className={className}
+      />
+    );
+  }
+
+  return (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      src={resolveAuctionMediaPath(auctionId, item.id, item.url)}
+      alt={alt ?? title}
+      className={className}
+    />
+  );
+}
 
 function sortImages(items: AuctionMedia[]) {
   return [...items]
@@ -41,6 +82,7 @@ export function AuctionMediaGallery({
   closeLabel = "Close",
   previousLabel = "Previous image",
   nextLabel = "Next image",
+  authenticated = false,
 }: AuctionMediaGalleryProps) {
   const images = sortImages(mediaItems);
   const [activeIndex, setActiveIndex] = useState(0);
@@ -82,9 +124,11 @@ export function AuctionMediaGallery({
             aria-label={expandLabel}
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={resolveAuctionMediaPath(auctionId, active.id, active.url)}
-              alt={title}
+            <GalleryImage
+              auctionId={auctionId}
+              item={active}
+              title={title}
+              authenticated={authenticated}
               className="size-full object-cover transition-transform duration-300 group-hover:scale-[1.01]"
             />
             <span className="absolute end-3 top-3 inline-flex items-center gap-1 rounded-full bg-navy/70 px-2.5 py-1 text-xs font-semibold text-white backdrop-blur-sm">
@@ -127,9 +171,11 @@ export function AuctionMediaGallery({
                     : "border-separator/60 opacity-80 hover:border-mazad-primary/40 hover:opacity-100"
                 )}
               >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={resolveAuctionMediaPath(auctionId, item.id, item.url)}
+                <GalleryImage
+                  auctionId={auctionId}
+                  item={item}
+                  title={title}
+                  authenticated={authenticated}
                   alt=""
                   className="size-full object-cover"
                 />
@@ -177,10 +223,11 @@ export function AuctionMediaGallery({
                 </>
               ) : null}
 
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={resolveAuctionMediaPath(auctionId, active.id, active.url)}
-                alt={title}
+              <GalleryImage
+                auctionId={auctionId}
+                item={active}
+                title={title}
+                authenticated={authenticated}
                 className="max-h-[85vh] w-full object-contain"
               />
             </div>

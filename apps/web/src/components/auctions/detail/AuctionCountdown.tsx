@@ -9,6 +9,7 @@
 import { useEffect, useState } from "react";
 
 interface CountdownState {
+  days: number;
   hours: number;
   minutes: number;
   seconds: number;
@@ -20,11 +21,15 @@ function useCountdown(endTime: Date | string | number): CountdownState {
 
   const calc = (): CountdownState => {
     const diff = Math.max(0, target - Date.now());
+    if (diff === 0) {
+      return { days: 0, hours: 0, minutes: 0, seconds: 0, expired: true };
+    }
     return {
-      hours: Math.floor(diff / 3_600_000),
-      minutes: Math.floor((diff % 3_600_000) / 60_000),
-      seconds: Math.floor((diff % 60_000) / 1_000),
-      expired: diff === 0,
+      days: Math.floor(diff / 86_400_000),
+      hours: Math.floor((diff / 3_600_000) % 24),
+      minutes: Math.floor((diff / 60_000) % 60),
+      seconds: Math.floor((diff / 1_000) % 60),
+      expired: false,
     };
   };
 
@@ -68,7 +73,13 @@ function DigitCell({ value, label }: { value: number; label: string }) {
 interface AuctionCountdownProps {
   endTime: Date | string | number;
   /** Labels — pass translated strings for RTL/AR support */
-  labels?: { hours?: string; minutes?: string; seconds?: string; expired?: string };
+  labels?: {
+    days?: string;
+    hours?: string;
+    minutes?: string;
+    seconds?: string;
+    expired?: string;
+  };
   className?: string;
 }
 
@@ -77,9 +88,10 @@ export function AuctionCountdown({
   labels = {},
   className,
 }: AuctionCountdownProps) {
-  const { hours, minutes, seconds, expired } = useCountdown(endTime);
+  const { days, hours, minutes, seconds, expired } = useCountdown(endTime);
 
   const L = {
+    days: labels.days ?? "Days",
     hours: labels.hours ?? "Hours",
     minutes: labels.minutes ?? "Mins",
     seconds: labels.seconds ?? "Secs",
@@ -98,7 +110,19 @@ export function AuctionCountdown({
   }
 
   return (
-    <div className={`flex items-start justify-center gap-2.5 ${className ?? ""}`}>
+    <div
+      className={`flex items-start justify-center gap-2 sm:gap-2.5 ${className ?? ""}`}
+      role="timer"
+      aria-live="polite"
+    >
+      <DigitCell value={days} label={L.days} />
+      <span
+        className="select-none pt-3 text-3xl font-bold"
+        style={{ color: "var(--mazad-navy, #071328)" }}
+        aria-hidden
+      >
+        :
+      </span>
       <DigitCell value={hours} label={L.hours} />
       <span
         className="select-none pt-3 text-3xl font-bold"

@@ -49,6 +49,7 @@ export async function AuctionSortFilters({
           <Link
             key={key}
             href={buildHref(value)}
+            scroll={false}
             className={cn(
               "rounded-full border px-3 py-1.5 text-xs font-semibold transition-all duration-200",
               active

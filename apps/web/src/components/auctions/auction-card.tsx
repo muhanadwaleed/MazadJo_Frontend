@@ -2,12 +2,14 @@ import { getLocale, getTranslations } from "next-intl/server";
 
 import { routes } from "@/config/routes";
 import type { AuctionListItem } from "@mazad/api";
+import { resolveAuctionBidderCount } from "@/lib/auction-bidder-count";
 import { formatMoney } from "@/lib/format";
 import { normalizeMediaUrl } from "@/lib/media-url";
 import { AuctionStatusBadge } from "@/components/auctions/auction-status-badge";
 import { AuctionWatchlistIconButton } from "@/components/auctions/auction-watchlist-icon-button";
 import { ButtonLink } from "@/components/ui/button-link";
-import { AuctionCardShell, CountdownTimer } from "@mazad/ui";
+import { CountdownTimer } from "@mazad/ui";
+import { AuctionCardShellLink } from "@/components/auctions/auction-card-shell-link";
 
 export async function AuctionCard({ auction }: { auction: AuctionListItem }) {
   const locale = await getLocale();
@@ -18,9 +20,11 @@ export async function AuctionCard({ auction }: { auction: AuctionListItem }) {
   const isScheduled = auction.status === "scheduled";
   const isEnded =
     auction.status === "ended" || auction.status === "ended_without_bids";
+  const bidderCount = await resolveAuctionBidderCount(auction);
 
   return (
-    <AuctionCardShell
+    <AuctionCardShellLink
+      href={routes.auction(auction.id)}
       title={auction.title}
       auctionNumber={auction.auction_number}
       imageUrl={normalizeMediaUrl(auction.primary_media_url)}
@@ -32,7 +36,7 @@ export async function AuctionCard({ auction }: { auction: AuctionListItem }) {
       currentBid={formatMoney(auction.current_price, locale)}
       startingPriceLabel={t("startingPrice")}
       startingPrice={formatMoney(auction.start_price, locale)}
-      bidCountText={t("bidCount", { count: auction.participants_count })}
+      bidCountText={t("bidCount", { count: bidderCount })}
       timeRemaining={
         isLive && auction.ends_at ? (
           <CountdownTimer

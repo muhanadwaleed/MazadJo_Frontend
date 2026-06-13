@@ -11,15 +11,21 @@ import { formatMoney } from "@/lib/format";
 import { normalizeMediaUrl } from "@/lib/media-url";
 import { AuctionStatusBadge } from "@/components/auctions/auction-status-badge";
 import { ButtonLink } from "@/components/ui/button-link";
-import { AuctionCardShell, CountdownTimer } from "@mazad/ui";
+import { CountdownTimer } from "@mazad/ui";
+import { AuctionCardShellLink } from "@/components/auctions/auction-card-shell-link";
 import { Button } from "@mazad/ui";
 
 type WatchlistAuctionCardProps = {
   auction: AuctionListItem;
+  bidderCount?: number;
   onRemoved: () => void;
 };
 
-export function WatchlistAuctionCard({ auction, onRemoved }: WatchlistAuctionCardProps) {
+export function WatchlistAuctionCard({
+  auction,
+  bidderCount,
+  onRemoved,
+}: WatchlistAuctionCardProps) {
   const locale = useLocale();
   const t = useTranslations("auctions");
   const tCommon = useTranslations("common");
@@ -47,7 +53,8 @@ export function WatchlistAuctionCard({ auction, onRemoved }: WatchlistAuctionCar
   }
 
   return (
-    <AuctionCardShell
+    <AuctionCardShellLink
+      href={routes.auction(auction.id)}
       title={auction.title}
       auctionNumber={auction.auction_number}
       imageUrl={normalizeMediaUrl(auction.primary_media_url)}
@@ -58,7 +65,9 @@ export function WatchlistAuctionCard({ auction, onRemoved }: WatchlistAuctionCar
       currentBid={formatMoney(auction.current_price, locale)}
       startingPriceLabel={t("startingPrice")}
       startingPrice={formatMoney(auction.start_price, locale)}
-      bidCountText={t("bidCount", { count: auction.participants_count })}
+      bidCountText={t("bidCount", {
+        count: bidderCount ?? auction.participants_count,
+      })}
       timeRemaining={
         isLive && auction.ends_at ? (
           <CountdownTimer

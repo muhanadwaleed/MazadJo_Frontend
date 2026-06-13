@@ -13,6 +13,7 @@ import {
   type AuditLogEntry,
   type StaffReviewDecision,
 } from "@mazad/api";
+import { StaffAuctionAuditTrail } from "@/components/staff-auction-audit-trail";
 import {
   Badge,
   Button,
@@ -54,33 +55,8 @@ function ReviewChecklist({
             onChange={(e) => onToggle(item.id, e.target.checked)}
           />
           <label htmlFor={`checklist-${auctionId}-${item.id}`} className="leading-snug">
-            {item.label_en || item.label_ar}
+            {item.checklist_item_label}
           </label>
-        </li>
-      ))}
-    </ul>
-  );
-}
-
-function AuditTrail({ entries, loading }: { entries: AuditLogEntry[]; loading: boolean }) {
-  const t = useTranslations("auctions.review");
-
-  if (loading) {
-    return <p className="text-sm text-muted-foreground">{t("loadingAuditTrail")}</p>;
-  }
-
-  if (entries.length === 0) {
-    return <p className="text-sm text-muted-foreground">{t("noAuditEntries")}</p>;
-  }
-
-  return (
-    <ul className="space-y-2 text-sm">
-      {entries.map((entry) => (
-        <li key={entry.id} className="rounded-md border px-3 py-2">
-          <div className="font-medium">{entry.action}</div>
-          <div className="text-muted-foreground">
-            {new Date(entry.created_at).toLocaleString()}
-          </div>
         </li>
       ))}
     </ul>
@@ -186,20 +162,23 @@ function ReviewAuctionCard({
     }
   }
 
-  async function loadAudit() {
+  async function toggleAudit() {
+    if (auditOpen) {
+      setAuditOpen(false);
+      return;
+    }
+
     setAuditOpen(true);
     setAuditLoading(true);
+    setAuditEntries([]);
     try {
-      const data = await staffService.listAuditLogs({
-        entity_type: "auction",
-        entity_id: auction.id,
-        page_size: 20,
-      });
-      setAuditEntries(data.results ?? []);
+      const entries = await staffService.listAuctionAuditLogs(auction.id);
+      setAuditEntries(entries);
     } catch (error) {
       toast.error(
         error instanceof ApiError ? getApiErrorMessage(error) : t("toast.loadAuditFailed")
       );
+      setAuditOpen(false);
     } finally {
       setAuditLoading(false);
     }
@@ -275,15 +254,26 @@ function ReviewAuctionCard({
           >
             {busyDecision === "cancel" ? t("cancelling") : t("staffCancel")}
           </Button>
-          <Button size="sm" variant="ghost" onClick={() => void loadAudit()}>
-            {t("auditTrail")}
+          <Button
+            size="sm"
+            variant={auditOpen ? "secondary" : "ghost"}
+            disabled={auditLoading}
+            onClick={() => void toggleAudit()}
+          >
+            {auditLoading ? t("loadingAuditTrail") : t("auditTrail")}
           </Button>
         </div>
 
         {auditOpen ? (
-          <div className="rounded-md border p-3">
-            <h3 className="mb-2 text-sm font-medium">{t("auditTrail")}</h3>
-            <AuditTrail entries={auditEntries} loading={auditLoading} />
+          <div className="rounded-md border border-dashed p-3">
+            <h3 className="mb-3 text-sm font-medium">
+              {t("auditTrailTitle", { number: auction.auction_number })}
+            </h3>
+            <StaffAuctionAuditTrail
+              auctionNumber={auction.auction_number}
+              entries={auditEntries}
+              loading={auditLoading}
+            />
           </div>
         ) : null}
       </CardContent>

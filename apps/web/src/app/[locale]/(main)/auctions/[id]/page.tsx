@@ -141,8 +141,8 @@ export default async function AuctionDetailRoute({ params }: PageProps) {
     status: toDesignStatus(auction.status),
     currentBid: toNumber(auction.current_price),
     startingPrice: toNumber(auction.start_price),
-    // No total-bid count on the API; participants_count is the closest metric.
-    totalBids: auction.participants_count,
+    // participants_count is unique bidders; use fetched bid rows for "bids placed".
+    totalBids: bidsResult.length,
     minIncrement: toNumber(auction.min_bid_increment),
     endsAt: auction.ends_at ?? new Date().toISOString(),
     category: categoryName,
