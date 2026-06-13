@@ -6,8 +6,7 @@ import { routes } from "@/config/routes";
 import { auctionsService } from "@mazad/api";
 import { formatMoney } from "@/lib/format";
 import { Container, ContentSection, PageHero } from "@mazad/ui";
-import { BidList } from "@/components/auctions/bid-list";
-import { PlaceBidForm } from "@/components/auctions/place-bid-form";
+import { BidListWithPagination } from "@/components/auctions/bid-list-with-pagination";
 import { PageBackLink } from "@/components/layout/page-back-link";
 import { ButtonLink } from "@/components/ui/button-link";
 
@@ -28,6 +27,7 @@ export default async function AuctionBidsPage({ params }: PageProps) {
   const { id } = await params;
   const locale = await getLocale();
   const t = await getTranslations("bids");
+  const tDetail = await getTranslations("auctionDetail");
 
   let auction;
   let bids;
@@ -41,6 +41,7 @@ export default async function AuctionBidsPage({ params }: PageProps) {
   }
 
   const formattedPrice = formatMoney(auction.current_price, locale);
+  const isActive = auction.status === "active";
 
   return (
     <Container className="space-y-8 py-2 md:py-4">
@@ -56,7 +57,7 @@ export default async function AuctionBidsPage({ params }: PageProps) {
         actions={
           <>
             <ButtonLink size="lg" variant="heroPrimary" href={routes.auction(id)}>
-              {t("auctionDetails")}
+              {isActive ? tDetail("placeBidCta") : t("auctionDetails")}
             </ButtonLink>
             <ButtonLink size="lg" variant="heroOutline" href={routes.auctions}>
               {t("allAuctions")}
@@ -76,26 +77,18 @@ export default async function AuctionBidsPage({ params }: PageProps) {
         }
       />
 
-      <div className="grid gap-8 lg:grid-cols-12 lg:items-start">
-        <div className="lg:col-span-7">
-          <ContentSection
-            title={t("recentBids")}
-            description={t("recentBidsDescription")}
-            icon={<History className="size-6 stroke-[1.75]" />}
-          >
-            <BidList bids={bids.results} />
-          </ContentSection>
-        </div>
-
-        <aside className="lg:col-span-5 lg:sticky lg:top-24">
-          <PlaceBidForm
-            auctionId={id}
-            currentPrice={auction.current_price}
-            minIncrement={auction.min_bid_increment}
-            status={auction.status}
-          />
-        </aside>
-      </div>
+      <ContentSection
+        title={t("recentBids")}
+        description={t("fullHistoryDescription")}
+        icon={<History className="size-6 stroke-[1.75]" />}
+      >
+        <BidListWithPagination
+          auctionId={id}
+          initialBids={bids.results}
+          initialNext={bids.next}
+          locale={locale}
+        />
+      </ContentSection>
     </Container>
   );
 }

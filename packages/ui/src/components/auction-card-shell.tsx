@@ -10,6 +10,13 @@ import { cn } from "../utils"
 import { Card, CardContent, CardFooter } from "./card"
 import { LiveAuctionIndicator } from "./live-auction-indicator"
 
+export type AuctionCardLinkProps = {
+  href: string
+  className?: string
+  "aria-label"?: string
+  children?: React.ReactNode
+}
+
 export type AuctionCardShellProps = {
   title: string
   auctionNumber: string
@@ -26,6 +33,12 @@ export type AuctionCardShellProps = {
   bidCountText?: string
   footer: React.ReactNode
   className?: string
+  /** Overlay control on the image (e.g. watchlist heart). */
+  imageAction?: React.ReactNode
+  /** When set, the card body navigates to the auction detail page. */
+  href?: string
+  /** Defaults to `<a>` — pass Next.js `Link` from the app for client routing. */
+  linkComponent?: React.ComponentType<AuctionCardLinkProps>
 }
 
 export function AuctionCardShell({
@@ -44,7 +57,12 @@ export function AuctionCardShell({
   bidCountText,
   footer,
   className,
+  imageAction,
+  href,
+  linkComponent: LinkComponent,
 }: AuctionCardShellProps) {
+  const CardLink = LinkComponent ?? "a"
+
   return (
     <motion.article
       className={cn("h-full", className)}
@@ -53,8 +71,18 @@ export function AuctionCardShell({
       variants={cardHover}
       transition={{ duration: motionDuration.fast, ease: motionEase }}
     >
-      <Card interactive className="h-full overflow-hidden p-0">
-        <div className="relative aspect-[4/3] overflow-hidden bg-surface">
+      <Card interactive className="relative h-full overflow-hidden p-0">
+        {href ? (
+          <CardLink
+            href={href}
+            className="absolute inset-0 z-[1] rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+            aria-label={title}
+          >
+            <span className="sr-only">{title}</span>
+          </CardLink>
+        ) : null}
+
+        <div className="pointer-events-none relative z-[2] aspect-[4/3] overflow-hidden bg-surface">
           {imageUrl ? (
             <img
               src={imageUrl}
@@ -83,9 +111,14 @@ export function AuctionCardShell({
               </span>
             ) : null}
           </div>
+          {imageAction ? (
+            <div className="pointer-events-auto absolute end-3 top-3 z-[3]">
+              {imageAction}
+            </div>
+          ) : null}
         </div>
 
-        <CardContent className="flex flex-1 flex-col gap-4 pt-5">
+        <CardContent className="pointer-events-none relative z-[2] flex flex-1 flex-col gap-4 pt-5">
           <div className="space-y-1">
             <h3 className="line-clamp-2 text-base font-semibold leading-snug text-navy">
               {title}
@@ -114,7 +147,9 @@ export function AuctionCardShell({
           ) : null}
         </CardContent>
 
-        <CardFooter className="mt-auto gap-2">{footer}</CardFooter>
+        <CardFooter className="relative z-[2] mt-auto gap-2 pointer-events-auto">
+          {footer}
+        </CardFooter>
       </Card>
     </motion.article>
   )

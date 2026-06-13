@@ -35,11 +35,27 @@ export const endpoints = {
     submit: (id: string | number) => `/auctions/${id}/submit/`,
     cancel: (id: string | number) => `/auctions/${id}/cancel/`,
     staffReview: (id: string | number) => `/auctions/${id}/staff/review/`,
-    staffPublish: (id: string | number) => `/auctions/${id}/staff/publish/`,
+    staffCancel: (id: string | number) => `/auctions/${id}/staff/cancel/`,
     reviewChecklist: (id: string | number) => `/auctions/${id}/review-checklist/`,
     media: (id: string | number) => `/auctions/${id}/media/`,
     mediaItem: (id: string | number, mediaId: string | number) =>
       `/auctions/${id}/media/${mediaId}/`,
+  },
+  watchlist: {
+    list: "/watchlist/",
+  },
+  subscriptions: {
+    list: "/subscriptions/",
+    markPaid: (id: string | number) => `/subscriptions/${id}/mark_paid/`,
+  },
+  payments: {
+    transactions: "/payments/transactions/",
+  },
+  ratings: {
+    list: "/ratings/",
+  },
+  disputes: {
+    list: "/disputes/",
   },
   notifications: {
     list: "/notifications/",

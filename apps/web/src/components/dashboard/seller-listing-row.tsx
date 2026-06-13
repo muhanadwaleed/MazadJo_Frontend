@@ -15,9 +15,12 @@ import { routes } from "@/config/routes";
 import { useRouter } from "@/i18n/navigation";
 import { formatDateTime, formatMoney } from "@/lib/format";
 import {
+  canActivateListing,
   canCancelListing,
   canEditListing,
   canSubmitListing,
+  needsSellerPayment,
+  sellerListingViewHref,
 } from "@/lib/seller-listing-actions";
 import { ButtonLink } from "@/components/ui/button-link";
 import {
@@ -88,11 +91,18 @@ export function SellerListingRow({ auction, onUpdated }: SellerListingRowProps) 
 
   return (
     <>
-      <Card>
+      <Card className={needsSellerPayment(auction.status) ? "border-mazad-accent/30" : undefined}>
         <CardHeader className="flex flex-row items-start justify-between gap-4 space-y-0">
           <div className="min-w-0 space-y-1">
             <CardTitle className="line-clamp-2 text-base">{auction.title}</CardTitle>
-            <CardDescription>#{auction.auction_number}</CardDescription>
+            <CardDescription>
+              #{auction.auction_number}
+              {needsSellerPayment(auction.status) ? (
+                <span className="ms-2 font-medium text-mazad-accent">
+                  · {t("paymentRequired")}
+                </span>
+              ) : null}
+            </CardDescription>
           </div>
           <AuctionStatusBadge status={auction.status} />
         </CardHeader>
@@ -102,12 +112,24 @@ export function SellerListingRow({ auction, onUpdated }: SellerListingRowProps) 
             <span className="font-medium">{formatMoney(auction.start_price, locale)}</span>
           </div>
           <div className="flex justify-between gap-2 sm:block">
-            <span className="text-muted-foreground">{t("ends")}</span>
-            <span>{formatDateTime(auction.ends_at, locale)}</span>
+            <span className="text-muted-foreground">
+              {auction.ends_at ? t("ends") : t("duration")}
+            </span>
+            <span>
+              {auction.ends_at
+                ? formatDateTime(auction.ends_at, locale)
+                : auction.duration_days
+                  ? t("durationDaysValue", { days: auction.duration_days })
+                  : "—"}
+            </span>
           </div>
         </CardContent>
         <CardFooter className="flex flex-wrap gap-2">
-          <ButtonLink href={routes.auction(auction.id)} variant="default" size="sm">
+          <ButtonLink
+            href={sellerListingViewHref(auction.status, auction.id)}
+            variant="default"
+            size="sm"
+          >
             {tCommon("view")}
           </ButtonLink>
           {canEditListing(auction.status) ? (
@@ -123,6 +145,15 @@ export function SellerListingRow({ auction, onUpdated }: SellerListingRowProps) 
             <Button size="sm" onClick={() => setSubmitOpen(true)}>
               {t("submit")}
             </Button>
+          ) : null}
+          {canActivateListing(auction.status) ? (
+            <ButtonLink
+              href={`${routes.listingView(auction.id)}#pay`}
+              size="sm"
+              variant="secondary"
+            >
+              {t("activate")}
+            </ButtonLink>
           ) : null}
           {canCancelListing(auction.status) ? (
             <Button size="sm" variant="destructive" onClick={() => setCancelOpen(true)}>

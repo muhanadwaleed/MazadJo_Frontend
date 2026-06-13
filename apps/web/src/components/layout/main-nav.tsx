@@ -46,16 +46,19 @@ export function MainNav({ className }: { className?: string }) {
             key={item.href}
             href={item.href}
             className={cn(
-              "relative cursor-pointer rounded-xl px-3.5 py-2 text-sm font-medium transition-colors duration-200",
+              "group relative cursor-pointer rounded-xl px-3.5 py-2 text-sm font-medium transition-colors duration-200",
               isActive
                 ? "bg-light-blue/10 text-mazad-primary"
                 : "text-navy/75 hover:bg-surface hover:text-mazad-primary"
             )}
           >
             {t(item.labelKey)}
-            {isActive ? (
-              <span className="absolute inset-x-3 -bottom-0.5 h-0.5 rounded-full bg-mazad-accent" />
-            ) : null}
+            <span
+              className={cn(
+                "absolute inset-x-3 -bottom-0.5 h-0.5 rounded-full bg-mazad-accent transition-all duration-200",
+                isActive ? "w-[calc(100%-1.5rem)]" : "w-0 group-hover:w-[calc(100%-1.5rem)]"
+              )}
+            />
           </Link>
         );
       })}

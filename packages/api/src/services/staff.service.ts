@@ -12,12 +12,12 @@ export type StaffReviewPayload = {
 
 export type AuctionReviewChecklistItem = {
   id: number;
-  checklist_item: number;
-  label_ar: string;
-  label_en: string;
+  checklist_item_key: string;
+  checklist_item_label: string;
   is_checked: boolean;
   checked_by: number | null;
   checked_at: string | null;
+  source_item: number | null;
 };
 
 export type AuditLogEntry = {
@@ -41,13 +41,6 @@ export const staffService = {
     });
   },
 
-  listApprovedAuctions() {
-    return api.get<PaginatedResponse<AuctionDetail>>(endpoints.auctions.list, {
-      params: { status: "approved" },
-      auth: true,
-    });
-  },
-
   staffReview(id: string | number, body: StaffReviewPayload) {
     return api.post<AuctionDetail>(endpoints.auctions.staffReview(id), {
       body,
@@ -55,8 +48,9 @@ export const staffService = {
     });
   },
 
-  staffPublish(id: string | number) {
-    return api.post<AuctionDetail>(endpoints.auctions.staffPublish(id), {
+  staffCancel(id: string | number, reason?: string) {
+    return api.post<AuctionDetail>(endpoints.auctions.staffCancel(id), {
+      body: reason ? { reason } : undefined,
       auth: true,
     });
   },
@@ -89,7 +83,29 @@ export const staffService = {
       auth: true,
     });
   },
+
+  /** Audit entries scoped to a single auction (server filter + client safety net). */
+  async listAuctionAuditLogs(
+    auctionId: string | number,
+    page_size = 50
+  ): Promise<AuditLogEntry[]> {
+    const entityId = String(auctionId);
+    const data = await this.listAuditLogs({
+      entity_type: "auction",
+      entity_id: entityId,
+      page_size,
+    });
+    return filterAuditLogsForAuction(data.results ?? [], entityId);
+  },
 };
+
+export function filterAuditLogsForAuction(
+  entries: AuditLogEntry[],
+  auctionId: string | number
+): AuditLogEntry[] {
+  const id = String(auctionId);
+  return entries.filter((entry) => String(entry.entity_id) === id);
+}
 
 export const cmsService = {
   listFaqs() {

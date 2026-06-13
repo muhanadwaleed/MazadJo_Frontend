@@ -32,8 +32,9 @@ export type AuctionListItem = {
   start_price: string;
   current_price: string;
   min_bid_increment: string;
-  starts_at: string;
-  ends_at: string;
+  duration_days?: number | null;
+  starts_at: string | null;
+  ends_at: string | null;
   participants_count: number;
   views_count: number;
   product_category: number;
@@ -61,9 +62,14 @@ export type AuctionWritePayload = {
   start_price: string;
   reserve_price?: string;
   min_bid_increment?: string;
-  starts_at: string;
-  ends_at: string;
+  duration_days: number;
   is_anonymous_bidding?: boolean;
+};
+
+export type AuctionWatchlistEntry = {
+  id: number;
+  created_at: string;
+  auction: AuctionListItem;
 };
 
 export type AuctionDetail = AuctionListItem & {

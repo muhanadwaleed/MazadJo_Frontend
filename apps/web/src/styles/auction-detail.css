@@ -1,0 +1,40 @@
+/* MazadJo Auction Detail — Animation Keyframes
+   Imported once in apps/web/src/app/[locale]/layout.tsx
+*/
+
+@keyframes mazad-live-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.45; transform: scale(1.5); }
+}
+
+@keyframes mazad-bid-flash {
+  0%   { background-color: color-mix(in srgb, var(--mazad-accent) 14%, transparent); }
+  100% { background-color: transparent; }
+}
+
+@keyframes mazad-bid-slide-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes mazad-digit-flip {
+  from { transform: translateY(-60%); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+@keyframes mazad-glow-ring {
+  0%, 100% { box-shadow: 0 0 0 0   color-mix(in srgb, var(--mazad-accent) 45%, transparent); }
+  50%       { box-shadow: 0 0 0 10px color-mix(in srgb, var(--mazad-accent) 0%, transparent); }
+}
+
+@keyframes mazad-shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position:  200% 0; }
+}
+
+/* Utility classes consumed by the components */
+.mazad-live-dot      { animation: mazad-live-pulse   1.4s ease-in-out infinite; }
+.mazad-bid-flash     { animation: mazad-bid-flash     0.8s ease-out  forwards;  }
+.mazad-bid-slide-in  { animation: mazad-bid-slide-in  0.35s ease-out forwards;  }
+.mazad-digit-flip    { animation: mazad-digit-flip    0.28s ease-out forwards;  }
+.mazad-glow-ring:hover { animation: mazad-glow-ring   1.2s ease-in-out infinite; }

@@ -20,6 +20,7 @@ import {
 } from "@mazad/ui/fonts";
 
 import "../globals.css";
+import "@/styles/auction-detail.css";
 
 // Render per request so the injected API_URL reflects the live env var
 // (read at runtime), not a value frozen at build time.
@@ -43,6 +44,14 @@ export async function generateMetadata({
       template: `%s · ${t("siteName")}`,
     },
     description: t("siteDescription"),
+    icons: {
+      icon: [
+        { url: "/favicon-16.png", sizes: "16x16", type: "image/png" },
+        { url: "/favicon-32.png", sizes: "32x32", type: "image/png" },
+      ],
+      apple: "/apple-touch-icon.png",
+      shortcut: "/favicon-32.png",
+    },
   };
 }
 

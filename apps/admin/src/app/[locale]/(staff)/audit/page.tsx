@@ -19,8 +19,8 @@ export default async function AuditPage({ searchParams }: PageProps) {
       description={t("description")}
     >
       <StaffAuditPanel
-        initialEntityType={params.entity_type}
-        initialEntityId={params.entity_id}
+        initialEntityType={params.entity_type ?? "auction"}
+        initialEntityId={params.entity_id ?? ""}
       />
     </StaffPageFrame>
   );

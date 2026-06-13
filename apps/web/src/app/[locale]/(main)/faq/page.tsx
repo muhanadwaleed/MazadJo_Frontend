@@ -2,9 +2,14 @@ import { getLocale, getTranslations } from "next-intl/server";
 import { HelpCircle } from "lucide-react";
 
 import { asList, pickLocalized, publicCmsService } from "@mazad/api";
-import { Card, CardContent, CardHeader, CardTitle, ContentSection } from "@mazad/ui";
+import { Card, CardContent, CardHeader, CardTitle } from "@mazad/ui";
 import { EmptyState } from "@/components/common/empty-state";
 import { ErrorState } from "@/components/common/error-state";
+import { MarketingSection } from "@/components/common/marketing-section";
+import {
+  MotionStaggerGrid,
+  MotionStaggerItem,
+} from "@/components/common/motion-stagger";
 import { MarketingPageShell } from "@/components/layout/marketing-page-shell";
 
 export async function generateMetadata() {
@@ -27,14 +32,17 @@ export default async function FaqPage() {
         title={t("title")}
         description={t("description")}
       >
-        <ContentSection title={t("listTitle")} icon={<HelpCircle className="size-6 stroke-[1.75]" />}>
+        <MarketingSection
+          title={t("listTitle")}
+          badge={<HelpCircle className="size-5 text-mazad-primary" aria-hidden />}
+        >
           {items.length === 0 ? (
             <EmptyState title={t("emptyTitle")} description={t("emptyDescription")} />
           ) : (
-            <ul className="space-y-3">
+            <MotionStaggerGrid as="ul" className="space-y-3">
               {items.map((faq) => (
-                <li key={faq.id}>
-                  <Card className="border-separator/60 shadow-sm">
+                <MotionStaggerItem as="li" key={faq.id}>
+                  <Card className="border-separator/60 shadow-sm transition-all duration-200 hover:border-mazad-primary/20 hover:shadow-md">
                     <CardHeader className="pb-2">
                       <CardTitle className="text-base text-navy">
                         {pickLocalized(locale, faq.question_ar, faq.question_en)}
@@ -46,11 +54,11 @@ export default async function FaqPage() {
                       </p>
                     </CardContent>
                   </Card>
-                </li>
+                </MotionStaggerItem>
               ))}
-            </ul>
+            </MotionStaggerGrid>
           )}
-        </ContentSection>
+        </MarketingSection>
       </MarketingPageShell>
     );
   } catch {

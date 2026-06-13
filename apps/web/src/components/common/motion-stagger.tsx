@@ -9,6 +9,10 @@ type MotionStaggerGridProps = {
   children: React.ReactNode;
   className?: string;
   as?: "ul" | "div";
+  /** `inView` reveals on scroll; `mount` animates when the component mounts. */
+  trigger?: "inView" | "mount";
+  /** Re-run stagger when this value changes (e.g. filter tabs). */
+  resetKey?: string;
 };
 
 /** Client motion shell — pass server-rendered children (e.g. AuctionCard) as slots. */
@@ -16,6 +20,8 @@ export function MotionStaggerGrid({
   children,
   className,
   as = "ul",
+  trigger = "inView",
+  resetKey,
 }: MotionStaggerGridProps) {
   const prefersReducedMotion = useReducedMotion();
   const Tag = as === "ul" ? "ul" : "div";
@@ -25,13 +31,17 @@ export function MotionStaggerGrid({
   }
 
   const MotionTag = as === "ul" ? motion.ul : motion.div;
+  const viewport = { once: true, margin: "-60px" as const };
+  const useResetMode = resetKey !== undefined;
 
   return (
     <MotionTag
+      key={useResetMode ? resetKey : undefined}
       variants={staggerContainer}
       initial="initial"
-      whileInView="animate"
-      viewport={{ once: true, margin: "-60px" }}
+      {...(useResetMode || trigger === "mount"
+        ? { animate: "animate" }
+        : { whileInView: "animate", viewport })}
       className={className}
     >
       {children}

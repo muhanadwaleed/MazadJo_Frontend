@@ -13,7 +13,7 @@ import {
 export type StaffNavIconKey =
   | "overview"
   | "reviewAuctions"
-  | "publishAuctions"
+  | "subscriptionsStaging"
   | "cms"
   | "configuration"
   | "catalog"
@@ -23,7 +23,7 @@ export type StaffNavIconKey =
 export const staffNavIcons: Record<StaffNavIconKey, LucideIcon> = {
   overview: LayoutDashboard,
   reviewAuctions: ClipboardCheck,
-  publishAuctions: Rocket,
+  subscriptionsStaging: Rocket,
   cms: FileText,
   configuration: Settings,
   catalog: LayoutGrid,

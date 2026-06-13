@@ -1,4 +1,5 @@
 import Link from "next/link";
+import type { ComponentType, ReactNode } from "react";
 
 import { Button } from "../components/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/card";
@@ -79,6 +80,12 @@ export function StaffShell({
   );
 }
 
+type StaffOverviewLinkProps = {
+  href: string;
+  className?: string;
+  children: ReactNode;
+};
+
 type StaffOverviewProps = {
   navItems: ReadonlyArray<{
     label: string;
@@ -90,6 +97,8 @@ type StaffOverviewProps = {
   description: string;
   eyebrow?: string;
   openWorkspaceLabel?: string;
+  /** Locale-aware link (e.g. next-intl `Link`). Defaults to `next/link`. */
+  linkComponent?: ComponentType<StaffOverviewLinkProps>;
 };
 
 export function StaffOverview({
@@ -98,6 +107,7 @@ export function StaffOverview({
   description,
   eyebrow,
   openWorkspaceLabel = "Open workspace",
+  linkComponent: LinkComponent = Link,
 }: StaffOverviewProps) {
   return (
     <div className="space-y-8">
@@ -109,7 +119,7 @@ export function StaffOverview({
       />
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         {navItems.map((item) => (
-          <Link
+          <LinkComponent
             key={item.href}
             href={item.href}
             className="group block h-full cursor-pointer"
@@ -143,7 +153,7 @@ export function StaffOverview({
                 </p>
               </CardContent>
             </Card>
-          </Link>
+          </LinkComponent>
         ))}
       </div>
     </div>

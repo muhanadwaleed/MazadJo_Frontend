@@ -6,6 +6,7 @@ import { useTranslations } from "next-intl";
 
 import { HeroSection, motionDuration, motionEase } from "@mazad/ui";
 import { routes } from "@/config/routes";
+import { AddAuctionButton } from "@/components/auctions/add-auction-button";
 import { HomeSearch } from "@/components/home/home-search";
 import { ButtonLink } from "@/components/ui/button-link";
 
@@ -35,14 +36,23 @@ export function HomeHero() {
         />
       }
       primaryAction={
-        <ButtonLink size="lg" href={routes.auctions}>
-          {t("browseAuctions")}
-        </ButtonLink>
+        <div className="relative">
+          <div
+            className="pointer-events-none absolute -inset-1 rounded-2xl bg-mazad-accent/20 blur-md"
+            aria-hidden
+          />
+          <ButtonLink size="lg" href={routes.auctions}>
+            {t("browseAuctions")}
+          </ButtonLink>
+        </div>
       }
       secondaryAction={
-        <ButtonLink size="lg" variant="outline" href={routes.catalog}>
-          {t("exploreCatalog")}
-        </ButtonLink>
+        <div className="flex flex-wrap gap-3">
+          <AddAuctionButton size="lg" />
+          <ButtonLink size="lg" variant="outline" href={routes.catalog}>
+            {t("exploreCatalog")}
+          </ButtonLink>
+        </div>
       }
       visual={
         <motion.div

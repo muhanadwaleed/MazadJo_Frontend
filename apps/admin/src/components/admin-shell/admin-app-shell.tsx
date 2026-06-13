@@ -1,9 +1,10 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { useTranslations } from "next-intl";
+import { useCallback, useMemo, useState, useSyncExternalStore } from "react";
+import { useLocale, useTranslations } from "next-intl";
 
 import { Container, Sheet, SheetContent } from "@mazad/ui";
+import { cn } from "@mazad/ui/utils";
 import { useAuth } from "@mazad/auth";
 import { staffNavItems } from "@/config/routes";
 import {
@@ -15,25 +16,45 @@ import type { StaffSearchItem } from "@/components/admin-shell/staff-global-sear
 
 const SIDEBAR_STORAGE_KEY = "mazad-admin-sidebar-collapsed";
 
+let sidebarCollapsedListeners: Array<() => void> = [];
+
+function subscribeSidebarCollapsed(onStoreChange: () => void) {
+  sidebarCollapsedListeners.push(onStoreChange);
+  const onStorage = (event: StorageEvent) => {
+    if (event.key === SIDEBAR_STORAGE_KEY) onStoreChange();
+  };
+  window.addEventListener("storage", onStorage);
+  return () => {
+    sidebarCollapsedListeners = sidebarCollapsedListeners.filter(
+      (listener) => listener !== onStoreChange
+    );
+    window.removeEventListener("storage", onStorage);
+  };
+}
+
+function getSidebarCollapsed() {
+  return localStorage.getItem(SIDEBAR_STORAGE_KEY) === "true";
+}
+
+function setSidebarCollapsed(next: boolean) {
+  localStorage.setItem(SIDEBAR_STORAGE_KEY, String(next));
+  sidebarCollapsedListeners.forEach((listener) => listener());
+}
+
 export function AdminAppShell({ children }: { children: React.ReactNode }) {
   const t = useTranslations();
+  const locale = useLocale();
   const { logout } = useAuth();
-  const [collapsed, setCollapsed] = useState(false);
+  const mobileSheetSide = locale === "ar" ? "right" : "left";
+  const collapsed = useSyncExternalStore(
+    subscribeSidebarCollapsed,
+    getSidebarCollapsed,
+    () => false
+  );
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [hydrated, setHydrated] = useState(false);
-
-  useEffect(() => {
-    const stored = localStorage.getItem(SIDEBAR_STORAGE_KEY);
-    if (stored === "true") setCollapsed(true);
-    setHydrated(true);
-  }, []);
 
   const toggleCollapsed = useCallback(() => {
-    setCollapsed((prev) => {
-      const next = !prev;
-      localStorage.setItem(SIDEBAR_STORAGE_KEY, String(next));
-      return next;
-    });
+    setSidebarCollapsed(!getSidebarCollapsed());
   }, []);
 
   const navItems: AdminNavItem[] = useMemo(
@@ -56,7 +77,7 @@ export function AdminAppShell({ children }: { children: React.ReactNode }) {
     <div className="mazad-page flex min-h-screen bg-surface">
       <div
         className="hidden shrink-0 transition-[width] duration-300 ease-out lg:block"
-        style={{ width: hydrated ? (collapsed ? "4.5rem" : "16rem") : "16rem" }}
+        style={{ width: collapsed ? "4.5rem" : "16rem" }}
       >
         <div className="fixed inset-y-0 start-0 z-30 hidden lg:flex">
           <AdminSidebar
@@ -69,7 +90,14 @@ export function AdminAppShell({ children }: { children: React.ReactNode }) {
       </div>
 
       <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
-        <SheetContent side="left" className="w-64 p-0" showCloseButton={false}>
+        <SheetContent
+          side={mobileSheetSide}
+          className={cn(
+            "gap-0 !w-64 max-w-[min(100vw,16rem)] overflow-hidden p-0",
+            mobileSheetSide === "right" ? "rounded-l-2xl" : "rounded-r-2xl"
+          )}
+          showCloseButton={false}
+        >
           <AdminSidebar
             items={navItems}
             collapsed={false}

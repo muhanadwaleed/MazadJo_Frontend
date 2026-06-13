@@ -56,7 +56,7 @@ export function StaffProfileMenu() {
           <AvatarFallback>{getInitials(displayName || user.username)}</AvatarFallback>
         </Avatar>
         <span className="hidden max-w-[120px] truncate text-sm font-medium text-navy sm:inline">
-          {displayName}
+          {user.username}
         </span>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-56">

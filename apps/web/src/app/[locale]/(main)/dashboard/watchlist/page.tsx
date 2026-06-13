@@ -1,10 +1,8 @@
 import { getTranslations } from "next-intl/server";
-import { Bell, Bookmark } from "lucide-react";
+import { Bookmark } from "lucide-react";
 
-import { routes } from "@/config/routes";
-import { EmptyState } from "@/components/common/empty-state";
+import { WatchlistAuctions } from "@/components/dashboard/watchlist-auctions";
 import { MarketingPageShell } from "@/components/layout/marketing-page-shell";
-import { ButtonLink } from "@/components/ui/button-link";
 
 export async function generateMetadata() {
   const t = await getTranslations("watchlist");
@@ -13,7 +11,6 @@ export async function generateMetadata() {
 
 export default async function WatchlistPage() {
   const t = await getTranslations("watchlist");
-  const tHome = await getTranslations("home");
 
   return (
     <MarketingPageShell
@@ -22,13 +19,7 @@ export default async function WatchlistPage() {
       title={t("title")}
       description={t("description")}
     >
-      <EmptyState
-        title={t("comingSoon")}
-        description={t("comingSoon")}
-        action={
-          <ButtonLink href={routes.auctions}>{tHome("browseAuctions")}</ButtonLink>
-        }
-      />
+      <WatchlistAuctions />
     </MarketingPageShell>
   );
 }

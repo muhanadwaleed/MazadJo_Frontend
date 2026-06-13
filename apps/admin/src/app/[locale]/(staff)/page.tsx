@@ -3,6 +3,7 @@ import { getTranslations } from "next-intl/server";
 import { StaffOverview } from "@mazad/ui";
 
 import { staffNavIcons } from "@/config/nav-icons";
+import { Link } from "@/i18n/navigation";
 import { staffNavItems } from "@/config/routes";
 
 export default async function StaffHomePage() {
@@ -25,6 +26,7 @@ export default async function StaffHomePage() {
       eyebrow={t("overview.eyebrow")}
       openWorkspaceLabel={t("overview.openWorkspace")}
       navItems={overviewItems}
+      linkComponent={Link}
     />
   );
 }

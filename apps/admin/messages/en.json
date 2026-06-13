@@ -77,7 +77,7 @@
   "nav": {
     "overview": "Overview",
     "reviewAuctions": "Review auctions",
-    "publishAuctions": "Publish auctions",
+    "subscriptionsStaging": "Payment staging",
     "cms": "CMS",
     "configuration": "Configuration",
     "catalog": "Catalog",
@@ -86,7 +86,7 @@
   },
   "overview": {
     "title": "Operations overview",
-    "description": "Review listings, publish approved auctions, and manage site content.",
+    "description": "Review listings, confirm staging payments, and manage site content.",
     "eyebrow": "Staff console",
     "openWorkspace": "Open workspace"
   },
@@ -108,7 +108,7 @@
     "serverUnreachable": "Could not reach the server.",
     "staffRequired": "Staff access required. Sign in with a staff account.",
     "splitWhoUsTitle": "Operations console",
-    "splitWhoUsFallback": "Review listings, publish approved auctions, and manage platform configuration from one workspace.",
+    "splitWhoUsFallback": "Review listings, confirm staging payments, and manage platform configuration from one workspace.",
     "splitWhyUsTitle": "Trusted marketplace",
     "splitWhyUsFallback": "MazadJo connects sellers and bidders across Jordan with transparent live auctions and staff oversight."
   },
@@ -137,9 +137,9 @@
       "title": "Review auctions",
       "description": "Approve, reject, or return listings that are under staff review."
     },
-    "auctionsPublish": {
-      "title": "Publish auctions",
-      "description": "Schedule approved auctions for the live catalog."
+    "subscriptionsStaging": {
+      "title": "Payment staging",
+      "description": "Confirm pending seller and bidder subscriptions with mark paid (staging only)."
     }
   },
   "users": {
@@ -336,6 +336,11 @@
       "reject": "Reject",
       "rejecting": "Rejecting…",
       "auditTrail": "Audit trail",
+      "auditTrailTitle": "Audit trail · Auction #{number}",
+      "auditTrailScoped": "{count, plural, one {# entry} other {# entries}} for auction #{number}",
+      "auditActor": "Staff #{id}",
+      "staffCancel": "Cancel auction",
+      "cancelling": "Cancelling…",
       "approveAllRequired": "Check all checklist items before approving",
       "auctionMeta": "#{number} · seller {seller}",
       "loadingAuctions": "Loading auctions under review…",
@@ -346,7 +351,9 @@
         "reviewSuccess": "Auction #{id} marked as {decision}.",
         "reviewFailed": "Review failed.",
         "loadAuditFailed": "Failed to load audit trail.",
-        "loadAuctionsFailed": "Failed to load auctions."
+        "loadAuctionsFailed": "Failed to load auctions.",
+        "cancelSuccess": "Auction #{id} cancelled.",
+        "cancelFailed": "Could not cancel auction."
       },
       "decisions": {
         "approve": "approve",
@@ -354,15 +361,20 @@
         "reject": "reject"
       }
     },
-    "publish": {
-      "loading": "Loading approved auctions…",
-      "empty": "No approved auctions ready to publish.",
-      "publishSchedule": "Publish / schedule",
-      "auditTrail": "Audit trail",
-      "toast": {
-        "loadFailed": "Failed to load auctions.",
-        "scheduled": "Auction #{id} scheduled for publishing.",
-        "publishFailed": "Publish failed."
+    "subscriptions": {
+      "staging": {
+        "loading": "Loading pending subscriptions…",
+        "empty": "No subscriptions awaiting payment.",
+        "auctionLabel": "Auction #{id}",
+        "subscriptionId": "Subscription #{id}",
+        "total": "Total",
+        "markPaid": "Mark paid",
+        "markingPaid": "Confirming…",
+        "toast": {
+          "loadFailed": "Failed to load subscriptions.",
+          "markedPaid": "Subscription #{id} marked paid.",
+          "markPaidFailed": "Mark paid failed."
+        }
       }
     }
   },

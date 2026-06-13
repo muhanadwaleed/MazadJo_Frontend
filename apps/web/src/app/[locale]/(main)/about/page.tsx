@@ -2,9 +2,14 @@ import { getLocale, getTranslations } from "next-intl/server";
 import { BookOpen, Sparkles } from "lucide-react";
 
 import { asList, pickLocalized, publicCmsService } from "@mazad/api";
-import { Card, CardContent, CardHeader, CardTitle, ContentSection } from "@mazad/ui";
+import { Card, CardContent, CardHeader, CardTitle } from "@mazad/ui";
 import { EmptyState } from "@/components/common/empty-state";
 import { ErrorState } from "@/components/common/error-state";
+import { MarketingSection } from "@/components/common/marketing-section";
+import {
+  MotionStaggerGrid,
+  MotionStaggerItem,
+} from "@/components/common/motion-stagger";
 import { MarketingPageShell } from "@/components/layout/marketing-page-shell";
 
 export async function generateMetadata() {
@@ -31,14 +36,20 @@ export default async function AboutPage() {
         title={t("title")}
         description={t("description")}
       >
-        <ContentSection title={t("whoUsTitle")} icon={<BookOpen className="size-6 stroke-[1.75]" />}>
+        <MarketingSection
+          title={t("whoUsTitle")}
+          badge={<BookOpen className="size-5 text-mazad-primary" aria-hidden />}
+        >
           {whoItems.length === 0 ? (
             <EmptyState title={t("whoUsEmpty")} />
           ) : (
-            <ul className="grid gap-4 sm:grid-cols-2">
+            <MotionStaggerGrid
+              as="ul"
+              className="grid gap-4 sm:grid-cols-2"
+            >
               {whoItems.map((item) => (
-                <li key={item.id}>
-                  <Card className="h-full border-separator/60 shadow-sm">
+                <MotionStaggerItem as="li" key={item.id} className="h-full">
+                  <Card className="h-full border-separator/60 shadow-sm transition-shadow duration-200 hover:shadow-md">
                     <CardHeader>
                       <CardTitle className="text-base text-navy">
                         {pickLocalized(locale, item.title_ar, item.title_en)}
@@ -50,20 +61,27 @@ export default async function AboutPage() {
                       </p>
                     </CardContent>
                   </Card>
-                </li>
+                </MotionStaggerItem>
               ))}
-            </ul>
+            </MotionStaggerGrid>
           )}
-        </ContentSection>
+        </MarketingSection>
 
-        <ContentSection title={t("whyUsTitle")} icon={<Sparkles className="size-6 stroke-[1.75]" />}>
+        <MarketingSection
+          title={t("whyUsTitle")}
+          badge={<Sparkles className="size-5 text-mazad-primary" aria-hidden />}
+          delay={0.05}
+        >
           {whyItems.length === 0 ? (
             <EmptyState title={t("whyUsEmpty")} />
           ) : (
-            <ul className="grid gap-4 sm:grid-cols-2">
+            <MotionStaggerGrid
+              as="ul"
+              className="grid gap-4 sm:grid-cols-2"
+            >
               {whyItems.map((item) => (
-                <li key={item.id}>
-                  <Card className="h-full border-separator/60 shadow-sm">
+                <MotionStaggerItem as="li" key={item.id} className="h-full">
+                  <Card className="h-full border-separator/60 shadow-sm transition-shadow duration-200 hover:shadow-md">
                     <CardHeader>
                       <CardTitle className="text-base text-navy">
                         {pickLocalized(locale, item.title_ar, item.title_en)}
@@ -75,11 +93,11 @@ export default async function AboutPage() {
                       </p>
                     </CardContent>
                   </Card>
-                </li>
+                </MotionStaggerItem>
               ))}
-            </ul>
+            </MotionStaggerGrid>
           )}
-        </ContentSection>
+        </MarketingSection>
       </MarketingPageShell>
     );
   } catch {

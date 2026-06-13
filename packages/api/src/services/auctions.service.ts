@@ -4,6 +4,7 @@ import type {
   AuctionDetail,
   AuctionListItem,
   AuctionMedia,
+  AuctionWatchlistEntry,
   AuctionWritePayload,
   CursorPaginatedResponse,
   ListParams,
@@ -78,6 +79,13 @@ export const auctionsService = {
       body: payload,
       auth: true,
       idempotencyKey,
+    });
+  },
+
+  listWatchlistClient(params?: ListParams) {
+    return api.get<PaginatedResponse<AuctionWatchlistEntry>>(endpoints.watchlist.list, {
+      auth: true,
+      params,
     });
   },
 

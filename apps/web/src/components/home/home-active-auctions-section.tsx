@@ -5,6 +5,7 @@ import type { AuctionListItem } from "@mazad/api";
 import { EmptyState, SectionHeader } from "@mazad/ui";
 import { routes } from "@/config/routes";
 import { AuctionCard } from "@/components/auctions/auction-card";
+import { WatchlistIdsProvider } from "@/components/auctions/watchlist-ids-provider";
 import {
   MotionStaggerGrid,
   MotionStaggerItem,
@@ -40,20 +41,22 @@ export async function HomeActiveAuctionsSection({
       />
 
       {auctions.length > 0 ? (
-        <MotionStaggerGrid
-          as="div"
-          className="flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory [scrollbar-width:none] md:grid md:grid-cols-2 md:gap-6 md:overflow-x-visible md:pb-0 md:snap-none lg:grid-cols-3 [&::-webkit-scrollbar]:hidden"
-        >
-          {auctions.map((auction) => (
-            <MotionStaggerItem
-              key={auction.id}
-              as="div"
-              className="h-full min-w-[290px] w-[290px] shrink-0 snap-start md:w-auto md:min-w-0 md:shrink"
-            >
-              <AuctionCard auction={auction} />
-            </MotionStaggerItem>
-          ))}
-        </MotionStaggerGrid>
+        <WatchlistIdsProvider>
+          <MotionStaggerGrid
+            as="div"
+            className="flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory [scrollbar-width:none] md:grid md:grid-cols-2 md:gap-6 md:overflow-x-visible md:pb-0 md:snap-none lg:grid-cols-3 [&::-webkit-scrollbar]:hidden"
+          >
+            {auctions.map((auction) => (
+              <MotionStaggerItem
+                key={auction.id}
+                as="div"
+                className="h-full min-w-[290px] w-[290px] shrink-0 snap-start md:w-auto md:min-w-0 md:shrink"
+              >
+                <AuctionCard auction={auction} />
+              </MotionStaggerItem>
+            ))}
+          </MotionStaggerGrid>
+        </WatchlistIdsProvider>
       ) : (
         <EmptyState
           title={t("noActiveTitle")}
