@@ -2,8 +2,13 @@ import { getLocale, getTranslations } from "next-intl/server";
 import { Mail, MapPin, Phone } from "lucide-react";
 
 import { pickLocalized, publicCmsService } from "@mazad/api";
-import { Card, CardContent, ContentSection } from "@mazad/ui";
+import { Card, CardContent } from "@mazad/ui";
 import { EmptyState } from "@/components/common/empty-state";
+import { MarketingSection } from "@/components/common/marketing-section";
+import {
+  MotionStaggerGrid,
+  MotionStaggerItem,
+} from "@/components/common/motion-stagger";
 import { MarketingPageShell } from "@/components/layout/marketing-page-shell";
 
 export async function generateMetadata() {
@@ -24,42 +29,58 @@ export default async function ContactPage() {
         title={t("title")}
         description={t("description")}
       >
-        <ContentSection title={t("detailsTitle")} icon={<Mail className="size-6 stroke-[1.75]" />}>
-          <div className="grid gap-4 sm:grid-cols-2">
-            <Card className="border-separator/60 shadow-sm">
-              <CardContent className="flex items-start gap-3 p-5">
-                <Phone className="mt-0.5 size-5 shrink-0 text-mazad-primary" />
-                <div>
-                  <p className="text-sm font-semibold text-navy">{t("phone")}</p>
-                  <a href={`tel:${contact.phone}`} className="text-sm text-mazad-primary hover:underline">
-                    {contact.phone}
-                  </a>
-                </div>
-              </CardContent>
-            </Card>
-            <Card className="border-separator/60 shadow-sm">
-              <CardContent className="flex items-start gap-3 p-5">
-                <Mail className="mt-0.5 size-5 shrink-0 text-mazad-primary" />
-                <div>
-                  <p className="text-sm font-semibold text-navy">{t("email")}</p>
-                  <a href={`mailto:${contact.email}`} className="text-sm text-mazad-primary hover:underline">
-                    {contact.email}
-                  </a>
-                </div>
-              </CardContent>
-            </Card>
-            <Card className="border-separator/60 shadow-sm sm:col-span-2">
-              <CardContent className="flex items-start gap-3 p-5">
-                <MapPin className="mt-0.5 size-5 shrink-0 text-mazad-primary" />
-                <div>
-                  <p className="text-sm font-semibold text-navy">{t("address")}</p>
-                  <p className="text-sm text-muted-foreground">
-                    {pickLocalized(locale, contact.address_ar, contact.address_en)}
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
+        <MarketingSection
+          title={t("detailsTitle")}
+          badge={<Mail className="size-5 text-mazad-primary" aria-hidden />}
+          variant="scaleIn"
+        >
+          <MotionStaggerGrid as="ul" className="grid gap-4 sm:grid-cols-2">
+            <MotionStaggerItem as="li">
+              <Card className="h-full border-separator/60 shadow-sm transition-shadow duration-200 hover:shadow-md">
+                <CardContent className="flex items-start gap-3 p-5">
+                  <Phone className="mt-0.5 size-5 shrink-0 text-mazad-primary" />
+                  <div>
+                    <p className="text-sm font-semibold text-navy">{t("phone")}</p>
+                    <a
+                      href={`tel:${contact.phone}`}
+                      className="text-sm text-mazad-primary transition-colors duration-200 hover:underline"
+                    >
+                      {contact.phone}
+                    </a>
+                  </div>
+                </CardContent>
+              </Card>
+            </MotionStaggerItem>
+            <MotionStaggerItem as="li">
+              <Card className="h-full border-separator/60 shadow-sm transition-shadow duration-200 hover:shadow-md">
+                <CardContent className="flex items-start gap-3 p-5">
+                  <Mail className="mt-0.5 size-5 shrink-0 text-mazad-primary" />
+                  <div>
+                    <p className="text-sm font-semibold text-navy">{t("email")}</p>
+                    <a
+                      href={`mailto:${contact.email}`}
+                      className="text-sm text-mazad-primary transition-colors duration-200 hover:underline"
+                    >
+                      {contact.email}
+                    </a>
+                  </div>
+                </CardContent>
+              </Card>
+            </MotionStaggerItem>
+            <MotionStaggerItem as="li" className="sm:col-span-2">
+              <Card className="border-separator/60 shadow-sm transition-shadow duration-200 hover:shadow-md">
+                <CardContent className="flex items-start gap-3 p-5">
+                  <MapPin className="mt-0.5 size-5 shrink-0 text-mazad-primary" />
+                  <div>
+                    <p className="text-sm font-semibold text-navy">{t("address")}</p>
+                    <p className="text-sm text-muted-foreground">
+                      {pickLocalized(locale, contact.address_ar, contact.address_en)}
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
+            </MotionStaggerItem>
+          </MotionStaggerGrid>
           {contact.social_links_json && Object.keys(contact.social_links_json).length > 0 ? (
             <ul className="mt-4 flex flex-wrap gap-2">
               {Object.entries(contact.social_links_json).map(([key, url]) => (
@@ -68,7 +89,7 @@ export default async function ContactPage() {
                     href={url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex rounded-full border border-separator bg-card px-4 py-2 text-sm font-semibold text-mazad-primary hover:border-mazad-primary/30"
+                    className="inline-flex rounded-full border border-separator bg-card px-4 py-2 text-sm font-semibold text-mazad-primary transition-all duration-200 hover:-translate-y-0.5 hover:border-mazad-primary/30 hover:shadow-sm"
                   >
                     {key}
                   </a>
@@ -76,7 +97,7 @@ export default async function ContactPage() {
               ))}
             </ul>
           ) : null}
-        </ContentSection>
+        </MarketingSection>
       </MarketingPageShell>
     );
   } catch {

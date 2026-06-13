@@ -39,9 +39,8 @@ export const mainNavItems: NavItem[] = [
     labelKey: "nav.notifications",
     href: routes.notifications,
     icon: Bell,
-    enabled: false,
+    enabled: true,
     feature: "notifications",
-    comingSoon: true,
   },
 ];
 

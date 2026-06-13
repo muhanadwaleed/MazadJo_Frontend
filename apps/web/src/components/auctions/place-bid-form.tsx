@@ -27,11 +27,13 @@ export function PlaceBidForm({
   currentPrice,
   minIncrement,
   status,
+  embedded = false,
 }: {
   auctionId: string;
   currentPrice: string;
   minIncrement: string;
   status: string;
+  embedded?: boolean;
 }) {
   const t = useTranslations("bidForm");
   const locale = useLocale();
@@ -67,7 +69,10 @@ export function PlaceBidForm({
     }
   }
 
+  const loginHref = `${routes.login}?next=${encodeURIComponent(routes.auction(auctionId))}`;
+
   if (status !== "active") {
+    if (embedded) return null;
     return (
       <Card className="overflow-hidden border-separator/60 shadow-md">
         <CardHeader className="border-b border-separator/60 bg-gradient-to-br from-surface to-card">
@@ -79,6 +84,19 @@ export function PlaceBidForm({
   }
 
   if (!isAuthenticated) {
+    if (embedded) {
+      return (
+        <div className="space-y-3 rounded-xl border border-mazad-primary/20 bg-mazad-primary/5 p-4">
+          <p className="text-sm font-semibold text-navy">{t("signInRequiredTitle")}</p>
+          <p className="text-sm text-muted-foreground">
+            {t("minNextBid", { amount: formatMoney(minNext, locale) })}
+          </p>
+          <ButtonLink className="w-full" href={loginHref}>
+            {t("signInToBidButton")}
+          </ButtonLink>
+        </div>
+      );
+    }
     return (
       <Card className="overflow-hidden border-separator/60 shadow-md">
         <CardHeader className="border-b border-separator/60 bg-gradient-to-br from-mazad-primary/8 via-surface to-light-blue/10">
@@ -88,14 +106,39 @@ export function PlaceBidForm({
           </CardDescription>
         </CardHeader>
         <CardFooter className="p-5">
-          <ButtonLink
-            className="w-full"
-            href={`${routes.login}?next=${encodeURIComponent(routes.auctionBids(auctionId))}`}
-          >
+          <ButtonLink className="w-full" href={loginHref}>
             {t("signInToBidButton")}
           </ButtonLink>
         </CardFooter>
       </Card>
+    );
+  }
+
+  if (embedded) {
+    return (
+      <form onSubmit={onSubmit} className="space-y-3 rounded-xl border border-separator/60 bg-card p-4 shadow-sm">
+        <div>
+          <p className="text-sm font-semibold text-navy">{t("yourBidTitle")}</p>
+          <p className="mt-1 text-xs text-muted-foreground">
+            {t("minDescription", { amount: formatMoney(minNext, locale) })}
+          </p>
+        </div>
+        <div className="space-y-2">
+          <Label htmlFor={`amount-${auctionId}`}>{t("amountLabel")}</Label>
+          <Input
+            id={`amount-${auctionId}`}
+            name="amount"
+            type="number"
+            step="0.01"
+            min={minNext}
+            required
+            defaultValue={minNext.toFixed(2)}
+          />
+        </div>
+        <Button type="submit" className="w-full" disabled={isSubmitting}>
+          {isSubmitting ? t("placing") : t("placeBid")}
+        </Button>
+      </form>
     );
   }
 

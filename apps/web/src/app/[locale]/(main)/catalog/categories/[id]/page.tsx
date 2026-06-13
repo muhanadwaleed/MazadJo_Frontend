@@ -4,11 +4,14 @@ import { LayoutGrid } from "lucide-react";
 
 import { routes } from "@/config/routes";
 import { catalogService, pickLocalized } from "@mazad/api";
-import { Badge, Container, ContentSection, PageHero } from "@mazad/ui";
+import { Badge, Container } from "@mazad/ui";
 import { CategoryRulesPreview } from "@/components/catalog/category-rules-preview";
+import { MarketingSection } from "@/components/common/marketing-section";
+import { ScrollReveal } from "@/components/common/scroll-reveal";
 import { getCategoryIcon } from "@/lib/category-icons";
 import { PageBackLink } from "@/components/layout/page-back-link";
 import { ErrorState } from "@/components/common/error-state";
+import { PageHero } from "@/components/layout/page-hero";
 
 type PageProps = {
   params: Promise<{ id: string }>;
@@ -46,33 +49,40 @@ export default async function CategoryDetailPage({ params }: PageProps) {
 
     return (
       <Container className="space-y-8 py-2 md:py-4">
-        <PageBackLink href={routes.catalog}>{t("backToCatalog")}</PageBackLink>
+        <ScrollReveal variant="fadeInDown">
+          <PageBackLink href={routes.catalog}>{t("backToCatalog")}</PageBackLink>
+        </ScrollReveal>
 
-        <PageHero
-          eyebrow={<Icon className="size-3.5" />}
-          title={name}
-          description={t("categoryDetailDescription", { type: category.category_type })}
-        />
+        <ScrollReveal delay={0.05}>
+          <PageHero
+            eyebrow={<Icon className="size-3.5" />}
+            title={name}
+            description={t("categoryDetailDescription", { type: category.category_type })}
+          />
+        </ScrollReveal>
 
-        <div className="flex flex-wrap gap-2">
-          <Badge variant={category.is_active ? "default" : "secondary"}>
-            {category.is_active ? tCommon("active") : tCommon("inactive")}
-          </Badge>
-          {category.requires_review ? (
-            <Badge variant="outline">{t("requiresReview")}</Badge>
-          ) : null}
-          {category.requires_inspection ? (
-            <Badge variant="outline">{t("requiresInspection")}</Badge>
-          ) : null}
-          {category.requires_transfer_process ? (
-            <Badge variant="outline">{t("requiresTransfer")}</Badge>
-          ) : null}
-        </div>
+        <ScrollReveal delay={0.1}>
+          <div className="flex flex-wrap gap-2">
+            <Badge variant={category.is_active ? "default" : "secondary"}>
+              {category.is_active ? tCommon("active") : tCommon("inactive")}
+            </Badge>
+            {category.requires_review ? (
+              <Badge variant="outline">{t("requiresReview")}</Badge>
+            ) : null}
+            {category.requires_inspection ? (
+              <Badge variant="outline">{t("requiresInspection")}</Badge>
+            ) : null}
+            {category.requires_transfer_process ? (
+              <Badge variant="outline">{t("requiresTransfer")}</Badge>
+            ) : null}
+          </div>
+        </ScrollReveal>
 
-        <ContentSection
+        <MarketingSection
           title={t("rulesSectionTitle")}
           description={t("rulesSectionDescription")}
-          icon={<LayoutGrid className="size-6 stroke-[1.75]" />}
+          badge={<LayoutGrid className="size-5 text-mazad-primary" aria-hidden />}
+          delay={0.05}
         >
           <CategoryRulesPreview
             category={category}
@@ -94,7 +104,7 @@ export default async function CategoryDetailPage({ params }: PageProps) {
               no: tCommon("no"),
             }}
           />
-        </ContentSection>
+        </MarketingSection>
       </Container>
     );
   } catch {

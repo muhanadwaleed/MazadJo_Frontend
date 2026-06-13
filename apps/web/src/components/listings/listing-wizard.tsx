@@ -24,11 +24,7 @@ import { ListingMediaSection } from "@/components/listings/listing-media-section
 import { ButtonLink } from "@/components/ui/button-link";
 import { routes } from "@/config/routes";
 import { apiFieldErrors } from "@/lib/api-field-errors";
-import {
-  datetimeLocalToIso,
-  defaultListingSchedule,
-  isoToDatetimeLocal,
-} from "@/lib/listing-datetime";
+const DEFAULT_DURATION_DAYS = 7;
 import { canEditListing } from "@/lib/seller-listing-actions";
 import { imageCountMeetsMinimum } from "@/lib/listing-media-rules";
 import { useRouter } from "@/i18n/navigation";
@@ -65,8 +61,7 @@ type FormState = {
   start_price: string;
   reserve_price: string;
   min_bid_increment: string;
-  starts_at: string;
-  ends_at: string;
+  duration_days: string;
 };
 
 function buildPayload(form: FormState): AuctionWritePayload {
@@ -82,8 +77,7 @@ function buildPayload(form: FormState): AuctionWritePayload {
     start_price: form.start_price.trim(),
     reserve_price: form.reserve_price.trim() || undefined,
     min_bid_increment: form.min_bid_increment.trim() || undefined,
-    starts_at: datetimeLocalToIso(form.starts_at),
-    ends_at: datetimeLocalToIso(form.ends_at),
+    duration_days: Number.parseInt(form.duration_days, 10),
   };
 }
 
@@ -95,7 +89,6 @@ export function ListingWizard({ mode, auctionId }: ListingWizardProps) {
   const tCommon = useTranslations("common");
   const tDashboard = useTranslations("dashboard.listings");
 
-  const defaults = defaultListingSchedule();
   const [form, setForm] = useState<FormState>({
     product_category: null,
     title: "",
@@ -107,8 +100,7 @@ export function ListingWizard({ mode, auctionId }: ListingWizardProps) {
     start_price: "",
     reserve_price: "",
     min_bid_increment: "",
-    starts_at: defaults.starts_at,
-    ends_at: defaults.ends_at,
+    duration_days: String(DEFAULT_DURATION_DAYS),
   });
 
   const [countries, setCountries] = useState<Country[]>([]);
@@ -137,6 +129,11 @@ export function ListingWizard({ mode, auctionId }: ListingWizardProps) {
         ...prev,
         min_bid_increment:
           prev.min_bid_increment || detail.settings?.min_bid_increment || "",
+        duration_days:
+          prev.duration_days === String(DEFAULT_DURATION_DAYS) &&
+          detail.settings?.delivery_period_days
+            ? String(detail.settings.delivery_period_days)
+            : prev.duration_days,
       }));
     } catch {
       setCategoryDetail(null);
@@ -193,8 +190,7 @@ export function ListingWizard({ mode, auctionId }: ListingWizardProps) {
           start_price: data.start_price,
           reserve_price: data.reserve_price ?? "",
           min_bid_increment: data.min_bid_increment,
-          starts_at: isoToDatetimeLocal(data.starts_at),
-          ends_at: isoToDatetimeLocal(data.ends_at),
+          duration_days: String(data.duration_days ?? DEFAULT_DURATION_DAYS),
         });
         await loadCategory(data.product_category);
         if (data.area) {
@@ -451,31 +447,20 @@ export function ListingWizard({ mode, auctionId }: ListingWizardProps) {
             </div>
           </div>
 
-          <div className="grid gap-4 sm:grid-cols-2">
-            <div className="space-y-2">
-              <Label htmlFor="listing-starts">{t("startsAt")}</Label>
-              <Input
-                id="listing-starts"
-                type="datetime-local"
-                value={form.starts_at}
-                onChange={(e) => updateField("starts_at", e.target.value)}
-              />
-              {fieldErrors.starts_at ? (
-                <p className="text-sm text-destructive">{fieldErrors.starts_at}</p>
-              ) : null}
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="listing-ends">{t("endsAt")}</Label>
-              <Input
-                id="listing-ends"
-                type="datetime-local"
-                value={form.ends_at}
-                onChange={(e) => updateField("ends_at", e.target.value)}
-              />
-              {fieldErrors.ends_at ? (
-                <p className="text-sm text-destructive">{fieldErrors.ends_at}</p>
-              ) : null}
-            </div>
+          <div className="space-y-2 sm:max-w-xs">
+            <Label htmlFor="listing-duration">{t("durationDays")}</Label>
+            <Input
+              id="listing-duration"
+              type="number"
+              min={1}
+              inputMode="numeric"
+              value={form.duration_days}
+              onChange={(e) => updateField("duration_days", e.target.value)}
+            />
+            <p className="text-xs text-muted-foreground">{t("durationDaysHint")}</p>
+            {fieldErrors.duration_days ? (
+              <p className="text-sm text-destructive">{fieldErrors.duration_days}</p>
+            ) : null}
           </div>
         </CardContent>
       </Card>

@@ -25,6 +25,7 @@ export function AuctionSearch({
   className,
 }: AuctionSearchProps) {
   const [query, setQuery] = useState(defaultQuery);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const router = useRouter();
 
   const handleSearch = (e: React.FormEvent) => {
@@ -34,6 +35,7 @@ export function AuctionSearch({
     if (trimmed) params.set("search", trimmed);
     if (status) params.set("status", status);
     const qs = params.toString();
+    setIsSubmitting(true);
     router.push(qs ? `${routes.auctions}?${qs}` : routes.auctions);
   };
 
@@ -74,7 +76,12 @@ export function AuctionSearch({
           )}
         />
       </div>
-      <Button type="submit" size={isHero ? "default" : "sm"} className="cursor-pointer">
+      <Button
+        type="submit"
+        size={isHero ? "default" : "sm"}
+        className={cn("cursor-pointer", isSubmitting && "animate-pulse")}
+        disabled={isSubmitting}
+      >
         {buttonText}
       </Button>
     </form>

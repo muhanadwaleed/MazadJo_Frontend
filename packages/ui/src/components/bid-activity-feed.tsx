@@ -62,13 +62,15 @@ export function BidActivityFeed({
 export function BidActivityFeedAnimated({
   items,
   className,
+  emptyMessage,
 }: {
   items: BidActivityItem[]
   className?: string
+  emptyMessage?: string
 }) {
   return (
     <motion.div {...fadeInUp} className={className}>
-      <BidActivityFeed items={items} />
+      <BidActivityFeed items={items} emptyMessage={emptyMessage} />
     </motion.div>
   )
 }

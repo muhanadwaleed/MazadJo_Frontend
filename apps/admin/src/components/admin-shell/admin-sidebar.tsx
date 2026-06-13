@@ -47,7 +47,7 @@ export function AdminSidebar({
     <aside
       className={cn(
         "mazad-staff-sidebar flex h-full shrink-0 flex-col transition-[width] duration-300 ease-out",
-        mobile ? "w-64" : collapsed ? "w-[4.5rem]" : "w-64"
+        mobile ? "w-full border-0 shadow-none" : collapsed ? "w-[4.5rem]" : "w-64"
       )}
     >
       <div
@@ -163,21 +163,25 @@ export function AdminTopBar({ searchItems, onOpenMobileNav }: AdminTopBarProps) 
 
   return (
     <header className="mazad-staff-topbar sticky top-0 z-40">
-      <Container className="flex h-14 items-center gap-3 md:h-16 md:gap-4">
-        <Button
-          type="button"
-          variant="outline"
-          size="icon-sm"
-          className="cursor-pointer lg:hidden"
-          onClick={onOpenMobileNav}
-          aria-label={t("openNavigation")}
-        >
-          <Menu className="size-4" />
-        </Button>
+      <Container className="flex h-14 items-center justify-between gap-4 lg:h-[4.25rem]">
+        <div className="flex min-w-0 flex-1 items-center gap-3">
+          <Button
+            type="button"
+            variant="outline"
+            size="icon-sm"
+            className="shrink-0 cursor-pointer lg:hidden"
+            onClick={onOpenMobileNav}
+            aria-label={t("openNavigation")}
+          >
+            <Menu className="size-4" />
+          </Button>
+          <StaffGlobalSearch
+            items={searchItems}
+            className="min-w-0 flex-1 sm:max-w-md"
+          />
+        </div>
 
-        <StaffGlobalSearch items={searchItems} className="flex-1" />
-
-        <div className="flex shrink-0 items-center gap-2 border-s border-separator ps-2 md:gap-3 md:ps-3">
+        <div className="relative z-10 flex shrink-0 items-center justify-end gap-2 sm:gap-3">
           <StaffLocaleSwitcher />
           <StaffProfileMenu />
         </div>

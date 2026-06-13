@@ -35,7 +35,7 @@ export function CatalogCategoryCard({
         <CardContent className="flex h-full flex-col gap-4 p-5">
           <div className="flex items-start justify-between gap-3">
             <div
-              className={`flex size-12 shrink-0 items-center justify-center rounded-xl transition-colors duration-200 ${accent}`}
+              className={`flex size-12 shrink-0 items-center justify-center rounded-xl transition-all duration-200 group-hover/card:scale-105 ${accent}`}
             >
               <Icon className="size-6 stroke-[1.75]" />
             </div>

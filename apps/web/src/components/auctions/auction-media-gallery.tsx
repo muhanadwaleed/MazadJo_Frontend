@@ -1,8 +1,15 @@
 "use client";
 
-import { useState } from "react";
+import { ChevronLeft, ChevronRight, X, ZoomIn } from "lucide-react";
+import { useEffect, useState } from "react";
 
 import type { AuctionMedia } from "@mazad/api";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogTitle,
+} from "@mazad/ui";
 import { cn } from "@mazad/ui/utils";
 import { resolveAuctionMediaPath } from "@/lib/auction-media-url";
 
@@ -12,6 +19,10 @@ type AuctionMediaGalleryProps = {
   title: string;
   fallbackImageUrl?: string;
   noPhotosLabel: string;
+  expandLabel?: string;
+  closeLabel?: string;
+  previousLabel?: string;
+  nextLabel?: string;
 };
 
 function sortImages(items: AuctionMedia[]) {
@@ -26,21 +37,61 @@ export function AuctionMediaGallery({
   title,
   fallbackImageUrl = "/logo.png",
   noPhotosLabel,
+  expandLabel = "Expand image",
+  closeLabel = "Close",
+  previousLabel = "Previous image",
+  nextLabel = "Next image",
 }: AuctionMediaGalleryProps) {
   const images = sortImages(mediaItems);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
   const active = images[activeIndex];
+
+  useEffect(() => {
+    if (!lightboxOpen) return;
+
+    function onKeyDown(event: KeyboardEvent) {
+      if (event.key === "ArrowRight") {
+        setActiveIndex((index) => (index + 1) % images.length);
+      }
+      if (event.key === "ArrowLeft") {
+        setActiveIndex((index) => (index - 1 + images.length) % images.length);
+      }
+    }
+
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [lightboxOpen, images.length]);
+
+  function showPrevious() {
+    setActiveIndex((index) => (index - 1 + images.length) % images.length);
+  }
+
+  function showNext() {
+    setActiveIndex((index) => (index + 1) % images.length);
+  }
 
   return (
     <div className="space-y-3">
       <div className="relative aspect-[4/3] overflow-hidden rounded-3xl border border-separator/60 bg-surface shadow-md">
         {active ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
-            src={resolveAuctionMediaPath(auctionId, active.id, active.url)}
-            alt={title}
-            className="size-full object-cover"
-          />
+          <button
+            type="button"
+            onClick={() => setLightboxOpen(true)}
+            className="group relative size-full cursor-zoom-in"
+            aria-label={expandLabel}
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={resolveAuctionMediaPath(auctionId, active.id, active.url)}
+              alt={title}
+              className="size-full object-cover transition-transform duration-300 group-hover:scale-[1.01]"
+            />
+            <span className="absolute end-3 top-3 inline-flex items-center gap-1 rounded-full bg-navy/70 px-2.5 py-1 text-xs font-semibold text-white backdrop-blur-sm">
+              <ZoomIn className="size-3.5" aria-hidden />
+              {expandLabel}
+            </span>
+          </button>
         ) : (
           <div className="flex h-full items-center justify-center bg-gradient-to-br from-mazad-primary/8 via-surface to-light-blue/10">
             {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -54,7 +105,7 @@ export function AuctionMediaGallery({
         )}
 
         {images.length > 1 ? (
-          <div className="absolute bottom-3 end-3 rounded-full bg-navy/70 px-3 py-1 text-xs font-semibold text-white backdrop-blur-sm">
+          <div className="pointer-events-none absolute bottom-3 end-3 rounded-full bg-navy/70 px-3 py-1 text-xs font-semibold text-white backdrop-blur-sm">
             {activeIndex + 1} / {images.length}
           </div>
         ) : null}
@@ -88,6 +139,53 @@ export function AuctionMediaGallery({
         </ul>
       ) : images.length === 0 ? (
         <p className="text-center text-xs text-muted-foreground">{noPhotosLabel}</p>
+      ) : null}
+
+      {active ? (
+        <Dialog open={lightboxOpen} onOpenChange={setLightboxOpen}>
+          <DialogContent
+            showCloseButton={false}
+            className="max-w-5xl border-none bg-navy/95 p-0 text-white"
+          >
+            <DialogTitle className="sr-only">{title}</DialogTitle>
+            <div className="relative">
+              <DialogClose
+                className="absolute end-3 top-3 z-10 inline-flex size-10 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20"
+                aria-label={closeLabel}
+              >
+                <X className="size-5" aria-hidden />
+              </DialogClose>
+
+              {images.length > 1 ? (
+                <>
+                  <button
+                    type="button"
+                    onClick={showPrevious}
+                    className="absolute start-3 top-1/2 z-10 inline-flex size-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 transition-colors hover:bg-white/20"
+                    aria-label={previousLabel}
+                  >
+                    <ChevronLeft className="size-5" aria-hidden />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={showNext}
+                    className="absolute end-3 top-1/2 z-10 inline-flex size-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 transition-colors hover:bg-white/20"
+                    aria-label={nextLabel}
+                  >
+                    <ChevronRight className="size-5" aria-hidden />
+                  </button>
+                </>
+              ) : null}
+
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={resolveAuctionMediaPath(auctionId, active.id, active.url)}
+                alt={title}
+                className="max-h-[85vh] w-full object-contain"
+              />
+            </div>
+          </DialogContent>
+        </Dialog>
       ) : null}
     </div>
   );

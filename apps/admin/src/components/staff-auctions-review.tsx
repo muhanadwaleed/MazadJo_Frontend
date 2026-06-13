@@ -99,7 +99,7 @@ function ReviewAuctionCard({
   const [checklistLoading, setChecklistLoading] = useState(true);
   const [togglingId, setTogglingId] = useState<number | null>(null);
   const [reason, setReason] = useState("");
-  const [busyDecision, setBusyDecision] = useState<StaffReviewDecision | null>(null);
+  const [busyDecision, setBusyDecision] = useState<StaffReviewDecision | "cancel" | null>(null);
   const [auditOpen, setAuditOpen] = useState(false);
   const [auditEntries, setAuditEntries] = useState<AuditLogEntry[]>([]);
   const [auditLoading, setAuditLoading] = useState(false);
@@ -164,6 +164,22 @@ function ReviewAuctionCard({
     } catch (error) {
       toast.error(
         error instanceof ApiError ? getApiErrorMessage(error) : t("toast.reviewFailed")
+      );
+    } finally {
+      setBusyDecision(null);
+    }
+  }
+
+  async function cancelAuction() {
+    setBusyDecision("cancel");
+    try {
+      await staffService.staffCancel(auction.id, reason.trim() || undefined);
+      toast.success(t("toast.cancelSuccess", { id: auction.id }));
+      setReason("");
+      onReviewed();
+    } catch (error) {
+      toast.error(
+        error instanceof ApiError ? getApiErrorMessage(error) : t("toast.cancelFailed")
       );
     } finally {
       setBusyDecision(null);
@@ -250,6 +266,14 @@ function ReviewAuctionCard({
             onClick={() => void review("reject")}
           >
             {busyDecision === "reject" ? t("rejecting") : t("reject")}
+          </Button>
+          <Button
+            size="sm"
+            variant="outline"
+            disabled={busyDecision !== null}
+            onClick={() => void cancelAuction()}
+          >
+            {busyDecision === "cancel" ? t("cancelling") : t("staffCancel")}
           </Button>
           <Button size="sm" variant="ghost" onClick={() => void loadAudit()}>
             {t("auditTrail")}

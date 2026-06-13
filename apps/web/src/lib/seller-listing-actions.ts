@@ -1,6 +1,6 @@
 import type { AuctionStatus } from "@mazad/api";
 
-export type SellerListingAction = "edit" | "submit" | "cancel" | "view";
+export type SellerListingAction = "edit" | "submit" | "cancel" | "activate" | "view";
 
 const EDITABLE: AuctionStatus[] = ["draft", "returned_for_edit"];
 const CANCELLABLE: AuctionStatus[] = [
@@ -22,7 +22,15 @@ export function sellerListingActions(status: AuctionStatus): SellerListingAction
     actions.push("cancel");
   }
 
+  if (status === "approved") {
+    actions.push("activate");
+  }
+
   return actions;
+}
+
+export function canActivateListing(status: AuctionStatus): boolean {
+  return status === "approved";
 }
 
 export function canEditListing(status: AuctionStatus): boolean {

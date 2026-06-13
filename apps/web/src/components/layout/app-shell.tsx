@@ -6,7 +6,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex min-h-full flex-col bg-surface">
       <SiteHeader />
-      <main className="flex flex-1 flex-col px-0 pb-20 pt-6 md:pb-0 md:pt-8">{children}</main>
+      <main className="flex flex-1 flex-col px-0 pb-24 pt-6 md:pb-0 md:pt-8">{children}</main>
       <SiteFooter />
       <MobileBottomNav />
     </div>

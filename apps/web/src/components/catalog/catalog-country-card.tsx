@@ -12,7 +12,7 @@ export function CatalogCountryCard({ country, locale }: CatalogCountryCardProps)
   const name = pickLocalized(locale, country.name_ar, country.name_en);
 
   return (
-    <li className="group rounded-2xl border border-separator/60 bg-card p-4 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-mazad-primary/20 hover:shadow-md">
+    <div className="group h-full rounded-2xl border border-separator/60 bg-card p-4 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-mazad-primary/20 hover:shadow-md">
       <div className="flex items-center gap-3">
         <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-mazad-primary/8 text-mazad-primary transition-colors group-hover:bg-mazad-primary group-hover:text-white">
           <Globe2 className="size-5" />
@@ -24,6 +24,6 @@ export function CatalogCountryCard({ country, locale }: CatalogCountryCardProps)
           </p>
         </div>
       </div>
-    </li>
+    </div>
   );
 }

@@ -1,14 +1,11 @@
 import { getTranslations } from "next-intl/server";
-import { ChevronRight } from "lucide-react";
 
-import { footerNavItems } from "@/config/navigation";
-import { routes } from "@/config/routes";
-import { Link } from "@/i18n/navigation";
+import { FooterNavLinks } from "@/components/layout/footer-nav-links";
+import { FooterRegisterCta } from "@/components/layout/footer-register-cta";
 import { BrandMark, Container } from "@mazad/ui";
 
 export async function SiteFooter() {
   const t = await getTranslations();
-  const items = footerNavItems.filter((item) => item.enabled !== false);
 
   return (
     <footer className="mt-auto border-t border-separator bg-navy text-white">
@@ -28,36 +25,11 @@ export async function SiteFooter() {
             <p className="mb-4 text-xs font-semibold tracking-widest text-white/50 uppercase">
               {t("footer.explore")}
             </p>
-            <nav className="grid grid-cols-2 gap-x-6 gap-y-3 sm:grid-cols-3">
-              {items.map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className="cursor-pointer text-sm text-white/75 transition-colors duration-200 hover:text-mazad-accent"
-                >
-                  {t(item.labelKey)}
-                </Link>
-              ))}
-              <Link
-                href={routes.login}
-                className="cursor-pointer text-sm text-white/75 transition-colors duration-200 hover:text-mazad-accent"
-              >
-                {t("nav.signIn")}
-              </Link>
-            </nav>
+            <FooterNavLinks />
           </div>
         </div>
 
-        <div className="mt-10 flex flex-col gap-3 border-t border-white/10 pt-8 sm:flex-row sm:items-center sm:justify-between">
-          <p className="text-sm font-semibold text-white">{t("footer.ctaTitle")}</p>
-          <Link
-            href={routes.register}
-            className="inline-flex cursor-pointer items-center gap-1 text-sm font-semibold text-mazad-accent transition-opacity duration-200 hover:opacity-85"
-          >
-            {t("footer.ctaLink")}
-            <ChevronRight className="size-4 rtl:rotate-180" />
-          </Link>
-        </div>
+        <FooterRegisterCta />
       </Container>
     </footer>
   );

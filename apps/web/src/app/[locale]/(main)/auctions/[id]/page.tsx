@@ -1,17 +1,69 @@
 import { notFound } from "next/navigation";
 import { getLocale, getTranslations } from "next-intl/server";
 
-import { routes } from "@/config/routes";
-import { auctionsService } from "@mazad/api";
-import { formatDateTime, formatMoney } from "@/lib/format";
-import { Container, ContentSection, LiveAuctionIndicator } from "@mazad/ui";
-import { AuctionDetailSummary } from "@/components/auctions/auction-detail-summary";
-import { AuctionMediaGallery } from "@/components/auctions/auction-media-gallery";
-import { AuctionStatusBadge } from "@/components/auctions/auction-status-badge";
-import { PageBackLink } from "@/components/layout/page-back-link";
-import { ButtonLink } from "@/components/ui/button-link";
+import { auctionsService, catalogService } from "@mazad/api";
+import type {
+  AuctionDetail,
+  AuctionListItem,
+  AuctionStatus,
+  PublicBid,
+} from "@mazad/api";
+
+import { AuctionDetailClient } from "@/components/auctions/detail/auction-detail-client";
+import type { AuctionDetailData } from "@/components/auctions/detail/AuctionDetailPage";
+import { resolveAuctionMediaPath } from "@/lib/auction-media-url";
+import { intlLocale, isRtl } from "@/lib/locale";
+import { normalizeMediaUrl } from "@/lib/media-url";
 
 type PageProps = { params: Promise<{ id: string }> };
+
+type DesignStatus = AuctionDetailData["status"];
+
+/** Map the backend auction status onto the design's four visual states. */
+function toDesignStatus(status: AuctionStatus): DesignStatus {
+  switch (status) {
+    case "active":
+      return "active";
+    case "scheduled":
+    case "approved":
+      return "scheduled";
+    case "closed":
+      return "sold";
+    default:
+      return "ended";
+  }
+}
+
+function initialsFrom(name: string): string {
+  const parts = name.trim().split(/\s+/).filter(Boolean);
+  if (parts.length === 0) return "?";
+  if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
+  return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+}
+
+function relativeTime(iso: string, locale: string): string {
+  const rtf = new Intl.RelativeTimeFormat(intlLocale(locale), {
+    numeric: "auto",
+  });
+  const diffMs = new Date(iso).getTime() - Date.now();
+  const units: [Intl.RelativeTimeFormatUnit, number][] = [
+    ["day", 86_400_000],
+    ["hour", 3_600_000],
+    ["minute", 60_000],
+    ["second", 1_000],
+  ];
+  for (const [unit, ms] of units) {
+    if (Math.abs(diffMs) >= ms || unit === "second") {
+      return rtf.format(Math.round(diffMs / ms), unit);
+    }
+  }
+  return rtf.format(0, "second");
+}
+
+function toNumber(value: string | number): number {
+  const n = typeof value === "string" ? Number.parseFloat(value) : value;
+  return Number.isNaN(n) ? 0 : n;
+}
 
 export async function generateMetadata({ params }: PageProps) {
   const { id } = await params;
@@ -24,93 +76,99 @@ export async function generateMetadata({ params }: PageProps) {
   }
 }
 
-export default async function AuctionDetailPage({ params }: PageProps) {
+export default async function AuctionDetailRoute({ params }: PageProps) {
   const { id } = await params;
   const locale = await getLocale();
-  const t = await getTranslations("auctionDetail");
-  const tAuctions = await getTranslations("auctions");
 
-  let auction;
+  let auction: AuctionDetail;
+  let bidsResult: PublicBid[];
   try {
-    auction = await auctionsService.get(id);
+    const [detail, bids] = await Promise.all([
+      auctionsService.get(id),
+      auctionsService.bids(id, { page_size: 20 }),
+    ]);
+    auction = detail;
+    bidsResult = bids.results;
   } catch {
     notFound();
   }
 
-  const isLive = auction.status === "active";
+  // Category name (best-effort — falls back to no breadcrumb category).
+  let categoryName: string | undefined;
+  try {
+    const category = await catalogService.category(auction.product_category);
+    categoryName =
+      locale === "ar" ? category.name_ar || category.name_en : category.name_en;
+  } catch {
+    categoryName = undefined;
+  }
+
+  // Similar auctions in the same category (best-effort).
+  let similar: AuctionListItem[] = [];
+  try {
+    const list = await auctionsService.list({
+      category: auction.product_category,
+      page_size: 5,
+    });
+    similar = list.results
+      .filter((item) => item.id !== auction.id)
+      .slice(0, 4);
+  } catch {
+    similar = [];
+  }
+
+  const media = [...auction.media_items]
+    .filter((item) => item.media_type === "image")
+    .sort((a, b) => a.sort_order - b.sort_order)
+    .map((item) => ({
+      url: resolveAuctionMediaPath(auction.id, item.id, item.url),
+      alt: auction.title,
+    }));
+
+  const bids = bidsResult.map((bid) => ({
+    id: String(bid.id),
+    bidderName: bid.bidder,
+    bidderInitials: initialsFrom(bid.bidder),
+    amount: toNumber(bid.amount),
+    placedAt: bid.timestamp,
+    timeAgo: relativeTime(bid.timestamp, locale),
+  }));
+
+  const data: AuctionDetailData = {
+    id: String(auction.id),
+    title: auction.title,
+    description: auction.description,
+    status: toDesignStatus(auction.status),
+    currentBid: toNumber(auction.current_price),
+    startingPrice: toNumber(auction.start_price),
+    // No total-bid count on the API; participants_count is the closest metric.
+    totalBids: auction.participants_count,
+    minIncrement: toNumber(auction.min_bid_increment),
+    endsAt: auction.ends_at ?? new Date().toISOString(),
+    category: categoryName,
+    location: auction.location_link || undefined,
+    media,
+    bids,
+    similarAuctions: similar.map((item) => ({
+      id: String(item.id),
+      title: item.title,
+      currentBid: toNumber(item.current_price),
+      totalBids: item.participants_count,
+      status: toDesignStatus(item.status),
+      thumbnailUrl: normalizeMediaUrl(item.primary_media_url) ?? undefined,
+    })),
+  };
 
   return (
-    <Container className="space-y-8 py-2 md:py-4">
-      <PageBackLink href={routes.auctions}>{t("backToAuctions")}</PageBackLink>
-
-      <header className="space-y-4 border-b border-separator pb-6">
-        <div className="flex flex-wrap items-center gap-2">
-          <AuctionStatusBadge status={auction.status} />
-          {isLive ? (
-            <span className="inline-flex items-center gap-2 rounded-full border border-mazad-accent/25 bg-mazad-accent/8 px-3 py-1">
-              <LiveAuctionIndicator />
-            </span>
-          ) : null}
-        </div>
-        <h1 className="text-2xl font-bold tracking-tight text-navy sm:text-3xl md:text-4xl md:leading-tight">
-          {auction.title}
-        </h1>
-      </header>
-
-      <div className="grid gap-8 lg:grid-cols-12 lg:items-start lg:gap-10">
-        <div className="space-y-6 lg:col-span-7">
-          <AuctionMediaGallery
-            auctionId={auction.id}
-            mediaItems={auction.media_items}
-            title={auction.title}
-            noPhotosLabel={t("noPhotos")}
-          />
-
-          <ContentSection title={t("description")}>
-            <p className="whitespace-pre-wrap text-sm leading-relaxed text-muted-foreground sm:text-base">
-              {auction.description || t("noDescription")}
-            </p>
-          </ContentSection>
-        </div>
-
-        <aside className="lg:col-span-5 lg:sticky lg:top-28">
-          <AuctionDetailSummary
-            auction={auction}
-            formatted={{
-              currentPrice: formatMoney(auction.current_price, locale),
-              startingPrice: formatMoney(auction.start_price, locale),
-              minIncrement: formatMoney(auction.min_bid_increment, locale),
-              startsAt: formatDateTime(auction.starts_at, locale),
-              endsAt: formatDateTime(auction.ends_at, locale),
-            }}
-            labels={{
-              currentPrice: t("currentPrice"),
-              startingPrice: tAuctions("startingPrice"),
-              minIncrement: t("minIncrement"),
-              starts: t("starts"),
-              ends: t("ends"),
-              participants: t("participants"),
-              views: t("views"),
-              countdown: {
-                days: tAuctions("countdown.days"),
-                hours: tAuctions("countdown.hours"),
-                minutes: tAuctions("countdown.minutes"),
-                seconds: tAuctions("countdown.seconds"),
-              },
-            }}
-            actions={
-              <>
-                <ButtonLink href={routes.auctionBids(id)} className="w-full">
-                  {t("viewBidsAndPlace")}
-                </ButtonLink>
-                <ButtonLink variant="outline" href={routes.auctionBids(id)} className="w-full">
-                  {t("bidHistory")}
-                </ButtonLink>
-              </>
-            }
-          />
-        </aside>
-      </div>
-    </Container>
+    <AuctionDetailClient
+      auction={data}
+      auctionId={auction.id}
+      backendStatus={auction.status}
+      sellerId={auction.seller}
+      winnerBidId={auction.winner_bid}
+      currency="JOD"
+      isRtl={isRtl(locale)}
+      isWatchlisted={auction.is_on_watchlist}
+    />
   );
 }

@@ -7,6 +7,7 @@ import { displayName, formatDateTime } from "@/lib/format";
 import type { UserProfile } from "@mazad/api";
 import { useAuth } from "@mazad/auth";
 import { usersService } from "@mazad/api";
+import { ProfileEditForm } from "@/components/profile/profile-edit-form";
 import { ErrorState } from "@/components/common/error-state";
 import { LoadingGrid } from "@/components/common/loading-grid";
 import {
@@ -54,6 +55,7 @@ export function UserProfileCard() {
     : user.user_type;
 
   return (
+    <div className="space-y-6">
     <Card>
       <CardHeader className="flex flex-row items-center gap-4">
         <Avatar className="size-12">
@@ -92,5 +94,7 @@ export function UserProfileCard() {
         </p>
       </CardContent>
     </Card>
+    <ProfileEditForm user={user} onUpdated={setUser} />
+    </div>
   );
 }

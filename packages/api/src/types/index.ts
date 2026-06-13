@@ -4,3 +4,7 @@ export * from "./auction";
 export * from "./catalog";
 export * from "./cms";
 export * from "./configuration";
+export * from "./subscription";
+export * from "./payment";
+export * from "./ratings";
+export * from "./disputes";

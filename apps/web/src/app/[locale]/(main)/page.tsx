@@ -1,6 +1,5 @@
 import { auctionsService, catalogService, asList } from "@mazad/api";
 import { Container } from "@mazad/ui";
-import { ScrollReveal } from "@/components/common/scroll-reveal";
 import { HomeActiveAuctionsSection } from "@/components/home/home-active-auctions-section";
 import { HomeCategories } from "@/components/home/home-categories";
 import { HomeFeatures } from "@/components/home/home-features";
@@ -46,18 +45,9 @@ export default async function HomePage() {
   return (
     <Container className="space-y-16 py-2 md:py-4">
       <HomeHero />
-
-      <ScrollReveal delay={0.05}>
-        <HomeCategories categories={categories} />
-      </ScrollReveal>
-
-      <ScrollReveal delay={0.1}>
-        <HomeActiveAuctionsSection auctions={auctions} />
-      </ScrollReveal>
-
-      <ScrollReveal delay={0.05}>
-        <HomeFeatures />
-      </ScrollReveal>
+      <HomeCategories categories={categories} />
+      <HomeActiveAuctionsSection auctions={auctions} />
+      <HomeFeatures />
     </Container>
   );
 }

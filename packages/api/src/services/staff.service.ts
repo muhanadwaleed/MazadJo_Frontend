@@ -41,13 +41,6 @@ export const staffService = {
     });
   },
 
-  listApprovedAuctions() {
-    return api.get<PaginatedResponse<AuctionDetail>>(endpoints.auctions.list, {
-      params: { status: "approved" },
-      auth: true,
-    });
-  },
-
   staffReview(id: string | number, body: StaffReviewPayload) {
     return api.post<AuctionDetail>(endpoints.auctions.staffReview(id), {
       body,
@@ -55,8 +48,9 @@ export const staffService = {
     });
   },
 
-  staffPublish(id: string | number) {
-    return api.post<AuctionDetail>(endpoints.auctions.staffPublish(id), {
+  staffCancel(id: string | number, reason?: string) {
+    return api.post<AuctionDetail>(endpoints.auctions.staffCancel(id), {
+      body: reason ? { reason } : undefined,
       auth: true,
     });
   },

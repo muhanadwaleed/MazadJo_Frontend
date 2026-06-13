@@ -26,6 +26,8 @@ export type AuctionCardShellProps = {
   bidCountText?: string
   footer: React.ReactNode
   className?: string
+  /** Overlay control on the image (e.g. watchlist heart). */
+  imageAction?: React.ReactNode
 }
 
 export function AuctionCardShell({
@@ -44,6 +46,7 @@ export function AuctionCardShell({
   bidCountText,
   footer,
   className,
+  imageAction,
 }: AuctionCardShellProps) {
   return (
     <motion.article
@@ -83,6 +86,9 @@ export function AuctionCardShell({
               </span>
             ) : null}
           </div>
+          {imageAction ? (
+            <div className="absolute end-3 top-3 z-10">{imageAction}</div>
+          ) : null}
         </div>
 
         <CardContent className="flex flex-1 flex-col gap-4 pt-5">

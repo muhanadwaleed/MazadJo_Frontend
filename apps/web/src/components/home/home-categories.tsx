@@ -47,7 +47,7 @@ export function HomeCategories({ categories }: { categories: Category[] }) {
         variants={staggerContainer}
         initial="initial"
         whileInView="animate"
-        viewport={{ once: true, margin: "-40px" }}
+        viewport={{ once: true, margin: "-80px" }}
         className="flex gap-3 overflow-x-auto pb-2 [scrollbar-width:none] snap-x [&::-webkit-scrollbar]:hidden"
       >
         {categories.map((cat) => {

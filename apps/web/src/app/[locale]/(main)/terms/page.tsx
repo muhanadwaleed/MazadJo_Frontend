@@ -2,8 +2,9 @@ import { getLocale, getTranslations } from "next-intl/server";
 import { Scale } from "lucide-react";
 
 import { pickLocalized, publicCmsService } from "@mazad/api";
-import { Card, CardContent, CardHeader, CardTitle, ContentSection } from "@mazad/ui";
+import { Card, CardContent, CardHeader, CardTitle } from "@mazad/ui";
 import { EmptyState } from "@/components/common/empty-state";
+import { MarketingSection } from "@/components/common/marketing-section";
 import { MarketingPageShell } from "@/components/layout/marketing-page-shell";
 
 export async function generateMetadata() {
@@ -26,7 +27,10 @@ export default async function TermsPage() {
         title={t("title")}
         description={t("version", { version: terms.version })}
       >
-        <ContentSection title={title} icon={<Scale className="size-6 stroke-[1.75]" />}>
+        <MarketingSection
+          title={title}
+          badge={<Scale className="size-5 text-mazad-primary" aria-hidden />}
+        >
           <Card className="border-separator/60 shadow-sm">
             <CardHeader>
               <CardTitle className="text-base text-navy">{title}</CardTitle>
@@ -42,7 +46,7 @@ export default async function TermsPage() {
               </div>
             </CardContent>
           </Card>
-        </ContentSection>
+        </MarketingSection>
       </MarketingPageShell>
     );
   } catch {

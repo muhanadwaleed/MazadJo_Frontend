@@ -53,7 +53,7 @@ export function AuctionDetailSummary({
       </div>
 
       <CardContent className="space-y-5 p-6">
-        {isLive ? (
+        {isLive && auction.ends_at ? (
           <div className="rounded-xl border border-mazad-accent/20 bg-mazad-accent/5 p-4">
             <div className="mb-3 flex items-center gap-2 text-sm font-semibold text-mazad-accent">
               <Clock className="size-4" aria-hidden />

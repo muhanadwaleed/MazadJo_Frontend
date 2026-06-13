@@ -38,9 +38,9 @@ export function HomeFeatures() {
           <motion.div
             key={key}
             variants={staggerItem}
-            className="flex cursor-default flex-col items-center rounded-2xl border border-separator/60 bg-card p-5 text-center shadow-sm transition-[transform,box-shadow] duration-200 hover:-translate-y-0.5 hover:shadow-md"
+            className="group flex cursor-default flex-col items-center rounded-2xl border border-separator/60 bg-card p-5 text-center shadow-sm transition-[transform,box-shadow] duration-200 hover:-translate-y-0.5 hover:shadow-md"
           >
-            <div className="mb-3 flex size-12 items-center justify-center rounded-xl bg-mazad-primary/8 text-mazad-primary">
+            <div className="mb-3 flex size-12 items-center justify-center rounded-xl bg-mazad-primary/8 text-mazad-primary transition-all duration-200 group-hover:scale-105 group-hover:bg-mazad-accent/15 group-hover:text-mazad-accent">
               <Icon className="size-6 stroke-[2]" aria-hidden />
             </div>
             <h3 className="text-sm font-bold text-navy">{t(`${key}.title`)}</h3>

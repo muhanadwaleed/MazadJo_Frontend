@@ -77,7 +77,7 @@
   "nav": {
     "overview": "نظرة عامة",
     "reviewAuctions": "مراجعة المزادات",
-    "publishAuctions": "نشر المزادات",
+    "subscriptionsStaging": "تأكيد المدفوعات",
     "cms": "إدارة المحتوى",
     "configuration": "الإعدادات",
     "catalog": "الكتالوج",
@@ -86,7 +86,7 @@
   },
   "overview": {
     "title": "نظرة عامة على العمليات",
-    "description": "راجع العروض، انشر المزادات المعتمدة، وأدر محتوى الموقع.",
+    "description": "راجع العروض، أكد مدفوعات الاختبار، وأدر محتوى الموقع.",
     "eyebrow": "لوحة الموظفين",
     "openWorkspace": "فتح مساحة العمل"
   },
@@ -108,7 +108,7 @@
     "serverUnreachable": "تعذّر الاتصال بالخادم.",
     "staffRequired": "يلزم حساب موظف. سجّل الدخول بحساب موظف.",
     "splitWhoUsTitle": "لوحة العمليات",
-    "splitWhoUsFallback": "راجع العروض، انشر المزادات المعتمدة، وأدر إعدادات المنصة من مكان واحد.",
+    "splitWhoUsFallback": "راجع العروض، أكد مدفوعات الاختبار، وأدر إعدادات المنصة من مكان واحد.",
     "splitWhyUsTitle": "سوق موثوق",
     "splitWhyUsFallback": "يربط مزادجو البائعين والمزايدين في الأردن بمزادات مباشرة شفافة وإشراف من الموظفين."
   },
@@ -137,9 +137,9 @@
       "title": "مراجعة المزادات",
       "description": "وافق أو ارفض أو أعد العروض قيد مراجعة الموظفين."
     },
-    "auctionsPublish": {
-      "title": "نشر المزادات",
-      "description": "جدولة المزادات المعتمدة للكتالوج المباشر."
+    "subscriptionsStaging": {
+      "title": "تأكيد المدفوعات",
+      "description": "أكد اشتراكات البائعين والمزايدين المعلّقة عبر mark paid (بيئة الاختبار فقط)."
     }
   },
   "users": {
@@ -336,6 +336,8 @@
       "reject": "رفض",
       "rejecting": "جاري الرفض…",
       "auditTrail": "سجل التدقيق",
+      "staffCancel": "إلغاء المزاد",
+      "cancelling": "جارٍ الإلغاء…",
       "approveAllRequired": "أكمل جميع بنود المراجعة قبل الموافقة",
       "auctionMeta": "#{number} · البائع {seller}",
       "loadingAuctions": "جاري تحميل المزادات قيد المراجعة…",
@@ -346,7 +348,9 @@
         "reviewSuccess": "تم تعليم المزاد #{id} كـ {decision}.",
         "reviewFailed": "تعذّرت المراجعة.",
         "loadAuditFailed": "تعذّر تحميل سجل التدقيق.",
-        "loadAuctionsFailed": "تعذّر تحميل المزادات."
+        "loadAuctionsFailed": "تعذّر تحميل المزادات.",
+        "cancelSuccess": "تم إلغاء المزاد #{id}.",
+        "cancelFailed": "تعذر إلغاء المزاد."
       },
       "decisions": {
         "approve": "موافق عليه",
@@ -354,15 +358,20 @@
         "reject": "مرفوض"
       }
     },
-    "publish": {
-      "loading": "جاري تحميل المزادات المعتمدة…",
-      "empty": "لا توجد مزادات معتمدة جاهزة للنشر.",
-      "publishSchedule": "نشر / جدولة",
-      "auditTrail": "سجل التدقيق",
-      "toast": {
-        "loadFailed": "تعذّر تحميل المزادات.",
-        "scheduled": "تم جدولة المزاد #{id} للنشر.",
-        "publishFailed": "تعذّر النشر."
+    "subscriptions": {
+      "staging": {
+        "loading": "جارٍ تحميل الاشتراكات المعلّقة…",
+        "empty": "لا توجد اشتراكات بانتظار الدفع.",
+        "auctionLabel": "المزاد #{id}",
+        "subscriptionId": "الاشتراك #{id}",
+        "total": "الإجمالي",
+        "markPaid": "تأكيد الدفع",
+        "markingPaid": "جارٍ التأكيد…",
+        "toast": {
+          "loadFailed": "تعذر تحميل الاشتراكات.",
+          "markedPaid": "تم تأكيد دفع الاشتراك #{id}.",
+          "markPaidFailed": "تعذر تأكيد الدفع."
+        }
       }
     }
   },

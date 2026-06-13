@@ -16,6 +16,11 @@ export { catalogStaffService } from "./services/catalog-staff.service";
 export { publicCmsService } from "./services/public-cms.service";
 export { configurationService } from "./services/configuration.service";
 export { notificationsService } from "./services/notifications.service";
+export type { NotificationItem } from "./services/notifications.service";
+export { subscriptionsService } from "./services/subscriptions.service";
+export { paymentsService } from "./services/payments.service";
+export { ratingsService } from "./services/ratings.service";
+export { disputesService } from "./services/disputes.service";
 export { staffService, cmsService } from "./services/staff.service";
 export type {
   StaffReviewDecision,

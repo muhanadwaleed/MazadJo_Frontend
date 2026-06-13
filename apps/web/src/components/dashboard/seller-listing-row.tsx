@@ -14,7 +14,9 @@ import { AuctionStatusBadge } from "@/components/auctions/auction-status-badge";
 import { routes } from "@/config/routes";
 import { useRouter } from "@/i18n/navigation";
 import { formatDateTime, formatMoney } from "@/lib/format";
+import { SubscriptionCheckoutPanel } from "@/components/subscriptions/subscription-checkout-panel";
 import {
+  canActivateListing,
   canCancelListing,
   canEditListing,
   canSubmitListing,
@@ -51,6 +53,7 @@ export function SellerListingRow({ auction, onUpdated }: SellerListingRowProps) 
   const [busy, setBusy] = useState<"submit" | "cancel" | null>(null);
   const [submitOpen, setSubmitOpen] = useState(false);
   const [cancelOpen, setCancelOpen] = useState(false);
+  const [activateOpen, setActivateOpen] = useState(false);
   const [cancelReason, setCancelReason] = useState("");
 
   async function handleSubmit() {
@@ -102,8 +105,16 @@ export function SellerListingRow({ auction, onUpdated }: SellerListingRowProps) 
             <span className="font-medium">{formatMoney(auction.start_price, locale)}</span>
           </div>
           <div className="flex justify-between gap-2 sm:block">
-            <span className="text-muted-foreground">{t("ends")}</span>
-            <span>{formatDateTime(auction.ends_at, locale)}</span>
+            <span className="text-muted-foreground">
+              {auction.ends_at ? t("ends") : t("duration")}
+            </span>
+            <span>
+              {auction.ends_at
+                ? formatDateTime(auction.ends_at, locale)
+                : auction.duration_days
+                  ? t("durationDaysValue", { days: auction.duration_days })
+                  : "—"}
+            </span>
           </div>
         </CardContent>
         <CardFooter className="flex flex-wrap gap-2">
@@ -122,6 +133,11 @@ export function SellerListingRow({ auction, onUpdated }: SellerListingRowProps) 
           {canSubmitListing(auction.status) ? (
             <Button size="sm" onClick={() => setSubmitOpen(true)}>
               {t("submit")}
+            </Button>
+          ) : null}
+          {canActivateListing(auction.status) ? (
+            <Button size="sm" variant="secondary" onClick={() => setActivateOpen(true)}>
+              {t("activate")}
             </Button>
           ) : null}
           {canCancelListing(auction.status) ? (
@@ -146,6 +162,25 @@ export function SellerListingRow({ auction, onUpdated }: SellerListingRowProps) 
               {busy === "submit" ? t("submitting") : t("submitConfirm")}
             </Button>
           </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={activateOpen} onOpenChange={setActivateOpen}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle>{t("activateTitle")}</DialogTitle>
+            <DialogDescription>{t("activateDescription")}</DialogDescription>
+          </DialogHeader>
+          <SubscriptionCheckoutPanel
+            auctionId={auction.id}
+            auctionTitle={auction.title}
+            intent="seller_activate"
+            compact
+            onActivated={() => {
+              setActivateOpen(false);
+              onUpdated();
+            }}
+          />
         </DialogContent>
       </Dialog>
 
