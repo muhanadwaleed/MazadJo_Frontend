@@ -3,7 +3,7 @@
 import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
 import { useMemo, useState } from "react";
-import { toast } from "sonner";
+import { notify, toast } from "@mazad/ui";
 
 import { routes } from "@/config/routes";
 import { ApiError } from "@mazad/api";
@@ -108,7 +108,7 @@ export function ForgotPasswordForm() {
     }));
 
     if (!canRequest) {
-      toast.error(t("fixFormErrors"));
+      notify.validation(t("fixFormErrors"));
       return;
     }
 
@@ -136,7 +136,7 @@ export function ForgotPasswordForm() {
     setTouched((prev) => ({ ...prev, password: true, confirm: true }));
 
     if (!canConfirm) {
-      toast.error(t("fixFormErrors"));
+      notify.validation(t("fixFormErrors"));
       return;
     }
 

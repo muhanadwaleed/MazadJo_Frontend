@@ -121,6 +121,7 @@ export {
 } from "./components/sheet";
 export { Skeleton } from "./components/skeleton";
 export { Toaster } from "./components/sonner";
+export { notify, toast } from "./notify";
 export { EmptyState } from "./components/empty-state";
 
 /* Auction motion surfaces — web consumer experience */

@@ -3,7 +3,7 @@
 import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
 import { useMemo, useState } from "react";
-import { toast } from "sonner";
+import { notify, toast } from "@mazad/ui";
 
 import { routes } from "@/config/routes";
 import { ApiError } from "@mazad/api";
@@ -136,7 +136,7 @@ export function RegisterForm() {
   function handleSendPhoneOtp() {
     if (!canSendPhoneOtp) {
       setTouched((prev) => ({ ...prev, phone: true }));
-      toast.error(t("enterValidPhoneFirst"));
+      notify.validation(t("enterValidPhoneFirst"));
       return;
     }
     void openOtpDialog({
@@ -149,7 +149,7 @@ export function RegisterForm() {
   function handleSendEmailOtp() {
     if (!canSendEmailOtp) {
       setTouched((prev) => ({ ...prev, email: true }));
-      toast.error(t("enterValidEmailFirst"));
+      notify.validation(t("enterValidEmailFirst"));
       return;
     }
     void openOtpDialog({
@@ -169,16 +169,16 @@ export function RegisterForm() {
     setTouched({ email: true, password: true, confirm: true, phone: true });
 
     if (!phoneVerified) {
-      toast.error(t("verifyPhoneFirst"));
+      notify.validation(t("verifyPhoneFirst"));
       return;
     }
     if (hasEmail && !emailVerified) {
-      toast.error(t("verifyEmailFirst"));
+      notify.validation(t("verifyEmailFirst"));
       return;
     }
 
     if (!canSubmit) {
-      toast.error(t("fixFormErrors"));
+      notify.validation(t("fixFormErrors"));
       return;
     }
 
@@ -187,7 +187,7 @@ export function RegisterForm() {
     const full_name_en = String(form.get("full_name_en") || "").trim();
 
     if (!username) {
-      toast.error(t("usernameRequired"));
+      notify.validation(t("usernameRequired"));
       return;
     }
 

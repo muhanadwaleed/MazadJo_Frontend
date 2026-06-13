@@ -1,38 +1,70 @@
-"use client"
+"use client";
 
-import { useTheme } from "next-themes"
-import { Toaster as Sonner, type ToasterProps } from "sonner"
+import { useTheme } from "next-themes";
 import {
-  CircleCheckIcon,
+  AlertCircleIcon,
+  AlertTriangleIcon,
+  CheckCircle2Icon,
   InfoIcon,
-  TriangleAlertIcon,
-  OctagonXIcon,
   Loader2Icon,
-} from "lucide-react"
+  XIcon,
+} from "lucide-react";
+import { Toaster as Sonner, type ToasterProps } from "sonner";
 
 const Toaster = ({ ...props }: ToasterProps) => {
-  const { theme = "system" } = useTheme()
+  const { theme = "system" } = useTheme();
 
   return (
     <Sonner
       theme={theme as ToasterProps["theme"]}
-      position="bottom-right"
-      className="toaster group"
+      className="mazad-toaster group"
+      position="top-center"
+      offset={16}
+      mobileOffset={{ top: 12, left: 12, right: 12 }}
+      gap={10}
+      duration={4000}
+      visibleToasts={4}
+      closeButton
       icons={{
-        success: <CircleCheckIcon className="size-4 text-mazad-primary" />,
-        info: <InfoIcon className="size-4 text-mazad-primary" />,
-        warning: <TriangleAlertIcon className="size-4 text-mazad-accent" />,
-        error: <OctagonXIcon className="size-4 text-mazad-accent" />,
-        loading: <Loader2Icon className="size-4 animate-spin text-mazad-primary" />,
+        success: (
+          <CheckCircle2Icon className="size-[1.125rem] shrink-0 text-[var(--mazad-success)]" />
+        ),
+        info: (
+          <InfoIcon className="size-[1.125rem] shrink-0 text-mazad-primary" />
+        ),
+        warning: (
+          <AlertTriangleIcon className="size-[1.125rem] shrink-0 text-mazad-accent" />
+        ),
+        error: (
+          <AlertCircleIcon className="size-[1.125rem] shrink-0 text-[var(--mazad-error)]" />
+        ),
+        loading: (
+          <Loader2Icon className="size-[1.125rem] shrink-0 animate-spin text-mazad-primary" />
+        ),
+        close: (
+          <XIcon
+            className="size-2.5 shrink-0 opacity-80"
+            strokeWidth={2.25}
+            aria-hidden
+          />
+        ),
       }}
       toastOptions={{
+        unstyled: true,
         classNames: {
-          toast: "cn-toast !rounded-[14px]",
+          toast: "mazad-toast",
+          title: "mazad-toast-title",
+          description: "mazad-toast-description",
+          content: "mazad-toast-content",
+          icon: "mazad-toast-icon",
+          closeButton: "mazad-toast-close",
+          actionButton: "mazad-toast-action",
+          cancelButton: "mazad-toast-cancel",
         },
       }}
       {...props}
     />
-  )
-}
+  );
+};
 
-export { Toaster }
+export { Toaster };

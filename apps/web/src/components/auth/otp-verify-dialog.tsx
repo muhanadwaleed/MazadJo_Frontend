@@ -2,12 +2,8 @@
 
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
-import { toast } from "sonner";
-
-import { ApiError } from "@mazad/api";
-import { getApiErrorMessage } from "@mazad/api";
-import { authService } from "@mazad/api";
-import { Button } from "@mazad/ui";
+import { notify, toast, Button } from "@mazad/ui";
+import { ApiError, getApiErrorMessage, authService } from "@mazad/api";
 import {
   Dialog,
   DialogContent,
@@ -67,7 +63,7 @@ export function OtpVerifyDialog({
 
   async function handleVerify() {
     if (!destination || !code.trim()) {
-      toast.error(t("enterVerificationCode"));
+      notify.validation(t("enterVerificationCode"));
       return;
     }
 
